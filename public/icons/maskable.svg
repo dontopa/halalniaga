@@ -1,4 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512" role="img" aria-label="HALALNiaga maskable app icon">
   <rect width="64" height="64" fill="#0B4F3C"/>
-  <path d="M18 33.5 L27.5 43 L47 21.5" fill="none" stroke="#FBF8F1" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(3.84 3.84) scale(0.88)">
+    <path d="M 32 6 L 38.505 16.295 L 50.385 13.615 L 47.705 25.495 L 58 32 L 47.705 38.505 L 50.385 50.385 L 38.505 47.705 L 32 58 L 25.495 47.705 L 13.615 50.385 L 16.295 38.505 L 6 32 L 16.295 25.495 L 13.615 13.615 L 25.495 16.295 Z" fill="#FBF8F1"/>
+    <path d="M 23 33 L 29 39 L 41 25" fill="none" stroke="#0B4F3C" stroke-width="5.75" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
 </svg>

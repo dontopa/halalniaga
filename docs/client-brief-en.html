@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HALALNiaga — System brief and user flow</title>
+<meta name="author" content="HALALNiaga · Pasukan pelajar UMS" />
+<meta name="description" content="HALALNiaga system brief: a digital halal ecosystem for small food vendors. PWA prototype, Sabah pilot." />
+<link rel="stylesheet" href="fonts.css" />
+<style>
+  :root {
+    --forest-950: #052219;
+    --forest-900: #07362a;
+    --forest-800: #0b4f3c;
+    --forest-700: #0f6049;
+    --forest-100: #dceee6;
+    --forest-50: #eef7f2;
+    --gold-700: #8a6321;
+    --gold-500: #c99a4b;
+    --gold-300: #e4c48c;
+    --gold-100: #f4e8d2;
+    --ivory: #faf7f0;
+    --ink: #10231d;
+    --ink-2: #33463e;
+    --ink-3: #64766d;
+    --line: #e3ddd0;
+    --sand: #f3ede1;
+    --danger: #a6543a;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--forest-950);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: A4; margin: 0; }
+  @media screen {
+    body { padding: 24px; background: var(--forest-900); }
+    .page { margin: 0 auto 24px; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35); }
+  }
+  @media screen and (max-width: 860px) {
+    body { zoom: 0.52; }
+  }
+
+  .page {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    padding: 16mm 18mm 13mm;
+    background: var(--ivory);
+    display: flex;
+    flex-direction: column;
+    page-break-after: always;
+    break-after: page;
+  }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+  .page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 3mm;
+    border-bottom: 1px solid var(--line);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .page-body {
+    flex: 1;
+    padding-top: 8mm;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .page-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 3mm;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+  }
+
+  .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-700);
+  }
+  h1, h2, h3, p { margin: 0; }
+  h2 {
+    margin-top: 4mm;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 31px;
+    line-height: 1.05;
+    letter-spacing: -0.7px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  h2 em { font-style: italic; color: var(--forest-700); }
+  h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  p, li { font-size: 11px; line-height: 1.55; color: var(--ink-2); }
+  p + p { margin-top: 2.5mm; }
+  .lead { font-size: 12px; line-height: 1.55; color: var(--ink-2); }
+  .small { font-size: 9.5px; line-height: 1.45; color: var(--ink-3); }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  .muted { color: var(--ink-3); }
+  .gold { color: var(--gold-700); }
+  .forest { color: var(--forest-700); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4mm;
+    padding: 4mm;
+  }
+  .card-dark { background: var(--forest-800); border-color: var(--forest-800); color: var(--ivory); }
+  .card-dark h3, .card-dark p, .card-dark li { color: var(--ivory); }
+  .card-dark .muted { color: rgba(250, 247, 240, 0.6); }
+  .card-gold { background: var(--gold-100); border-color: var(--gold-300); }
+  .card-soft { background: var(--forest-50); border-color: var(--forest-100); }
+  .card-sand { background: var(--sand); border-color: var(--line); }
+  .card-pad-sm { padding: 3mm; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 1.5mm; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.2mm;
+    border: 1px solid var(--forest-100);
+    background: var(--forest-50);
+    color: var(--forest-800);
+    border-radius: 99px;
+    padding: 1.4mm 2.6mm;
+    font-size: 8px;
+    font-weight: 500;
+  }
+  .chip-gold { border-color: var(--gold-300); background: var(--gold-100); color: var(--gold-700); }
+
+  .brand { display: flex; align-items: center; gap: 2.6mm; }
+  .logo { width: 9mm; height: 9mm; color: var(--forest-800); }
+  .wordmark { font-size: 18px; letter-spacing: -0.6px; line-height: 1; color: var(--ink); }
+  .wordmark b { font-family: 'Inter', sans-serif; font-weight: 600; }
+  .wordmark i { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 500; }
+
+  .stat { font-family: 'Fraunces', Georgia, serif; font-size: 28px; line-height: 1; letter-spacing: -1px; color: var(--ink); }
+  .stat-label { margin-top: 1.5mm; font-size: 8.5px; line-height: 1.3; color: var(--ink-3); }
+
+  .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 7mm;
+    height: 7mm;
+    border-radius: 50%;
+    border: 1px solid var(--forest-100);
+    background: var(--forest-50);
+    color: var(--forest-700);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7.5px;
+    flex: 0 0 auto;
+  }
+  .num-gold { border-color: var(--gold-300); background: var(--gold-100); color: var(--gold-700); }
+
+  figure { margin: 0; }
+  figure img { width: 100%; height: auto; display: block; border-radius: 3mm; border: 1px solid var(--line); }
+  figcaption {
+    margin-top: 1.5mm;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+  }
+  .shot-wide { width: 100%; height: 47mm; object-fit: cover; object-position: top left; }
+  .shot-tall { width: 100%; height: 72mm; object-fit: cover; object-position: top; }
+
+  .list-clean { margin: 0; padding: 0; list-style: none; }
+  .list-clean li { display: flex; gap: 2mm; align-items: flex-start; padding: 1.4mm 0; border-bottom: 1px solid var(--line); }
+  .list-clean li:last-child { border-bottom: 0; }
+  .dot { width: 1.2mm; height: 1.2mm; border-radius: 50%; background: var(--gold-500); margin-top: 1.8mm; flex: 0 0 auto; }
+  .check { color: var(--forest-700); font-weight: 700; }
+
+  /* Cover */
+  .cover {
+    padding: 0;
+    background: var(--forest-950);
+    color: var(--ivory);
+    overflow: visible;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 16% 12%, rgba(201, 154, 75, 0.16), transparent 36%),
+      radial-gradient(circle at 90% 85%, rgba(15, 96, 73, 0.55), transparent 48%),
+      linear-gradient(135deg, rgba(250, 247, 240, 0.035) 1px, transparent 1px);
+    background-size: auto, auto, 8mm 8mm;
+    pointer-events: none;
+  }
+  .cover-star {
+    position: absolute;
+    right: 9mm;
+    top: 18mm;
+    width: 94mm;
+    height: 94mm;
+    color: var(--gold-300);
+    opacity: 0.13;
+    pointer-events: none;
+  }
+  .cover-inner {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    padding: 17mm 18mm 13mm;
+    display: flex;
+    flex-direction: column;
+  }
+  .cover-top { display: flex; align-items: center; justify-content: space-between; }
+  .cover .brand { color: var(--ivory); }
+  .cover .logo { color: var(--gold-300); width: 10mm; height: 10mm; }
+  .cover .wordmark { color: var(--ivory); font-size: 20px; }
+  .cover-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 240, 0.5);
+  }
+  .cover-kicker {
+    margin-top: 20mm;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+  }
+  .cover h1 {
+    margin-top: 4mm;
+    max-width: 126mm;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 43px;
+    line-height: 1.02;
+    letter-spacing: -1.4px;
+    font-weight: 500;
+    color: var(--ivory);
+  }
+  .cover h1 em { font-style: italic; color: var(--gold-300); }
+  .cover-lead {
+    margin-top: 4mm;
+    max-width: 120mm;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: rgba(250, 247, 240, 0.68);
+  }
+  .cover .chips { margin-top: 5mm; }
+  .cover .chip {
+    border-color: rgba(250, 247, 240, 0.18);
+    background: rgba(250, 247, 240, 0.06);
+    color: rgba(250, 247, 240, 0.8);
+  }
+  .cover-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 10mm;
+    align-items: center;
+    padding-top: 4mm;
+  }
+  .cover-visual { position: relative; }
+  .shot-card {
+    background: #fff;
+    border: 1px solid rgba(250, 247, 240, 0.18);
+    border-radius: 4mm;
+    padding: 2.2mm;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  }
+  .shot-card img {
+    width: 100%;
+    height: 88mm;
+    object-fit: cover;
+    object-position: top left;
+    display: block;
+    border-radius: 2.6mm;
+  }
+  .cover-qr {
+    margin-top: 4mm;
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    background: rgba(250, 247, 240, 0.06);
+    border: 1px solid rgba(250, 247, 240, 0.14);
+    border-radius: 3mm;
+    padding: 3mm;
+  }
+  .cover-qr img { width: 19mm; height: 19mm; background: var(--ivory); border-radius: 1.5mm; padding: 0.8mm; }
+  .cover-qr p { font-size: 8.5px; line-height: 1.4; color: rgba(250, 247, 240, 0.62); }
+  .cover-qr strong { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 400; color: var(--gold-300); margin-top: 1mm; }
+  .cover-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 8mm;
+    padding-top: 4mm;
+    border-top: 1px solid rgba(250, 247, 240, 0.14);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.06em;
+    color: rgba(250, 247, 240, 0.45);
+  }
+
+  /* Flow */
+  .flow { display: flex; flex-direction: column; }
+  .flow-row {
+    display: grid;
+    grid-template-columns: 8mm 1fr 30mm;
+    gap: 3mm;
+    align-items: start;
+    padding: 2.4mm 0;
+    border-top: 1px solid var(--line);
+  }
+  .flow-row:first-child { border-top: 0; }
+  .flow-title { font-size: 10.5px; font-weight: 600; color: var(--ink); }
+  .flow-desc { margin-top: 0.8mm; font-size: 9px; line-height: 1.45; color: var(--ink-3); }
+  .flow-tag {
+    align-self: center;
+    justify-self: end;
+    border: 1px solid var(--gold-300);
+    background: var(--gold-100);
+    color: var(--gold-700);
+    border-radius: 99px;
+    padding: 1.2mm 2mm;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 6.8px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .flow-h { display: flex; align-items: stretch; gap: 2mm; }
+  .flow-h .node { flex: 1; }
+  .flow-h .arrow { align-self: center; color: var(--gold-500); font-size: 15px; line-height: 1; }
+  .node {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 3mm;
+    padding: 3mm;
+    min-height: 23mm;
+  }
+  .node .n {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    color: var(--gold-700);
+  }
+  .node h3 { margin-top: 1.4mm; font-size: 10.5px; }
+  .node p { margin-top: 1mm; font-size: 8.5px; line-height: 1.4; color: var(--ink-3); }
+
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 2mm 2.5mm;
+    border-bottom: 1px solid var(--line);
+  }
+  td { padding: 2.4mm 2.5mm; border-bottom: 1px solid var(--line); font-size: 9px; line-height: 1.4; color: var(--ink-2); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+
+  .divider { height: 1px; background: var(--line); margin: 3mm 0; }
+  .quote {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.45;
+    letter-spacing: -0.2px;
+    color: var(--ink);
+  }
+  .quote em { color: var(--gold-700); }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 1.2mm; }
+  .pill {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 99px;
+    padding: 1mm 2mm;
+    font-size: 7.5px;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+
+  .tight { margin-top: 3mm; }
+  .mt-2 { margin-top: 2mm; }
+  .mt-3 { margin-top: 3mm; }
+  .mt-4 { margin-top: 4mm; }
+  .mt-5 { margin-top: 5mm; }
+  .mb-2 { margin-bottom: 2mm; }
+  .mb-3 { margin-bottom: 3mm; }
+  .row-between { display: flex; justify-content: space-between; align-items: center; gap: 3mm; }
+  .grow { flex: 1; }
+  .center { text-align: center; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="brand-mark" viewBox="0 0 256 256">
+      <mask id="brand-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="256" height="256">
+        <rect width="256" height="256" fill="#fff" />
+        <path d="M 92 132 L 116 156 L 164 100" fill="none" stroke="#000" stroke-width="23" stroke-linecap="round" stroke-linejoin="round" />
+      </mask>
+      <path d="M 128 24 L 154.02 65.18 L 201.54 54.46 L 190.82 101.98 L 232 128 L 190.82 154.02 L 201.54 201.54 L 154.02 190.82 L 128 232 L 101.98 190.82 L 54.46 201.54 L 65.18 154.02 L 24 128 L 65.18 101.98 L 54.46 54.46 L 101.98 65.18 Z" fill="currentColor" mask="url(#brand-cut)" />
+    </symbol>
+  </defs>
+</svg>
+
+<!-- 01 · COVER -->
+<section class="page cover">
+  <div class="cover-star" aria-hidden="true">
+    <svg viewBox="0 0 256 256" width="100%" height="100%">
+      <path d="M 128 24 L 154.02 65.18 L 201.54 54.46 L 190.82 101.98 L 232 128 L 190.82 154.02 L 201.54 201.54 L 154.02 190.82 L 128 232 L 101.98 190.82 L 54.46 201.54 L 65.18 154.02 L 24 128 L 65.18 101.98 L 54.46 54.46 L 101.98 65.18 Z" fill="none" stroke="currentColor" stroke-width="2" />
+    </svg>
+  </div>
+  <div class="cover-inner">
+    <div class="cover-top">
+      <div class="brand">
+        <svg class="logo"><use href="#brand-mark" /></svg>
+        <span class="wordmark"><b>HALAL</b><i>Niaga</i></span>
+      </div>
+      <span class="cover-meta">System brief · 2026</span>
+    </div>
+
+    <div class="cover-grid">
+      <div>
+        <div class="cover-kicker">PWA prototype · Sabah pilot</div>
+        <h1>A digital halal ecosystem for small food <em>vendors.</em></h1>
+        <p class="cover-lead">
+          Helping vendors source verified wet ingredients nearby, complete halal
+          training, and publish a record customers can scan at the stall.
+        </p>
+        <div class="chips">
+          <span class="chip">Wet ingredients first</span>
+          <span class="chip">Installable PWA</span>
+          <span class="chip">Works offline</span>
+        </div>
+      </div>
+
+      <div class="cover-visual">
+        <div class="shot-card">
+          <img src="screenshots/app-dashboard.png" alt="HALALNiaga dashboard for Dapur Kak Nur" />
+        </div>
+        <div class="cover-qr">
+          <img src="qr-live.png" alt="QR code to the live HALALNiaga demo" />
+          <p>
+            Scan to open the live demo
+            <strong>halalniaga.pages.dev</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-foot">
+      <span>Prepared for the UMS student team · Sabah pilot 2026</span>
+      <span>Programme recognition · not a JAKIM halal certificate</span>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · SUMMARY -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>02 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">01 · Executive summary</div>
+    <h2>One record that connects the stall to its <em>sources.</em></h2>
+    <div class="grid-2 mt-4" style="align-items:start">
+      <div>
+        <p class="lead">
+          HALALNiaga is a digital ecosystem for small food vendors: hawkers,
+          stalls, food trucks, caterers and night-market traders. It brings
+          together nearby certified or verified wet-ingredient suppliers,
+          practical halal training, purchase records, self-assessment and
+          programme recognition.
+        </p>
+        <p>
+          The prototype is built as a PWA: installable from the browser, usable
+          offline after the first visit, and powered by local demo data. No
+          backend, payment or real account is required.
+        </p>
+        <div class="card card-soft mt-3">
+          <h3>Client brief</h3>
+          <ul class="list-clean mt-2">
+            <li><span class="dot"></span><span><strong>Wet ingredients first.</strong> Chicken, fish, vegetables, eggs and milk — the categories that are hardest to trace.</span></li>
+            <li><span class="dot"></span><span><strong>PWA, not an app store.</strong> The prototype can be installed and used on a phone.</span></li>
+            <li><span class="dot"></span><span><strong>Limited budget.</strong> Static hosting, local data and no server bill.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card card-dark">
+          <div class="stat" style="color:var(--gold-300)">06</div>
+          <div class="stat-label" style="color:rgba(250,247,240,.6)">Integrated modules</div>
+        </div>
+        <div class="card card-dark">
+          <div class="stat" style="color:var(--gold-300)">03</div>
+          <div class="stat-label" style="color:rgba(250,247,240,.6)">Recognition tiers</div>
+        </div>
+        <div class="card">
+          <div class="stat">05</div>
+          <div class="stat-label">Wet-ingredient suppliers</div>
+        </div>
+        <div class="card">
+          <div class="stat">01</div>
+          <div class="stat-label">Customer QR record</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mt-4"></div>
+    <div class="grid-3">
+      <div class="card card-pad-sm">
+        <h3>Find</h3>
+        <p class="small mt-2">Nearby suppliers, product-level status and certificates on one screen.</p>
+      </div>
+      <div class="card card-pad-sm">
+        <h3>Prove</h3>
+        <p class="small mt-2">Purchases, training and assessment become one evidence trail.</p>
+      </div>
+      <div class="card card-pad-sm">
+        <h3>Publish</h3>
+        <p class="small mt-2">A stall QR shows the programme record a customer can check.</p>
+      </div>
+    </div>
+
+    <figure class="mt-4">
+      <img class="shot-wide" src="screenshots/landing-hero.png" alt="HALALNiaga landing page" />
+      <figcaption>Landing page · core message, certification boundary and PWA proof.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 03 · PROBLEM -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>03 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">02 · The problem</div>
+    <h2>The gap is not intention. It is <em>evidence.</em></h2>
+    <p class="lead mt-3" style="max-width:150mm">
+      Small vendors want to do the right thing. What they lack is a practical
+      way to prove what they already do — and a clear next step when something
+      is missing.
+    </p>
+
+    <div class="grid-2 mt-4">
+      <div class="card card-pad-sm"><span class="num num-gold">01</span><h3 class="mt-2">Suppliers are hard to verify</h3><p class="small mt-2">Certificates sit in drawers or inboxes, rarely at the 6am wet-market decision about which chicken, fish or vegetable crate to buy.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">02</span><h3 class="mt-2">Halal knowledge is uneven</h3><p class="small mt-2">Many still reduce halal to “no pork, no alcohol”, missing slaughter, storage and separation.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">03</span><h3 class="mt-2">Certification feels out of reach</h3><p class="small mt-2">A small stall assumes the official process is too complex or expensive to even explore.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">04</span><h3 class="mt-2">No purchase records</h3><p class="small mt-2">Without receipts or supplier references, nobody can prove where the chicken, fish or produce came from.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">05</span><h3 class="mt-2">Cross-contamination is invisible</h3><p class="small mt-2">Shared boards, knives and oil are common — and almost never documented or corrected.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">06</span><h3 class="mt-2">Wet ingredients move faster than paperwork</h3><p class="small mt-2">Chicken, fish, vegetables, eggs and milk are bought several times a week, often from different stalls. A record built for monthly invoices cannot keep up with a wet market.</p></div>
+    </div>
+
+    <div class="card card-dark mt-4" style="padding:5mm">
+      <div class="quote" style="color:var(--ivory);border-left:2px solid var(--gold-500);padding-left:4mm">
+        Do not turn a small vendor into an <em style="color:var(--gold-300)">administrator</em>. Build the record from the work they already do — buy, cook, store, clean, serve.
+      </div>
+      <p class="small mt-2" style="color:rgba(250,247,240,.55)">The design stance</p>
+    </div>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 04 · ECOSYSTEM -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>04 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">03 · Ecosystem</div>
+    <h2>Three parties. One chain that can be <em>verified.</em></h2>
+    <p class="lead mt-3" style="max-width:150mm">
+      HALALNiaga is not a supplier directory. It connects vendors, suppliers and
+      programme guidance in one shared record.
+    </p>
+
+    <div class="grid-3 mt-4">
+      <div class="card">
+        <span class="num">01</span>
+        <h3 class="mt-2">Small vendor</h3>
+        <p class="small mt-2">Buys wet ingredients, cooks and serves. The system records evidence along the daily work.</p>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h3 class="mt-2">Verified supplier</h3>
+        <p class="small mt-2">Publishes product-level halal status and reaches nearby small stalls.</p>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h3 class="mt-2">Guidance & monitoring</h3>
+        <p class="small mt-2">Trains, advises, inspects and recognises along a clear ladder.</p>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <div class="flow-h">
+        <div class="node">
+          <div class="n">SOURCE</div>
+          <h3>Verified supplier</h3>
+          <p>Certificate and product status recorded.</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node">
+          <div class="n">OPERATION</div>
+          <h3>Small vendor</h3>
+          <p>Buy, record, cook and store correctly.</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node">
+          <div class="n">CONFIDENCE</div>
+          <h3>Customer</h3>
+          <p>Scans the QR and sees the programme record.</p>
+        </div>
+      </div>
+      <div class="card card-soft mt-3" style="padding:3mm">
+        <p class="small">
+          <strong>The programme</strong> supports this chain through training,
+          self-assessment, inspection and recognition. HALALNiaga records and
+          monitors — it does not issue a halal certificate.
+        </p>
+      </div>
+    </div>
+
+    <div class="card card-gold mt-4" style="padding:4mm">
+      <h3>Design principle</h3>
+      <p class="small mt-2">
+        Compliance is assessed on evidence, not identity. Malaysian halal
+        certification is open to Muslim and non-Muslim operators who meet the
+        requirements. This record is designed to support compliance, not replace
+        the official process.
+      </p>
+    </div>
+
+    <figure class="mt-3">
+      <img src="images/market-kk-crop.webp" alt="Kota Kinabalu wet market" style="height:52mm;object-fit:cover;object-position:65% 55%" />
+      <figcaption>Kota Kinabalu wet market · the daily source for small vendors. Photo: Bahnfrend, CC BY-SA 4.0.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 05 · MODULES -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>05 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">04 · Six modules</div>
+    <h2>Six modules. One continuous <em>record.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Training, sourcing, assessment and inspection stop living in separate
+      notebooks. Every module feeds the same record.
+    </p>
+
+    <div class="grid-2 mt-4">
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">01</span><span class="mono small">SEARCH</span></div><h3 class="mt-2">Supplier Finder</h3><p class="small mt-1">Find nearby wet-ingredient suppliers; filter certificate and product status.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">02</span><span class="mono small">TRAINING</span></div><h3 class="mt-2">Halal Academy</h3><p class="small mt-1">Six short modules, 80% pass mark, programme completion certificate.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">03</span><span class="mono small">RECORD</span></div><h3 class="mt-2">Purchase Tracking</h3><p class="small mt-1">Every purchase becomes evidence: supplier, product, quantity and receipt.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">04</span><span class="mono small">CHECK</span></div><h3 class="mt-2">Self-Assessment</h3><p class="small mt-1">Eight weighted questions, corrective actions, valid for 90 days.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">05</span><span class="mono small">TRUST</span></div><h3 class="mt-2">QR Verification</h3><p class="small mt-1">A public profile for customers: training, sources, assessment and inspection.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">06</span><span class="mono small">RECOGNITION</span></div><h3 class="mt-2">Monitoring & Recognition</h3><p class="small mt-1">Three tiers, programme inspections and periodic re-assessment.</p></div>
+    </div>
+
+    <figure class="mt-4">
+      <img class="shot-wide" src="screenshots/app-suppliers-wet.png" alt="Supplier Finder with the wet-ingredient filter and nearest-first order" style="height:76mm;object-position:50% 42%" />
+      <figcaption>Supplier Finder · 5 wet-ingredient suppliers, sorted nearest first.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 06 · VENDOR FLOW -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>06 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">05 · Vendor flow</div>
+    <h2>From registration to the <em>QR at the stall.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Six steps. Each step adds evidence to the same record — without adding
+      another paper ritual.
+    </p>
+
+    <div class="flow mt-4">
+      <div class="flow-row">
+        <span class="num">01</span>
+        <div><div class="flow-title">Register the stall</div><div class="flow-desc">Name, location, menu and the ingredients that matter most.</div></div>
+        <span class="flow-tag">Stall profile</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">02</span>
+        <div><div class="flow-title">Halal training</div><div class="flow-desc">Six short modules, then a scored quiz for each module.</div></div>
+        <span class="flow-tag">Quiz score</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">03</span>
+        <div><div class="flow-title">Find wet-ingredient suppliers</div><div class="flow-desc">Filter wet categories, sort by distance, check product status.</div></div>
+        <span class="flow-tag">Verified source</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">04</span>
+        <div><div class="flow-title">Record purchases</div><div class="flow-desc">Supplier, product, quantity, date and receipt number.</div></div>
+        <span class="flow-tag">Source trail</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">05</span>
+        <div><div class="flow-title">Self-assessment</div><div class="flow-desc">Check eight controls; see the weak point and the correction.</div></div>
+        <span class="flow-tag">Assessment score</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">06</span>
+        <div><div class="flow-title">Recognition & QR</div><div class="flow-desc">Move up through inspection; publish the customer QR.</div></div>
+        <span class="flow-tag">Stall QR</span>
+      </div>
+    </div>
+
+    <div class="grid-2 mt-4">
+      <div class="card card-dark">
+        <h3 style="color:var(--gold-300)">What it produces</h3>
+        <p class="small mt-2" style="color:rgba(250,247,240,.7)">
+          One record that answers: who supplied it, what was bought, when, and
+          what evidence exists. The record can be reviewed at inspection.
+        </p>
+      </div>
+      <div class="card card-soft">
+        <h3>Starter kit</h3>
+        <p class="small mt-2">
+          Storage labels, equipment colour guide, hygiene checklist and QR
+          sticker — all printable from the app.
+        </p>
+        <p class="mono small mt-2" style="color:var(--forest-700)">/app/starter-kit</p>
+      </div>
+    </div>
+
+    <figure class="mt-3">
+      <img class="shot-wide" src="screenshots/app-dashboard.png" alt="HALALNiaga dashboard after purchases and assessment" style="height:44mm" />
+      <figcaption>Dashboard · score, tier and alerts at a glance.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 07 · CUSTOMER FLOW -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>07 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">06 · Customer flow</div>
+    <h2>One scan. The evidence behind the <em>food.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Customers do not need to install an app or create an account. The QR
+      sticker at the stall opens the programme record in the browser.
+    </p>
+
+    <div class="flow-h mt-4">
+      <div class="node"><div class="n">01</div><h3>Scan</h3><p>The phone camera opens the record.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">02</div><h3>View the record</h3><p>Tier, training, sources and last check date.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">03</div><h3>Check the evidence</h3><p>Verified suppliers, assessment and inspection.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">04</div><h3>Decide with confidence</h3><p>A decision based on information, not a logo alone.</p></div>
+    </div>
+
+    <figure class="mt-4">
+      <img class="shot-tall" src="screenshots/public-vendor.png" alt="Public record page for Dapur Kak Nur" style="height:94mm;object-fit:cover;object-position:top" />
+      <figcaption>Public record · /vendor/dapur-kak-nur · scannable without an account.</figcaption>
+    </figure>
+
+    <div class="card card-gold mt-3" style="padding:3.5mm">
+      <div class="row-between">
+        <div>
+          <h3 style="color:var(--gold-700)">Not a JAKIM halal certificate</h3>
+          <p class="small mt-1">This record states programme recognition and the last check date. Official halal certification remains with JAKIM or the state Islamic authority.</p>
+        </div>
+        <img src="qr-live.png" alt="QR code to the demo" style="width:17mm;height:17mm;border-radius:1.5mm;flex:0 0 auto" />
+      </div>
+    </div>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 08 · RECOGNITION -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>08 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">07 · Recognition model</div>
+    <h2>Recognition that has to be <em>maintained.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Tiers are not permanent labels. The evidence behind them expires — and the
+      record shows when it needs renewal.
+    </p>
+
+    <div class="grid-3 mt-4">
+      <div class="card">
+        <div class="row-between"><span class="num">01</span><span class="pill">Tier 1</span></div>
+        <h3 class="mt-2">Learner</h3>
+        <p class="small mt-2">All six modules passed at 80% or higher.</p>
+        <p class="mono small mt-2" style="color:var(--forest-700)">Programme completion certificate</p>
+      </div>
+      <div class="card card-soft">
+        <div class="row-between"><span class="num">02</span><span class="pill">Tier 2</span></div>
+        <h3 class="mt-2">Verified Participant</h3>
+        <p class="small mt-2">Learner + 80% of recent purchases from verified sources + self-assessment 80% within 90 days.</p>
+        <p class="mono small mt-2" style="color:var(--forest-700)">Badge + stall QR</p>
+      </div>
+      <div class="card card-gold">
+        <div class="row-between"><span class="num num-gold">03</span><span class="pill">Tier 3</span></div>
+        <h3 class="mt-2">Monitored Participant</h3>
+        <p class="small mt-2">Verified + programme inspection passed within 180 days + re-assessment in the current cycle.</p>
+        <p class="mono small mt-2" style="color:var(--gold-700)">Monitoring badge + inspection date</p>
+      </div>
+    </div>
+
+    <div class="card card-dark mt-4" style="padding:4.5mm">
+      <div class="grid-2" style="gap:6mm;align-items:center">
+        <div>
+          <h3 style="color:var(--gold-300)">The important boundary</h3>
+          <p class="small mt-2" style="color:rgba(250,247,240,.72)">
+            HALALNiaga does not issue halal certificates, does not use the
+            Malaysian halal logo, and does not replace inspections by JAKIM or
+            the state Islamic authority. Every QR record states this.
+          </p>
+        </div>
+        <div>
+          <div class="pill-row">
+            <span class="chip chip-gold">Programme recognition</span>
+            <span class="chip chip-gold">Not SPHM</span>
+            <span class="chip chip-gold">Not the JAKIM logo</span>
+          </div>
+          <p class="small mt-3" style="color:rgba(250,247,240,.5)">
+            Official reference: JAKIM Halal Malaysia · halal.gov.my
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <table>
+        <thead><tr><th>Tier</th><th>Main requirement</th><th>Recognition</th></tr></thead>
+        <tbody>
+          <tr><td>Learner</td><td>6/6 modules passed · quiz ≥ 80%</td><td>Completion certificate</td></tr>
+          <tr><td>Verified</td><td>Learner + sources ≥ 80% + assessment ≥ 80%</td><td>Badge + QR</td></tr>
+          <tr><td>Monitored</td><td>Verified + inspection passed ≤ 180 days</td><td>Monitoring badge</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-3 mt-3">
+      <div class="card card-pad-sm"><div class="mono small gold">ASSESSMENT</div><h3 class="mt-1">90 days</h3><p class="small mt-1">Refresh each cycle.</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">INSPECTION</div><h3 class="mt-1">180 days</h3><p class="small mt-1">Current programme inspection.</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">SUPPLIER CERTIFICATE</div><h3 class="mt-1">Monitored</h3><p class="small mt-1">Check expiry on every purchase.</p></div>
+    </div>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 09 · PWA & TECHNOLOGY -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>09 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">08 · PWA, technology & budget</div>
+    <h2>A PWA you install, not an <em>app store download.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      The brief asked for a PWA prototype on a limited budget. HALALNiaga
+      installs from the browser, caches its shell, and keeps working when the
+      signal drops at the market.
+    </p>
+
+    <div class="grid-3 mt-4">
+      <div class="card card-pad-sm"><h3>Install from the browser</h3><p class="small mt-2">No app store, no review process. Add it to the home screen in seconds.</p></div>
+      <div class="card card-pad-sm"><h3>Offline-ready</h3><p class="small mt-2">The app shell and demo data remain after the first visit.</p></div>
+      <div class="card card-pad-sm"><h3>No server bill</h3><p class="small mt-2">Static hosting on Cloudflare Pages, local data, no backend or payments.</p></div>
+    </div>
+
+    <figure class="mt-3">
+      <img class="shot-wide" src="screenshots/landing-pwa.png" alt="PWA section on the HALALNiaga landing page" />
+      <figcaption>Landing page · “Install it once. Use it at the stall.”</figcaption>
+    </figure>
+
+    <div class="card card-soft mt-3" style="padding:4mm">
+      <h3>Prototype architecture</h3>
+      <div class="flow-h mt-2">
+        <div class="node" style="min-height:18mm"><div class="n">CLIENT</div><h3>PWA</h3><p>React · Vite</p></div>
+        <div class="arrow">→</div>
+        <div class="node" style="min-height:18mm"><div class="n">CACHE</div><h3>Service Worker</h3><p>Workbox precache</p></div>
+        <div class="arrow">→</div>
+        <div class="node" style="min-height:18mm"><div class="n">DATA</div><h3>localStorage</h3><p>Local demo record</p></div>
+      </div>
+      <div class="grid-2 mt-2">
+        <p class="small"><strong>Hosting:</strong> Cloudflare Pages · static assets · SPA fallback.</p>
+        <p class="small"><strong>Future:</strong> D1/Workers, auth, supplier onboarding, JAKIM directory integration.</p>
+      </div>
+    </div>
+
+    <div class="grid-3 mt-3">
+      <div class="card card-pad-sm"><h3>Android</h3><p class="small mt-1">Menu ⋮ → Install app / Add to Home screen.</p></div>
+      <div class="card card-pad-sm"><h3>iPhone</h3><p class="small mt-1">Share → Add to Home Screen.</p></div>
+      <div class="card card-pad-sm"><h3>Desktop</h3><p class="small mt-1">Install icon in the address bar.</p></div>
+    </div>
+
+    <p class="small mt-2">
+      <strong>Launch:</strong> The installed app opens directly to the vendor
+      workspace (<span class="mono">/app</span>), not the landing page.
+    </p>
+
+    <p class="small mt-3">
+      <strong>Note:</strong> This prototype has no backend, payment, email or
+      real supplier integration. Data is stored in the device browser.
+    </p>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 10 · WET INGREDIENTS -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>10 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">09 · Wet-ingredient focus</div>
+    <h2>Wet ingredients come <em>first.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Chicken, fish, vegetables, eggs and milk are bought several times a week
+      and change suppliers. They are the hardest categories to trace — and the
+      most important to monitor.
+    </p>
+
+    <div class="grid-4 mt-4">
+      <div class="card card-pad-sm"><div class="mono small gold">Poultry & meat</div><h3 class="mt-1">Chicken, beef, mutton</h3><p class="small mt-1">2 sources</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">Seafood</div><h3 class="mt-1">Fish, prawns, shellfish</h3><p class="small mt-1">1 source</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">Produce</div><h3 class="mt-1">Kangkung, tomato, shallots</h3><p class="small mt-1">1 source</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">Dairy & eggs</div><h3 class="mt-1">Eggs, fresh milk</h3><p class="small mt-1">1 source</p></div>
+    </div>
+
+    <div class="grid-2 mt-4" style="align-items:start">
+      <div>
+        <h3>Why wet ingredients?</h3>
+        <ul class="list-clean mt-2">
+          <li><span class="dot"></span><span>Short buying cycle: stock changes daily, not monthly.</span></li>
+          <li><span class="dot"></span><span>Higher cold-chain and cross-contamination risk.</span></li>
+          <li><span class="dot"></span><span>Supplier certificates can expire or change scope.</span></li>
+          <li><span class="dot"></span><span>Customers are more likely to ask where the chicken, fish and vegetables came from.</span></li>
+        </ul>
+      </div>
+      <div class="card card-soft">
+        <h3>In the app</h3>
+        <p class="small mt-2">
+          The <strong>Wet ingredients</strong> button filters five
+          wet-ingredient suppliers. The list is sorted <strong>nearest first</strong>,
+          with distance and a “Nearby” marker for sources within 5 km.
+        </p>
+        <p class="mono small mt-2" style="color:var(--forest-700)">/app/suppliers?wet=1</p>
+      </div>
+    </div>
+
+    <figure class="mt-4">
+      <img class="shot-wide" src="screenshots/app-suppliers-wet.png" alt="Wet-ingredient filter and nearby suppliers" style="height:72mm;object-position:50% 42%" />
+      <figcaption>Wet-ingredient filter · 5 of 8 suppliers · nearest-first order.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 11 · DEMO -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>11 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">10 · Demo</div>
+    <h2>Try it in <em>five minutes.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      The demo uses the sample vendor Dapur Kak Nur and pilot data. No real
+      registration is required.
+    </p>
+
+    <div class="grid-2 mt-4" style="align-items:start">
+      <div>
+        <div class="card">
+          <h3>Direct links</h3>
+          <table class="mt-2">
+            <tr><td><strong>Landing</strong></td><td class="mono">halalniaga.pages.dev</td></tr>
+            <tr><td><strong>Workspace</strong></td><td class="mono">/app</td></tr>
+            <tr><td><strong>Wet ingredients</strong></td><td class="mono">/app/suppliers?wet=1</td></tr>
+            <tr><td><strong>Public record</strong></td><td class="mono">/vendor/dapur-kak-nur</td></tr>
+            <tr><td><strong>Starter kit</strong></td><td class="mono">/app/starter-kit</td></tr>
+          </table>
+        </div>
+
+        <div class="card card-soft mt-3">
+          <h3>Demo account</h3>
+          <p class="mono small mt-2">nurul@dapurkaknur.my</p>
+          <p class="mono small">demo1234</p>
+          <p class="small mt-2">Any email/password opens the demo workspace. No credentials are sent to a server.</p>
+        </div>
+
+        <div class="card card-sand mt-3">
+          <h3>Reset</h3>
+          <p class="small mt-1">Sidebar → <strong>Reset demo</strong> to restore the original data after a presentation.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="card card-dark" style="text-align:center">
+          <img src="qr-live.png" alt="QR code to the HALALNiaga site" style="width:38mm;height:38mm;background:var(--ivory);border-radius:2mm;padding:1.5mm;display:inline-block" />
+          <p class="small mt-2" style="color:rgba(250,247,240,.65)">Scan to open the demo</p>
+          <p class="mono small" style="color:var(--gold-300)">halalniaga.pages.dev</p>
+        </div>
+
+        <div class="card mt-3">
+          <h3>5-minute demo flow</h3>
+          <ol style="margin:0;padding-left:5mm;font-size:9.5px;line-height:1.6;color:var(--ink-2)">
+            <li>Open the dashboard: score 68/100, tier Verified, 5 alerts.</li>
+            <li>Supplier Finder → Wet ingredients → Nearest first.</li>
+            <li>Academy → answer a short quiz.</li>
+            <li>Assessment → change one answer, see the score move.</li>
+            <li>Monitoring → record an inspection → tier moves to Monitored.</li>
+            <li>Verification → open the public record / scan the QR.</li>
+            <li>Starter kit → show the labels, checklist and QR sticker.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <figure class="mt-3">
+      <img class="shot-wide" src="screenshots/app-starter-kit.png" alt="Printable starter kit page" style="height:55mm" />
+      <figcaption>Starter kit · labels, checklist and QR sticker ready to print.</figcaption>
+    </figure>
+
+    <div class="card card-gold mt-3" style="padding:3.5mm">
+      <p class="small">
+        <strong>Presentation tip:</strong> start with the public record, then
+        show how each module contributes to the same record. Finish with the
+        starter kit — physical evidence the vendor can take away.
+      </p>
+    </div>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Programme recognition · not a JAKIM halal certificate</span></footer>
+</section>
+
+<!-- 12 · LIMITS & ROADMAP -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · System brief</span><span>12 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">11 · Limits & next steps</div>
+    <h2>A prototype that is honest about its <em>limits.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      This prototype demonstrates the service model and user flow. It is not a
+      production compliance system, and it does not make certification
+      decisions.
+    </p>
+
+    <div class="grid-2 mt-4" style="align-items:start">
+      <div class="card">
+        <h3>Prototype limits</h3>
+        <ul class="list-clean mt-2">
+          <li><span class="dot"></span><span>Data is stored in the device browser; it is not synced between devices.</span></li>
+          <li><span class="dot"></span><span>No backend, real auth, payments or email.</span></li>
+          <li><span class="dot"></span><span>Supplier certificate status is illustrative, not a live JAKIM lookup.</span></li>
+          <li><span class="dot"></span><span>Scanner and mentor are simulated.</span></li>
+          <li><span class="dot"></span><span>Programme inspections are recorded as a simulation.</span></li>
+        </ul>
+      </div>
+      <div class="card card-soft">
+        <h3>Next steps</h3>
+        <ul class="list-clean mt-2">
+          <li><span class="dot"></span><span>D1/Workers or Supabase backend for accounts and shared records.</span></li>
+          <li><span class="dot"></span><span>Supplier onboarding and certificate upload flow.</span></li>
+          <li><span class="dot"></span><span>JAKIM halal directory integration where authorised access exists.</span></li>
+          <li><span class="dot"></span><span>Signed QR and an immutable audit trail.</span></li>
+          <li><span class="dot"></span><span>Physical programme: training, inspection and field recognition.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-dark mt-4" style="padding:6mm;text-align:center">
+      <div style="width:24mm;height:1px;background:var(--gold-500);margin:0 auto 4mm"></div>
+      <div class="quote" style="color:var(--ivory);font-size:19px">
+        Programme recognition, not a <em style="color:var(--gold-300)">halal certificate.</em>
+      </div>
+      <p class="small mt-3" style="color:rgba(250,247,240,.6);max-width:140mm;margin-left:auto;margin-right:auto">
+        Malaysian Halal Certification (SPHM) is issued by JAKIM or a recognised
+        state Islamic authority. HALALNiaga supports the compliance journey — it
+        does not replace the official process.
+      </p>
+    </div>
+
+    <div class="mt-4" style="display:flex;align-items:center;justify-content:space-between;gap:6mm">
+      <div class="brand">
+        <svg class="logo"><use href="#brand-mark" /></svg>
+        <span class="wordmark"><b>HALAL</b><i>Niaga</i></span>
+      </div>
+      <div style="text-align:right">
+        <p class="mono small">halalniaga.pages.dev</p>
+        <p class="small">UMS student innovation · Sabah pilot 2026</p>
+      </div>
+    </div>
+
+    <div class="card card-soft mt-3" style="display:flex;align-items:center;gap:4mm">
+      <img src="qr-live.png" alt="QR demo HALALNiaga" style="width:19mm;height:19mm;border-radius:1.5mm;flex:0 0 auto" />
+      <div>
+        <h3>Open the demo</h3>
+        <p class="small mt-1">halalniaga.pages.dev · no account required.</p>
+      </div>
+    </div>
+
+    <p class="small mt-3" style="color:var(--ink-3);font-size:7.5px;line-height:1.5">
+      Market photographs: Wikimedia Commons — Bahnfrend (CC BY-SA 4.0),
+      CEphoto/Uwe Aranas (CC BY-SA 3.0), Francisco Anzola (CC BY 3.0). Full
+      credits at /credits. Screenshots: HALALNiaga prototype. Logo and interface
+      are original to this project.
+    </p>
+  </div>
+  <footer class="page-foot"><span>HALALNiaga · System brief</span><span>Not a JAKIM halal certificate · 2026</span></footer>
+</section>
+
+</body>
+</html>

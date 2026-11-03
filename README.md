@@ -23,9 +23,13 @@ Kinabalu), and is fully interactive. No sign-up is required.
 
 ## Client documents
 
-- [System brief — 12 pages, Malay](docs/HALALNiaga-system-brief.pdf) ·
-  [live copy](https://halalniaga.pages.dev/HALALNiaga-system-brief.pdf) — the
-  system, modules, user flow, recognition model, PWA approach and demo script.
+- [System brief — English, 12 pages](docs/HALALNiaga-system-brief-en.pdf) ·
+  [live copy](https://halalniaga.pages.dev/HALALNiaga-system-brief-en.pdf) —
+  the system, modules, user flow, recognition model, PWA approach and demo.
+- [System brief — Bahasa Melayu, 12 pages](docs/HALALNiaga-system-brief.pdf) ·
+  [live copy](https://halalniaga.pages.dev/HALALNiaga-system-brief.pdf).
+- Source HTML: [`client-brief-en.html`](docs/client-brief-en.html) and
+  [`client-brief.html`](docs/client-brief.html).
 - [Social preview image](public/og.png) ·
   [live](https://halalniaga.pages.dev/og.png) — 1200 × 630 Open Graph card.
 - [Printable starter kit sample](docs/HALALNiaga-starter-kit-sample.pdf) —
@@ -227,6 +231,8 @@ The domain suite covers:
   the instructions.
 - Demo data stays in `localStorage`, so it remains available offline on the same
   device.
+- The installed app starts at `/app` (the vendor workspace), not the landing
+  page; the browser root `/` remains the public landing page.
 - Run `npm run build && npm run preview`, then open the preview in Chrome to see
   the service worker and manifest.
 

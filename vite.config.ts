@@ -29,7 +29,7 @@ export default defineConfig({
         description:
           'Find nearby halal suppliers for wet ingredients, record purchases, complete halal training and publish a customer-scannable programme record.',
         lang: 'en',
-        start_url: '/',
+        start_url: '/app',
         scope: '/',
         display: 'standalone',
         orientation: 'portrait-primary',

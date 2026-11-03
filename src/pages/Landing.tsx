@@ -1678,7 +1678,8 @@ export const Landing = () => (
               <li><Link to="/app/assessment" className="hover:text-forest-800">Run an assessment</Link></li>
               <li><Link to="/app/mentor" className="hover:text-forest-800">Ask the mentor</Link></li>
               <li><Link to="/app/starter-kit" className="hover:text-forest-800">Starter kit</Link></li>
-              <li><a href="/HALALNiaga-system-brief.pdf" target="_blank" rel="noreferrer" className="hover:text-forest-800">Client brief (PDF)</a></li>
+              <li><a href="/HALALNiaga-system-brief-en.pdf" target="_blank" rel="noreferrer" className="hover:text-forest-800">Client brief (EN)</a></li>
+              <li><a href="/HALALNiaga-system-brief.pdf" target="_blank" rel="noreferrer" className="hover:text-forest-800">Client brief (BM)</a></li>
             </ul>
           </div>
         </div>
