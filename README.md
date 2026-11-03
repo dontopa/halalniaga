@@ -14,9 +14,9 @@ programme record.
 
 ## Live demo
 
-- **Landing page:** https://halalniaga.spectrum-girdle.workers.dev
-- **Vendor workspace:** https://halalniaga.spectrum-girdle.workers.dev/app
-- **Public QR record:** https://halalniaga.spectrum-girdle.workers.dev/vendor/dapur-kak-nur
+- **Landing page:** https://halalniaga.pages.dev
+- **Vendor workspace:** https://halalniaga.pages.dev/app
+- **Public QR record:** https://halalniaga.pages.dev/vendor/dapur-kak-nur
 
 The demo opens with a seeded vendor, **Dapur Kak Nur** (Tanjung Aru, Kota
 Kinabalu), and is fully interactive. No sign-up is required.
@@ -167,9 +167,12 @@ This is the primary target and yields `https://halalniaga.pages.dev`.
 
 ```bash
 npx wrangler login
-npx wrangler pages project create halalniaga --production-branch main
 npm run deploy
 ```
+
+The Pages project `halalniaga` is already created; the command above deploys
+the current build to production. To create it from scratch, run
+`npx wrangler pages project create halalniaga --production-branch main` first.
 
 `npm run deploy` builds the app, writes the Pages SPA fallback to
 `dist/_redirects`, and uploads `dist/` to the `halalniaga` Pages project. Deep

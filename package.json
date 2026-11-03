@@ -13,7 +13,7 @@
     "typecheck": "tsc -b --pretty",
     "deploy": "npm run deploy:pages",
     "screenshots": "node scripts/screenshots.mjs",
-    "deploy:pages": "npm run build && node scripts/prepare-pages.mjs && wrangler pages deploy dist --project-name halalniaga --branch main",
+    "deploy:pages": "npm run build && node scripts/prepare-pages.mjs && node scripts/deploy-pages.mjs",
     "deploy:workers": "npm run build && wrangler deploy"
   },
   "dependencies": {
@@ -40,6 +40,7 @@
     "tailwindcss": "^4.1.13",
     "typescript": "~5.9.2",
     "vite": "^7.1.7",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "wrangler": "^4.157.0"
   }
 }

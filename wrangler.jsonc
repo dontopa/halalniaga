@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "halalniaga",
+  "account_id": "42e6d6fbb5199a87cbf2d8c077395d6e",
   "workers_dev": true,
   "preview_urls": false,
   "compatibility_date": "2026-01-01",
