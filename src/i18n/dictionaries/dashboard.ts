@@ -1,6 +1,6 @@
 const dictionary: Record<string, string> = {
   // Dashboard
-  'Vendor verification link copied.': 'Pautan pengesahan peniaga telah disalin.',
+  'Vendor verification link copied.': 'Pautan pengesahan peniaga disalin.',
   'Could not access the clipboard. Copy the link from the address bar.':
     'Papan keratan tidak dapat diakses. Salin pautan daripada bar alamat.',
   'HALALNiaga — academic innovation prototype':
@@ -10,16 +10,16 @@ const dictionary: Record<string, string> = {
   'Record exported as JSON.': 'Rekod dieksport sebagai JSON.',
   'Good morning, {name}.': 'Selamat pagi, {name}.',
   'Here is the current state of your halal programme record — what is verified, what is due, and what moves you to the next tier.':
-    'Inilah keadaan semasa rekod program halal anda — apa yang disahkan, apa yang perlu diselesaikan, dan apa yang membawa anda ke tahap seterusnya.',
+    'Inilah keadaan terkini rekod program halal anda: apa yang disahkan, apa yang perlu dibuat, dan apa yang membawa anda ke tahap seterusnya.',
   'Export record': 'Eksport rekod',
   'Record purchase': 'Rekod pembelian',
-  'A supplier certificate needs attention': 'Sijil pembekal memerlukan perhatian',
+  'A supplier certificate needs attention': 'Ada sijil pembekal yang perlu disemak',
   'Purchases from a lapsed supplier do not count as verified sourcing until the certificate is renewed.':
     'Pembelian daripada pembekal yang sijilnya tamat tempoh tidak dikira sebagai perolehan disahkan sehingga sijil diperbaharui.',
   'Review suppliers': 'Semak pembekal',
   'Compliance score': 'Skor pematuhan',
   'Weighted across training, sourcing, assessment and monitoring.':
-    'Ditimbang merentas latihan, perolehan, penilaian dan pemantauan.',
+    'Ditimbang berdasarkan latihan, perolehan, penilaian dan pemantauan.',
   'Recognition tier': 'Tahap pengiktirafan',
   Monitored: 'Dipantau',
   Verified: 'Disahkan',
@@ -58,7 +58,7 @@ const dictionary: Record<string, string> = {
   'No inspection yet': 'Belum ada pemeriksaan',
   'Sourcing activity': 'Aktiviti perolehan',
   'Recorded spend and the share backed by a verified source, last six months.':
-    'Perbelanjaan direkodkan dan bahagian yang disokong sumber disahkan, enam bulan terakhir.',
+    'Perbelanjaan direkodkan dan bahagian yang disokong oleh sumber disahkan bagi enam bulan terakhir.',
   'RM {amount} total': 'Jumlah RM {amount}',
   'Verified source': 'Sumber disahkan',
   'All spend': 'Semua perbelanjaan',
@@ -76,16 +76,16 @@ const dictionary: Record<string, string> = {
   Live: 'Aktif',
   'Vendor verification QR code': 'Kod QR pengesahan peniaga',
   'Customers can scan this to see your current programme record.':
-    'Pelanggan boleh mengimbas ini untuk melihat rekod program semasa anda.',
+    'Pelanggan boleh mengimbas ini untuk melihat rekod program anda yang terkini.',
   'Copy verification link': 'Salin pautan pengesahan',
   'Open QR kit': 'Buka kit QR',
   'Next best action': 'Tindakan terbaik seterusnya',
-  'Your record is fully current.': 'Rekod anda sepenuhnya terkini.',
+  'Your record is fully current.': 'Rekod anda sudah terkini.',
   'Take the next step': 'Ambil langkah seterusnya',
   'Training average': 'Purata latihan',
   Assessment: 'Penilaian',
   'Derived from certificate dates, records and inspections.':
-    'Dijana daripada tarikh sijil, rekod dan pemeriksaan.',
+    'Dikira daripada tarikh sijil, rekod dan pemeriksaan.',
   'Training progress': 'Kemajuan latihan',
   Open: 'Buka',
   'Programme recognition': 'Pengiktirafan program',
@@ -122,7 +122,7 @@ const dictionary: Record<string, string> = {
   'Recognition that has to be maintained.':
     'Pengiktirafan yang perlu dikekalkan.',
   'Tiers are not permanent labels. Monitoring, assessment and certificate validity all expire — and the record shows exactly when.':
-    'Tahap bukan label kekal. Pemantauan, penilaian dan kesahan sijil semuanya tamat tempoh — dan rekod menunjukkan dengan tepat bila.',
+    'Tahap bukan label kekal. Pemantauan, penilaian dan kesahan sijil semuanya tamat tempoh, dan rekod menunjukkan dengan tepat bila.',
   'Book inspection': 'Tempah pemeriksaan',
   'Current tier': 'Tahap semasa',
   'Inspection validity': 'Kesahan pemeriksaan',
@@ -175,7 +175,7 @@ const dictionary: Record<string, string> = {
     'Pemeriksaan dalam prototaip ini disimulasikan. Dalam program sebenar, ia akan dijalankan oleh pegawai terlatih dan direkodkan dengan bukti.',
   'Record a programme inspection': 'Rekod pemeriksaan program',
   'For the prototype, this simulates a completed officer visit and recalculates your tier.':
-    'Untuk prototaip, ini mensimulasikan lawatan pegawai yang telah selesai dan mengira semula tahap anda.',
+    'Untuk prototaip, ini mensimulasikan lawatan pegawai yang selesai dan mengira semula tahap anda.',
   Cancel: 'Batal',
   'Record visit': 'Rekod lawatan',
   Officer: 'Pegawai',

@@ -153,49 +153,49 @@ export const getCompliance = (
     gaps.push(
       l(
         `Complete ${modulesTotal - modulesCompleted} remaining training module${modulesTotal - modulesCompleted === 1 ? '' : 's'} with a score of ${PASSING_QUIZ_SCORE}% or higher.`,
-        `Selesaikan ${modulesTotal - modulesCompleted} modul latihan lagi dengan skor ${PASSING_QUIZ_SCORE}% atau lebih tinggi.`,
+        `Selesaikan ${modulesTotal - modulesCompleted} modul latihan lagi. Sasaran skor: ${PASSING_QUIZ_SCORE}% ke atas.`,
       ),
     );
   if (sourcingPct < VERIFIED_PURCHASE_SHARE)
     gaps.push(
       l(
         `Record more purchases from certified or verified suppliers — ${sourcingPct}% of recent purchases are traceable (target ${VERIFIED_PURCHASE_SHARE}%).`,
-        `Rekod lebih banyak pembelian daripada pembekal yang diperakui atau disahkan — ${sourcingPct}% pembelian terkini boleh dijejak (sasaran ${VERIFIED_PURCHASE_SHARE}%).`,
+        `Rekod lebih banyak pembelian daripada pembekal diperakui atau disahkan. Baru ${sourcingPct}% pembelian terkini boleh dijejak; sasaran ${VERIFIED_PURCHASE_SHARE}%.`,
       ),
     );
   if (!assessment)
     gaps.push(
       l(
         'Complete your first halal self-assessment.',
-        'Lengkapkan penilaian kendiri halal pertama anda.',
+        'Lengkapkan penilaian kendiri halal pertama.',
       ),
     );
   else if (!assessmentFresh)
     gaps.push(
       l(
         `Your self-assessment is more than ${ASSESSMENT_VALID_DAYS} days old. Re-run it to keep the record current.`,
-        `Penilaian kendiri anda sudah lebih ${ASSESSMENT_VALID_DAYS} hari. Jalankan semula supaya rekod kekal terkini.`,
+        `Penilaian kendiri anda sudah lebih ${ASSESSMENT_VALID_DAYS} hari. Jalankan semula untuk kekalkan rekod.`,
       ),
     );
   else if (assessmentPct < PASSING_ASSESSMENT)
     gaps.push(
       l(
         `Raise your self-assessment score to ${PASSING_ASSESSMENT}% (currently ${assessmentPct}%).`,
-        `Tingkatkan skor penilaian kendiri anda kepada ${PASSING_ASSESSMENT}% (kini ${assessmentPct}%).`,
+        `Naikkan skor penilaian kendiri kepada ${PASSING_ASSESSMENT}% (kini ${assessmentPct}%).`,
       ),
     );
   if (!inspectionFresh)
     gaps.push(
       l(
         `Schedule a programme inspection — ${inspection ? 'the last inspection has expired' : 'no inspection has been recorded yet'}.`,
-        `Jadualkan pemeriksaan program — ${inspection ? 'pemeriksaan terakhir sudah tamat tempoh' : 'belum ada pemeriksaan direkodkan'}.`,
+        `Jadualkan pemeriksaan program. ${inspection ? 'Pemeriksaan terakhir sudah tamat tempoh.' : 'Belum ada pemeriksaan direkodkan.'}`,
       ),
     );
   else if (inspection && !inspection.passed)
     gaps.push(
       l(
         'Address the findings from your last inspection.',
-        'Selesaikan penemuan daripada pemeriksaan terakhir anda.',
+        'Betulkan penemuan daripada pemeriksaan terakhir.',
       ),
     );
 
@@ -285,7 +285,7 @@ export const deriveAlerts = (
       ),
       detail: l(
         'Complete the halal self-assessment to give customers a current picture of your practice.',
-        'Lengkapkan penilaian kendiri halal supaya pelanggan mendapat gambaran terkini amalan anda.',
+        'Lengkapkan penilaian kendiri halal. Pelanggan akan nampak gambaran terkini amalan anda.',
       ),
       dueAt: null,
       resolvedAt: null,
@@ -303,7 +303,7 @@ export const deriveAlerts = (
         ),
         detail: l(
           `Last completed ${age} days ago. A fresh assessment is required every ${ASSESSMENT_VALID_DAYS} days.`,
-          `Kali terakhir diselesaikan ${age} hari lalu. Penilaian baharu diperlukan setiap ${ASSESSMENT_VALID_DAYS} hari.`,
+          `Terakhir diselesaikan ${age} hari lalu. Penilaian perlu dibuat semula setiap ${ASSESSMENT_VALID_DAYS} hari.`,
         ),
         dueAt: new Date(
           new Date(assessment.completedAt).getTime() +
@@ -346,11 +346,11 @@ export const deriveAlerts = (
         kind: 'supplier',
         title: l(
           'Programme inspection has expired',
-          'Pemeriksaan program telah tamat tempoh',
+          'Pemeriksaan program tamat tempoh',
         ),
         detail: l(
           `Your last inspection was ${age} days ago. Inspections are valid for ${INSPECTION_VALID_DAYS} days.`,
-          `Pemeriksaan terakhir anda ${age} hari lalu. Pemeriksaan sah selama ${INSPECTION_VALID_DAYS} hari.`,
+          `Pemeriksaan terakhir ${age} hari lalu. Pemeriksaan sah selama ${INSPECTION_VALID_DAYS} hari.`,
         ),
         dueAt: new Date(
           new Date(inspection.inspectedAt).getTime() +
@@ -377,7 +377,7 @@ export const deriveAlerts = (
       ),
       detail: l(
         'Add a receipt or supplier reference so these purchases count toward your sourcing score.',
-        'Tambah resit atau rujukan pembekal supaya pembelian ini dikira dalam skor perolehan anda.',
+        'Tambah resit atau rujukan pembekal supaya pembelian ini dikira dalam skor perolehan.',
       ),
       dueAt: null,
       resolvedAt: null,

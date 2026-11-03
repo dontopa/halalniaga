@@ -3,62 +3,62 @@ const dictionary: Record<string, string> = {
   'Share what worked, not only what went wrong.':
     'Kongsikan apa yang berkesan, bukan hanya apa yang tidak kena.',
   'Never post a supplier’s private documents or contact details.':
-    'Jangan sekali-kali memuat naik dokumen peribadi atau maklumat hubungan pembekal.',
+    'Jangan sesekali siarkan dokumen peribadi pembekal atau butiran hubungannya.',
   'Disagree with the practice, not the person.':
-    'Berselisih pendapat tentang amalan, bukan tentang orangnya.',
+    'Kritik amalan, bukan orangnya.',
   'If a certificate looks wrong, ask a programme officer before naming a business.':
-    'Jika sijil kelihatan tidak betul, tanya pegawai program sebelum menamakan perniagaan.',
-  'Posted to the pilot community.': 'Dihantar ke komuniti perintis.',
+    'Jika ada yang tidak kena pada sijil, tanya pegawai program sebelum menamakan perniagaan.',
+  'Posted to the pilot community.': 'Disiarkan di komuniti perintis.',
   'Support · Halal community': 'Sokongan · Komuniti halal',
   'The practical knowledge lives with the vendors.':
     'Pengetahuan praktikal ada pada peniaga sendiri.',
   'A space for small vendors to compare notes on suppliers, equipment, inspections and the small decisions that make compliance stick.':
-    'Ruang untuk peniaga kecil bertukar pengalaman tentang pembekal, peralatan, pemeriksaan dan keputusan kecil yang menjadikan pematuhan kekal.',
+    'Ruang untuk peniaga kecil bertukar pengalaman tentang pembekal, peralatan dan pemeriksaan, serta keputusan kecil yang membuatkan pematuhan bertahan.',
   '{area} chapter': 'Cawangan {area}',
   'Ask a question, share a supplier experience, or describe how you solved a handling problem…':
     'Tanya soalan, kongsikan pengalaman dengan pembekal, atau ceritakan cara anda menyelesaikan masalah pengendalian…',
-  'Write a community post': 'Tulis kiriman komuniti',
+  'Write a community post': 'Tulis siaran komuniti',
   '{count}/600 · visible to the pilot community':
-    '{count}/600 · boleh dilihat oleh komuniti perintis',
+    '{count}/600 · boleh dilihat komuniti perintis',
   'Post': 'Hantar',
   'Reply': 'Balas',
   'Local chapter': 'Cawangan tempatan',
   'Pilot network': 'Rangkaian perintis',
   'Pilot community': 'Komuniti perintis',
   'Members': 'Ahli',
-  'Posts / week': 'Kiriman / minggu',
+  'Posts / week': 'Siaran / minggu',
   'Districts': 'Daerah',
   'Demo community data. Posts are stored locally in this browser.':
-    'Data komuniti demo. Kiriman disimpan secara setempat dalam pelayar ini.',
+    'Data komuniti demo. Siaran disimpan dalam pelayar ini sahaja.',
   'Community guidelines': 'Garis panduan komuniti',
   'Need a private answer?': 'Perlukan jawapan secara peribadi?',
   'Some questions are better asked one-to-one — especially about a supplier relationship or an inspection finding.':
-    'Sesetengah soalan lebih baik ditanya secara peribadi — terutamanya tentang hubungan dengan pembekal atau penemuan pemeriksaan.',
+    'Ada soalan yang lebih baik ditanya secara peribadi, terutamanya tentang hubungan dengan pembekal atau penemuan pemeriksaan.',
   'Message the halal mentor': 'Hubungi mentor halal',
 
   // Mentor
   'How do I arrange a small chiller for raw and cooked food?':
-    'Bagaimana saya boleh sediakan peti sejuk kecil untuk makanan mentah dan makanan masak?',
+    'Bagaimana saya boleh menyediakan peti sejuk kecil untuk makanan mentah dan makanan masak?',
   'A supplier certificate expired — what should I do?':
-    'Sijil pembekal sudah tamat tempoh — apa yang perlu saya buat?',
+    'Sijil pembekal sudah tamat tempoh. Apa yang perlu saya buat?',
   'What will the officer check during a visit?':
-    'Apa yang pegawai akan periksa semasa lawatan?',
+    'Apa yang pegawai periksa semasa lawatan?',
   'Support · Halal mentor': 'Sokongan · Mentor halal',
   'A second opinion, before service starts.':
-    'Pendapat kedua, sebelum operasi bermula.',
+    'Pendapat kedua sebelum mula berniaga.',
   'Ask about equipment, suppliers, labels or inspection preparation. The mentor replies with practical steps for a small stall.':
     'Tanya tentang peralatan, pembekal, label atau persediaan pemeriksaan. Mentor akan membalas dengan langkah praktikal untuk gerai kecil.',
   'Mentor online': 'Mentor dalam talian',
   'Programme officer · Halal mentor': 'Pegawai program · Mentor halal',
   'Replies in minutes': 'Balasan dalam beberapa minit',
-  'Demo conversation · scripted replies': 'Perbualan demo · balasan berskrip',
+  'Demo conversation · scripted replies': 'Perbualan demo · balasan pratulis',
   'Ask about sourcing, storage, equipment or an inspection…':
     'Tanya tentang perolehan, penyimpanan, peralatan atau pemeriksaan…',
   'Send': 'Hantar',
   'Prototype notice: replies are pre-written demo guidance and must not be treated as a fatwa or official ruling.':
-    'Notis prototaip: balasan ialah panduan demo yang telah ditulis lebih awal dan tidak boleh dianggap sebagai fatwa atau ketetapan rasmi.',
+    'Notis prototaip: balasan ialah panduan demo pratulis dan tidak boleh dianggap sebagai fatwa atau ketetapan rasmi.',
   'Programme officer · 8 years in food safety':
-    'Pegawai program · 8 tahun dalam keselamatan makanan',
+    'Pegawai program · 8 tahun keselamatan makanan',
   'Focus areas': 'Bidang tumpuan',
   'Sourcing, storage, inspections': 'Perolehan, penyimpanan, pemeriksaan',
   'Languages': 'Bahasa',
@@ -69,7 +69,7 @@ const dictionary: Record<string, string> = {
   'Can I use this sauce with an unclear label?':
     'Bolehkah saya guna sos ini jika labelnya tidak jelas?',
   'How should I separate equipment in a small kitchen?':
-    'Bagaimana saya perlu mengasingkan peralatan di dapur kecil?',
+    'Bagaimana saya patut asingkan peralatan di dapur kecil?',
   'What evidence should I keep for chicken?':
     'Bukti apa yang perlu saya simpan untuk ayam?',
   'How do I prepare for a programme inspection?':
@@ -78,9 +78,9 @@ const dictionary: Record<string, string> = {
   'Ask the mentor for practical guidance.':
     'Minta panduan praktikal daripada mentor.',
   'If it concerns a certificate, contact the supplier for evidence.':
-    'Jika ia melibatkan sijil, hubungi pembekal untuk mendapatkan bukti.',
+    'Jika berkaitan sijil, minta bukti daripada pembekal.',
   'For official status, check JAKIM or the state Islamic authority.':
-    'Untuk status rasmi, semak dengan JAKIM atau pihak berkuasa Islam negeri.',
+    'Untuk status rasmi, rujuk JAKIM atau pihak berkuasa Islam negeri.',
   'This is a design prototype. Mentor messages are not sent to a real officer and are stored only in this browser.':
     'Ini ialah prototaip reka bentuk. Mesej mentor tidak dihantar kepada pegawai sebenar dan hanya disimpan dalam pelayar ini.',
   'Session started {date}': 'Sesi dimulakan {date}',
@@ -90,7 +90,7 @@ const dictionary: Record<string, string> = {
   // Purchase modal
   'Record a purchase': 'Rekod pembelian',
   'Every record adds a traceable link between your stall and the source of the ingredient.':
-    'Setiap rekod menambah pautan yang boleh dijejak antara gerai anda dan sumber bahan.',
+    'Setiap rekod mewujudkan pautan yang boleh dijejak antara gerai anda dan sumber bahan.',
   'Cancel': 'Batal',
   'Save purchase': 'Simpan pembelian',
   'Supplier': 'Pembekal',
@@ -108,7 +108,7 @@ const dictionary: Record<string, string> = {
   'Unit: {unit}': 'Unit: {unit}',
   'Receipt / invoice number': 'Nombor resit / invois',
   'Optional. A receipt number makes the record easier to verify during inspection.':
-    'Pilihan. Nombor resit memudahkan rekod disahkan semasa pemeriksaan.',
+    'Pilihan. Nombor resit memudahkan pengesahan rekod semasa pemeriksaan.',
   'e.g. INV-2026-0421': 'cth. INV-2026-0421',
   'Estimated total': 'Anggaran jumlah',
   'Source record': 'Rekod sumber',
@@ -116,18 +116,18 @@ const dictionary: Record<string, string> = {
   'Unverified supplier': 'Pembekal tidak disahkan',
   'Logged by': 'Direkod oleh',
   'In this prototype the purchase is stored locally in your browser. No payment is processed and no order is sent to the supplier.':
-    'Dalam prototaip ini, pembelian disimpan secara setempat dalam pelayar anda. Tiada pembayaran diproses dan tiada pesanan dihantar kepada pembekal.',
+    'Dalam prototaip ini, pembelian disimpan dalam pelayar anda sahaja. Tiada pembayaran diproses dan tiada pesanan dihantar kepada pembekal.',
   '{product} recorded from {supplier}. Source verified.':
     '{product} direkodkan daripada {supplier}. Sumber disahkan.',
   '{product} recorded — this supplier is not verified, so it will not earn sourcing credit.':
-    '{product} direkodkan — pembekal ini tidak disahkan, jadi ia tidak akan mendapat kredit perolehan.',
+    '{product} direkodkan. Pembekal ini tidak disahkan, jadi pembelian tidak akan mendapat kredit perolehan.',
   'Purchase': 'Pembelian',
 
   // Public vendor record
   'Record not found': 'Rekod tidak ditemui',
   'This demo contains one seeded vendor record. Open the live profile to see how a customer experiences programme verification.':
-    'Demo ini mengandungi satu rekod peniaga yang telah disediakan. Buka profil langsung untuk melihat cara pelanggan mengalami pengesahan program.',
-  'Open the demo vendor record': 'Buka rekod peniaga demo',
+    'Demo ini mengandungi satu rekod peniaga contoh. Buka profil sebenar untuk melihat bagaimana pelanggan melihat pengesahan program.',
+  'Open the demo vendor record': 'Buka rekod peniaga contoh',
   'Back to HALALNiaga': 'Kembali ke HALALNiaga',
   'HALALNiaga home': 'Laman utama HALALNiaga',
   'Programme verification': 'Pengesahan program',
@@ -146,7 +146,7 @@ const dictionary: Record<string, string> = {
   'Active': 'Aktif',
   'Programme compliance': 'Pematuhan program',
   'Weighted across training, sourcing, assessment and monitoring.':
-    'Ditimbang merentas latihan, perolehan, penilaian dan pemantauan.',
+    'Ditimbang berdasarkan latihan, perolehan, penilaian dan pemantauan.',
   'Halal training': 'Latihan halal',
   'Verified sourcing': 'Perolehan disahkan',
   'Self-assessment': 'Penilaian kendiri',
@@ -169,10 +169,10 @@ const dictionary: Record<string, string> = {
   'Needs work': 'Perlu diperbaiki',
   'Action required': 'Tindakan diperlukan',
   '{count} controls flagged for improvement. The vendor has a corrective action list in the workspace.':
-    '{count} kawalan ditandakan untuk penambahbaikan. Peniaga mempunyai senarai tindakan pembetulan dalam ruang kerja.',
+    '{count} kawalan ditandakan untuk penambahbaikan. Peniaga ada senarai tindakan pembetulan dalam ruang kerja.',
   'What this record means': 'Maksud rekod ini',
   'The vendor has completed programme training, recorded purchases from verified suppliers and completed a self-assessment. The record is maintained through periodic programme checks.':
-    'Peniaga telah menyelesaikan latihan program, merekodkan pembelian daripada pembekal yang disahkan dan melengkapkan penilaian kendiri. Rekod ini dikekalkan melalui pemeriksaan program berkala.',
+    'Peniaga telah menyelesaikan latihan program, merekodkan pembelian daripada pembekal yang disahkan dan melengkapkan penilaian kendiri. Pemeriksaan program berkala memastikan rekod ini kekal terkini.',
   'It is not a Malaysian halal certificate. SPHM certification is issued only by JAKIM or a recognised state Islamic authority.':
     'Ia bukan sijil halal Malaysia. Pensijilan SPHM hanya dikeluarkan oleh JAKIM atau pihak berkuasa Islam negeri yang diiktiraf.',
   'Inspection history': 'Sejarah pemeriksaan',
@@ -187,7 +187,7 @@ const dictionary: Record<string, string> = {
   'Last inspection': 'Pemeriksaan terakhir',
   'None': 'Tiada',
   'This page is generated from the HALALNiaga demo workspace. Data is illustrative and stored locally in the visitor’s browser. It is not an official halal verification service.':
-    'Halaman ini dijana daripada ruang kerja demo HALALNiaga. Data adalah ilustrasi dan disimpan secara setempat dalam pelayar pelawat. Ia bukan perkhidmatan pengesahan halal rasmi.',
+    'Halaman ini dijana daripada ruang kerja demo HALALNiaga. Data bersifat ilustrasi dan disimpan dalam pelayar pelawat sahaja. Ia bukan perkhidmatan pengesahan halal rasmi.',
   'Share this record': 'Kongsikan rekod ini',
   'HALALNiaga is an academic innovation prototype. Programme recognition is not halal certification. For official certification status, consult JAKIM or the relevant state Islamic authority.':
     'HALALNiaga ialah prototaip inovasi akademik. Pengiktirafan program bukan pensijilan halal. Untuk status pensijilan rasmi, rujuk JAKIM atau pihak berkuasa Islam negeri yang berkaitan.',

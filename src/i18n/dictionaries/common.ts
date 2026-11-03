@@ -8,7 +8,7 @@ const dictionary: Record<string, string> = {
   'HALALNiaga home': 'Laman utama HALALNiaga',
   'Demo workspace · Sabah pilot': 'Ruang kerja demo · Perintis Sabah',
   'Programme recognition — not a JAKIM certificate':
-    'Pengiktirafan program — bukan sijil JAKIM',
+    'Pengiktirafan program, bukan sijil JAKIM',
   '{count} open alerts': '{count} amaran terbuka',
   'Install app': 'Pasang aplikasi',
   'Back to website': 'Kembali ke laman web',
@@ -43,9 +43,9 @@ const dictionary: Record<string, string> = {
   'HALALNiaga Verified Participant': 'Peserta Disahkan HALALNiaga',
   'HALALNiaga Monitored Participant': 'Peserta Dipantau HALALNiaga',
   'Core halal training completed and assessed.':
-    'Latihan halal teras telah diselesaikan dan dinilai.',
+    'Latihan halal teras sudah selesai dan dinilai.',
   'Training, verified sourcing and self-assessment in place.':
-    'Latihan, perolehan yang disahkan dan penilaian kendiri sudah lengkap.',
+    'Latihan, perolehan disahkan dan penilaian kendiri sudah tersedia.',
   'Independently inspected and re-assessed on a rolling cycle.':
     'Diperiksa secara bebas dan dinilai semula secara berkala.',
 

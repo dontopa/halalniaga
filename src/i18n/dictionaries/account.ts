@@ -12,40 +12,40 @@ const dictionary: Record<string, string> = {
   'Sign in to your demo workspace to see the compliance record, source log and verification page from a working Sabah vendor.':
     'Log masuk ke ruang kerja demo anda untuk melihat rekod pematuhan, log sumber dan halaman pengesahan daripada peniaga Sabah yang beroperasi.',
   'Training, sourcing, assessment and inspection in one record':
-    'Latihan, perolehan sumber, penilaian dan pemeriksaan dalam satu rekod',
+    'Latihan, perolehan, penilaian dan pemeriksaan dalam satu rekod',
   'Interactive: complete a quiz, add a purchase, run an assessment':
     'Interaktif: selesaikan kuiz, tambah pembelian, jalankan penilaian',
   'Customer-facing QR record with a clear certification disclaimer':
     'Rekod QR untuk pelanggan dengan penafian pensijilan yang jelas',
-  'Demo vendor': 'Peniaga demo',
+  'Demo vendor': 'Peniaga contoh',
   'Demo access': 'Akses demo',
   'Vendor sign in': 'Log masuk peniaga',
   'This is a presentation prototype. No credentials are transmitted — any details will open the seeded demo workspace.':
-    'Ini ialah prototaip pembentangan. Tiada kelayakan dihantar — sebarang butiran akan membuka ruang kerja demo yang telah disediakan.',
+    'Ini ialah prototaip pembentangan. Tiada butiran log masuk dihantar. Sebarang butiran akan membuka ruang kerja demo.',
   'Email address': 'Alamat e-mel',
   Password: 'Kata laluan',
   'Enter the demo workspace': 'Masuk ruang kerja demo',
   'Demo account': 'Akaun demo',
-  'Pre-filled': 'Pra-isi',
+  'Pre-filled': 'Telah diisi',
   'All workspace data is stored locally in your browser. Resetting the demo from the sidebar restores the seeded Sabah vendor.':
-    'Semua data ruang kerja disimpan secara setempat dalam pelayar anda. Menetapkan semula demo daripada bar sisi akan memulihkan peniaga Sabah yang telah disediakan.',
+    'Semua data ruang kerja disimpan dalam pelayar anda sahaja. Set semula demo daripada bar sisi akan memulihkan peniaga contoh Sabah.',
   'View a customer QR record': 'Lihat rekod QR pelanggan',
 
   // Credits
-  'Photographs from Sabah markets.': 'Fotografi dari pasar Sabah.',
+  'Photographs from Sabah markets.': 'Foto dari pasar Sabah.',
   'These photographs are used under their respective Creative Commons licences. They have been cropped, resized and converted to WebP for this prototype; those derivative images are shared under the same licence as the originals. They are illustrative and do not depict the seeded vendor or the named suppliers in the demo.':
-    'Fotografi ini digunakan di bawah lesen Creative Commons masing-masing. Imej telah dipotong, diubah saiz dan ditukar kepada WebP untuk prototaip ini; imej terbitan itu dikongsi di bawah lesen yang sama dengan imej asal. Imej ini bersifat ilustrasi dan tidak menggambarkan peniaga yang telah disediakan atau pembekal bernama dalam demo.',
+    'Foto ini digunakan di bawah lesen Creative Commons masing-masing. Imej telah dipotong, diubah saiz dan ditukar kepada WebP untuk prototaip ini; imej terbitan dikongsi di bawah lesen yang sama dengan asal. Imej ini hanya untuk ilustrasi dan tidak menggambarkan peniaga contoh atau pembekal bernama dalam demo.',
   'Photograph by {author}': 'Foto oleh {author}',
   Licence: 'Lesen',
   Source: 'Sumber',
   'If you reuse a photograph, follow the linked licence — including attribution and, for CC BY-SA images, sharing derivatives under the same licence. The HALALNiaga logo and interface are original to this project.':
-    'Jika anda menggunakan semula fotografi, ikuti lesen yang dipautkan — termasuk atribusi dan, bagi imej CC BY-SA, berkongsi terbitan di bawah lesen yang sama. Logo dan antara muka HALALNiaga adalah asli bagi projek ini.',
+    'Jika anda menggunakan semula foto, ikuti lesen yang dipautkan, termasuk atribusi dan, bagi imej CC BY-SA, kongsi semula terbitan di bawah lesen yang sama. Logo dan antara muka HALALNiaga ialah karya asli projek ini.',
 
   // PwaExperience
   'Offline mode — your records are saved on this device.':
-    'Mod luar talian — rekod anda disimpan pada peranti ini.',
+    'Mod luar talian. Rekod anda disimpan pada peranti ini.',
   'Offline ready — the app is cached on this device.':
-    'Sedia luar talian — aplikasi disimpan dalam cache pada peranti ini.',
+    'Sedia untuk luar talian. Aplikasi disimpan dalam cache pada peranti ini.',
   'Install HALALNiaga': 'Pasang HALALNiaga',
   'Keep the supplier list and your records on the phone. It keeps working when the signal drops at the market.':
     'Simpan senarai pembekal dan rekod anda dalam telefon. Ia terus berfungsi apabila isyarat terputus di pasar.',
@@ -53,7 +53,7 @@ const dictionary: Record<string, string> = {
   'How?': 'Bagaimana?',
   'Dismiss install prompt': 'Tutup gesaan pemasangan',
   'Add it to your home screen. It opens like an app, keeps the workspace local, and works offline after the first visit.':
-    'Tambah ke skrin utama anda. Ia dibuka seperti aplikasi, menyimpan ruang kerja secara setempat, dan berfungsi di luar talian selepas lawatan pertama.',
+    'Tambah ke skrin utama. Ia dibuka seperti aplikasi, menyimpan ruang kerja pada peranti, dan berfungsi di luar talian selepas lawatan pertama.',
   Close: 'Tutup',
   'Install now': 'Pasang sekarang',
   Desktop: 'Komputer meja',
@@ -64,14 +64,14 @@ const dictionary: Record<string, string> = {
   'Use the install icon in the address bar, or the browser menu → “Install HALALNiaga”.':
     'Gunakan ikon pemasangan dalam bar alamat, atau menu pelayar → “Pasang HALALNiaga”.',
   'After the first load, the app shell is cached. Supplier browsing, training and records continue to work offline; demo data stays in this browser.':
-    'Selepas muatan pertama, rangka aplikasi disimpan dalam cache. Pelayaran pembekal, latihan dan rekod terus berfungsi di luar talian; data demo kekal dalam pelayar ini.',
+    'Selepas muatan pertama, rangka aplikasi disimpan dalam cache. Anda masih boleh layari pembekal, buat latihan dan buka rekod di luar talian; data demo kekal dalam pelayar ini.',
 
   // Admin
   'Content editor · handover page': 'Penyunting kandungan · halaman penyerahan',
   'Edit the site without touching code.': 'Sunting laman tanpa menyentuh kod.',
   'HALALNiaga uses': 'HALALNiaga menggunakan',
   'to edit the content stored in this GitHub repository. Changes are committed to the repository and deployed automatically to Cloudflare Pages by the GitHub Actions workflow.':
-    'untuk menyunting kandungan yang disimpan dalam repositori GitHub ini. Perubahan di-commit ke repositori dan di-deploy secara automatik ke Cloudflare Pages oleh aliran kerja GitHub Actions.',
+    'untuk menyunting kandungan yang disimpan dalam repositori GitHub ini. Perubahan di-commit ke repositori, dan aliran kerja GitHub Actions akan deploy secara automatik ke Cloudflare Pages.',
   'Open Pages CMS': 'Buka Pages CMS',
   'Read the content guide': 'Baca panduan kandungan',
   'For the client': 'Untuk klien',
@@ -86,13 +86,13 @@ const dictionary: Record<string, string> = {
     'Jika laman tidak dikemas kini selepas diterbitkan',
   "Open the repository's": 'Buka tab',
   'tab and check the “Deploy to Cloudflare Pages” run. If it says the token is missing, add the':
-    'repositori dan semak larian “Deploy to Cloudflare Pages”. Jika ia menyatakan token tiada, tambah',
+    'repositori dan semak larian “Deploy to Cloudflare Pages”. Jika larian itu menyatakan token tiada, tambah',
   'secret — the full setup is in the content guide.':
-    'rahsia — persediaan penuh ada dalam panduan kandungan.',
+    'rahsia. Persediaan penuh ada dalam panduan kandungan.',
   'This page is a handover aid. It contains no credentials and does not grant access to the CMS by itself; Pages CMS requires a GitHub login with write access to the repository.':
-    'Halaman ini ialah bantuan penyerahan. Ia tidak mengandungi kelayakan dan tidak memberikan akses kepada CMS dengan sendirinya; Pages CMS memerlukan log masuk GitHub dengan akses tulis kepada repositori.',
+    'Halaman ini ialah bantuan penyerahan. Ia tidak mengandungi butiran log masuk dan tidak memberi akses kepada CMS dengan sendirinya; Pages CMS memerlukan log masuk GitHub dengan akses tulis kepada repositori.',
   'Sign in to Pages CMS with the GitHub account that has access to the repository.':
-    'Log masuk ke Pages CMS dengan akaun GitHub yang mempunyai akses kepada repositori.',
+    'Log masuk ke Pages CMS dengan akaun GitHub yang ada akses kepada repositori.',
   'Choose the repository dontopa/halalniaga and the main branch.':
     'Pilih repositori dontopa/halalniaga dan cawangan main.',
   'Edit the vendor, suppliers, products or landing-page copy.':
@@ -116,11 +116,11 @@ const dictionary: Record<string, string> = {
   'Suppliers, certificate status, distance and areas':
     'Pembekal, status sijil, jarak dan kawasan',
   'Products, prices, units and product-level halal status':
-    'Produk, harga, unit dan status halal pada peringkat produk',
+    'Produk, harga, unit dan status halal bagi setiap produk',
   'Landing hero, problem cards, module cards, steps, tiers, pilot areas and personas':
-    'Hero halaman pendaratan, kad masalah, kad modul, langkah, tier, kawasan perintis dan persona',
+    'Hero halaman pendaratan, kad masalah, kad modul, langkah, tahap, kawasan perintis dan persona',
   'Supplier thumbnails, vendor cover and wet-category images':
-    'Imej kecil pembekal, imej kulit peniaga dan imej kategori basah',
+    'Imej kecil pembekal, imej muka depan peniaga dan imej kategori basah',
   'Training quiz content and assessment questions':
     'Kandungan kuiz latihan dan soalan penilaian',
   'Community posts, mentor replies and generated purchase records':
@@ -142,7 +142,7 @@ const dictionary: Record<string, string> = {
   Area: 'Kawasan',
   Tagline: 'Slogan',
   'QR slug': 'Slug QR',
-  'Cover image (path/URL)': 'Imej kulit (laluan/URL)',
+  'Cover image (path/URL)': 'Imej muka depan (laluan/URL)',
   'Joined (hari lalu)': 'Menyertai (hari lalu)',
   Certified: 'Diperakui',
   Verified: 'Disahkan',
@@ -150,7 +150,7 @@ const dictionary: Record<string, string> = {
   Lapsed: 'Tamat tempoh',
   'Tags (asingkan dengan koma)': 'Tag (asingkan dengan koma)',
   'Thumbnail (path/URL)': 'Imej kecil (laluan/URL)',
-  Barcode: 'Barcode',
+  Barcode: 'Kod bar',
   'Hero landing': 'Hero halaman pendaratan',
   Eyebrow: 'Teks atas',
   'Italic ending': 'Akhiran italik',
@@ -175,7 +175,7 @@ const dictionary: Record<string, string> = {
   'Could not save. Please try again.': 'Gagal menyimpan. Sila cuba lagi.',
   'Saved. GitHub Actions will deploy in 1–2 minutes. Refresh the site after that.':
     'Disimpan. GitHub Actions akan deploy dalam 1–2 minit. Muat semula laman selepas itu.',
-  'JSON must be an object.': 'JSON mesti objek.',
+  'JSON must be an object.': 'JSON mesti berupa objek.',
   'Invalid JSON: {message}': 'JSON tidak sah: {message}',
   'Invalid JSON.': 'JSON tidak sah.',
   'Checking access…': 'Memeriksa akses…',
@@ -188,12 +188,12 @@ const dictionary: Record<string, string> = {
   'This page is restricted to authorised people. Changes are committed to GitHub and deployed by GitHub Actions.':
     'Halaman ini terhad kepada pihak yang diberi kebenaran. Perubahan akan di-commit ke GitHub dan di-deploy oleh GitHub Actions.',
   'Content guide': 'Panduan kandungan',
-  'Edit live content.': 'Sunting kandungan langsung.',
+  'Edit live content.': 'Sunting kandungan laman sebenar.',
   'Save → commit to GitHub → automatic deploy in 1–2 minutes.':
     'Simpan → commit ke GitHub → deploy automatik dalam 1–2 minit.',
   Reload: 'Muat semula',
   'Name, location, tagline and the public QR record.':
-    'Nama, lokasi, tagline dan rekod QR awam.',
+    'Nama, lokasi, slogan dan rekod QR awam.',
   'Stall name': 'Nama gerai',
   'Owner name': 'Nama pemilik',
   'Stall location': 'Lokasi gerai',
@@ -215,7 +215,7 @@ const dictionary: Record<string, string> = {
   'Save suppliers': 'Simpan pembekal',
   Products: 'Produk',
   'Price, unit and halal status at product level.':
-    'Harga, unit dan status halal pada peringkat produk.',
+    'Harga, unit dan status halal bagi setiap produk.',
   'Product name': 'Nama produk',
   'Price (RM)': 'Harga (RM)',
   'Halal status': 'Status halal',
@@ -229,7 +229,7 @@ const dictionary: Record<string, string> = {
     'Untuk kad masalah, modul, langkah, tahap dan bahagian lain. Jangan ubah struktur asas.',
   'Save JSON': 'Simpan JSON',
   'Changes are saved to the GitHub repository and deployed by GitHub Actions. If a deploy fails, contact the project owner — do not edit code or tokens.':
-    'Perubahan disimpan ke repositori GitHub dan di-deploy oleh GitHub Actions. Jika deploy gagal, hubungi pemilik projek — jangan ubah kod atau token.',
+    'Perubahan disimpan ke repositori GitHub dan di-deploy oleh GitHub Actions. Jika deploy gagal, hubungi pemilik projek. Jangan ubah kod atau token.',
 };
 
 export default dictionary;

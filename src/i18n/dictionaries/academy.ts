@@ -1,21 +1,21 @@
 const dictionary: Record<string, string> = {
   // Academy
   '{title} completed with {score}%. Your training record has been updated.':
-    '{title} selesai dengan {score}%. Rekod latihan anda telah dikemas kini.',
+    '{title} selesai dengan skor {score}%. Rekod latihan anda sudah dikemas kini.',
   'Score {score}% — the pass mark is {pass}%. Review the explanations and try again.':
-    'Skor {score}% — markah lulus ialah {pass}%. Semak penjelasan dan cuba lagi.',
+    'Skor {score}%, markah lulus {pass}%. Semak penjelasan, kemudian cuba lagi.',
   'Module 02 · Halal education & training': 'Modul 02 · Pendidikan & latihan halal',
-  'Learn the detail that protects the dish.': 'Pelajari butiran yang melindungi hidangan.',
+  'Learn the detail that protects the dish.': 'Pelajari perincian yang melindungi hidangan.',
   'Six short modules built around the decisions a small vendor makes every day. Each ends with a scored quiz; the pass mark is 80%.':
-    'Enam modul pendek yang dibina berdasarkan keputusan yang dibuat oleh peniaga kecil setiap hari. Setiap modul berakhir dengan kuiz berskor; markah lulus ialah 80%.',
+    'Enam modul pendek dibina mengikut keputusan yang peniaga kecil ambil setiap hari. Setiap modul berakhir dengan kuiz berskor; markah lulus 80%.',
   '{done} of {total} complete': '{done} daripada {total} selesai',
   Average: 'Purata',
   'Training average': 'Purata latihan',
-  'Best score across all six modules.': 'Skor terbaik merentas keenam-enam modul.',
+  'Best score across all six modules.': 'Skor terbaik daripada keenam-enam modul.',
   '{done}/{total} passed': '{done}/{total} lulus',
   'Total learning time': 'Jumlah masa pembelajaran',
   'Designed in short blocks that fit between prep and service.':
-    'Direka dalam blok pendek yang sesuai antara persediaan dan waktu servis.',
+    'Direka dalam blok pendek yang muat antara persediaan dan penghidangan.',
   Recognition: 'Pengiktirafan',
   'Complete all six modules with 80%+ to qualify for the Learner tier.':
     'Selesaikan keenam-enam modul dengan 80%+ untuk layak ke tahap Pelajar.',
@@ -23,7 +23,7 @@ const dictionary: Record<string, string> = {
     'Rekod penyelesaian anda dilampirkan pada profil QR peniaga dan disemak semasa pemeriksaan.',
   'Course modules': 'Modul kursus',
   'Work through the list in order, or revisit any module at any time.':
-    'Ikuti senarai mengikut urutan, atau ulang mana-mana modul pada bila-bila masa.',
+    'Ikuti senarai mengikut urutan, atau ulang kaji mana-mana modul bila-bila masa.',
   'Passed · {score}%': 'Lulus · {score}%',
   'Attempted · {score}%': 'Dicuba · {score}%',
   'Not started': 'Belum bermula',
@@ -38,7 +38,7 @@ const dictionary: Record<string, string> = {
   'Retake the quiz': 'Ulang kuiz',
   'Start the quiz': 'Mulakan kuiz',
   'The quiz is a learning check, not a professional certification. Completion is recorded in your programme profile.':
-    'Kuiz ini ialah semakan pembelajaran, bukan pensijilan profesional. Penyelesaiannya direkodkan dalam profil program anda.',
+    'Kuiz ini semakan pembelajaran, bukan pensijilan profesional. Penyelesaian kuiz direkodkan dalam profil program anda.',
   'Quiz · {title}': 'Kuiz · {title}',
   Quiz: 'Kuiz',
   'Score {score}% · pass mark {pass}%': 'Skor {score}% · markah lulus {pass}%',
@@ -57,7 +57,7 @@ const dictionary: Record<string, string> = {
   'Correct.': 'Betul.',
   'The correct answer is: {answer}': 'Jawapan yang betul ialah: {answer}',
   'Answer every question to enable submission.':
-    'Jawab setiap soalan untuk membolehkan penghantaran.',
+    'Jawab semua soalan sebelum menghantar.',
 
   // Assessment
   Yes: 'Ya',
@@ -72,22 +72,22 @@ const dictionary: Record<string, string> = {
   Passing: 'Lulus',
   'Needs work': 'Perlu penambahbaikan',
   'Action required': 'Tindakan diperlukan',
-  'Self-assessment recorded at {score}%.': 'Penilaian kendiri direkodkan pada {score}%.',
+  'Self-assessment recorded at {score}%.': 'Penilaian kendiri direkodkan dengan skor {score}%.',
   'Module 04 · Halal self-assessment': 'Modul 04 · Penilaian kendiri halal',
   'Check the controls before someone else does.':
-    'Semak kawalan sebelum orang lain menyemaknya.',
+    'Semak kawalan anda sebelum orang lain menyemak.',
   'Eight weighted questions, repeated on a 90-day cycle. The assessment is designed to surface the weakest control and give you a specific correction — not just a score.':
-    'Lapan soalan berwajaran, diulang dalam kitaran 90 hari. Penilaian ini direka untuk mendedahkan kawalan paling lemah dan memberikan pembetulan khusus — bukan sekadar skor.',
+    'Lapan soalan berwajaran, diulang setiap 90 hari. Penilaian ini menunjukkan kawalan paling lemah dan memberi pembetulan khusus, bukan sekadar skor.',
   'Not yet completed': 'Belum diselesaikan',
-  'Renewal due · {count} days left': 'Pembaharuan perlu dibuat · {count} hari lagi',
+  'Renewal due · {count} days left': 'Perlu diperbaharui · {count} hari lagi',
   'Current · {count} days left': 'Semasa · {count} hari lagi',
   'Answer for the last 30 days, not for an ideal week. A “No” is useful information: it tells the programme where to help. Critical controls carry extra weight and cap the score at 55% if failed.':
-    'Jawab untuk 30 hari lepas, bukan untuk minggu yang ideal. “Tidak” ialah maklumat berguna: ia memberitahu program di mana bantuan diperlukan. Kawalan kritikal membawa wajaran tambahan dan mengehadkan skor kepada 55% jika gagal.',
+    'Jawab berdasarkan 30 hari lepas, bukan minggu yang ideal. Jawapan “Tidak” tetap berguna: ia memberitahu program tentang bahagian yang perlu dibantu. Kawalan kritikal membawa wajaran tambahan dan mengehadkan skor pada 55% jika gagal.',
   Critical: 'Kritikal',
   'weight {weight}': 'wajaran {weight}',
   '{answered} of {total} answered': '{answered} daripada {total} dijawab',
   'Answers reset to the last recorded assessment.':
-    'Jawapan ditetapkan semula kepada penilaian terakhir yang direkodkan.',
+    'Jawapan dikembalikan kepada penilaian terakhir yang direkodkan.',
   Reset: 'Set semula',
   'Submit assessment': 'Hantar penilaian',
   'Live score preview': 'Pratonton skor langsung',
@@ -95,14 +95,14 @@ const dictionary: Record<string, string> = {
   'This would satisfy the self-assessment requirement.':
     'Ini akan memenuhi keperluan penilaian kendiri.',
   'A score of 80% or higher is required for the Verified tier.':
-    'Skor 80% atau lebih diperlukan untuk tahap Disahkan.',
+    'Tahap Disahkan memerlukan skor 80% atau lebih.',
   'Questions answered': 'Soalan dijawab',
   'Critical controls failed': 'Kawalan kritikal gagal',
   'Fix the critical control before submitting: {prompts}':
     'Betulkan kawalan kritikal sebelum menghantar: {prompts}',
   'Corrective actions': 'Tindakan pembetulan',
   'Suggested next steps based on this draft.':
-    'Langkah seterusnya yang dicadangkan berdasarkan draf ini.',
+    'Cadangan langkah seterusnya berdasarkan draf ini.',
   'Not in place: ': 'Tidak dilaksanakan: ',
   'Partly in place: ': 'Sebahagian dilaksanakan: ',
   'Assessment history': 'Sejarah penilaian',
@@ -117,12 +117,12 @@ const dictionary: Record<string, string> = {
   Continue: 'Teruskan',
   Recorded: 'Direkodkan',
   'Your assessment meets the programme threshold. Keep the corrective actions below on your prep list.':
-    'Penilaian anda memenuhi ambang program. Kekalkan tindakan pembetulan di bawah dalam senarai persediaan anda.',
+    'Penilaian anda memenuhi ambang program. Masukkan tindakan pembetulan di bawah ke dalam senarai persediaan anda.',
   'Below the 80% threshold. Address the weak controls and re-run the assessment when they are in place.':
-    'Bawah ambang 80%. Tangani kawalan lemah dan jalankan semula penilaian apabila ia telah dilaksanakan.',
+    'Skor bawah ambang 80%. Betulkan kawalan lemah, kemudian jalankan semula penilaian selepas semuanya dilaksanakan.',
   'Recommended corrections': 'Pembetulan disyorkan',
   'Assessment valid for {days} days. The next renewal reminder will appear on your overview.':
-    'Penilaian sah selama {days} hari. Peringatan pembaharuan seterusnya akan muncul pada gambaran keseluruhan anda.',
+    'Penilaian sah selama {days} hari. Peringatan pembaharuan seterusnya akan muncul dalam gambaran keseluruhan.',
 
   // Verification
   'Verification link copied to the clipboard.': 'Pautan pengesahan disalin ke papan keratan.',
@@ -141,7 +141,7 @@ const dictionary: Record<string, string> = {
     'Pensijilan rasmi dikeluarkan oleh JAKIM atau pihak berkuasa negeri yang diiktiraf.',
   'Stall sticker downloaded.': 'Pelekat gerai dimuat turun.',
   'Module 05 · Verification & QR': 'Modul 05 · Pengesahan & QR',
-  'Make the record visible at the stall.': 'Jadikan rekod kelihatan di gerai.',
+  'Make the record visible at the stall.': 'Tunjukkan rekod anda di gerai.',
   'A customer scans a sticker. No account, no app — just the current programme record, the last inspection date, and a clear disclaimer.':
     'Pelanggan mengimbas pelekat. Tiada akaun, tiada aplikasi — hanya rekod program semasa, tarikh pemeriksaan terakhir dan penafian yang jelas.',
   'QR image': 'Imej QR',
@@ -149,15 +149,15 @@ const dictionary: Record<string, string> = {
   'Stall sticker': 'Pelekat gerai',
   'Customer verification': 'Pengesahan pelanggan',
   'Vendor verification QR code': 'Kod QR pengesahan peniaga',
-  'Live record': 'Rekod langsung',
+  'Live record': 'Rekod masa nyata',
   'HALALNiaga programme recognition. Not a JAKIM halal certificate.':
     'Pengiktirafan program HALALNiaga. Bukan sijil halal JAKIM.',
   'Copy link': 'Salin pautan',
   'Open record': 'Buka rekod',
   'What the customer sees': 'Apa yang dilihat pelanggan',
   'Programme tier and the date it was last checked':
-    'Tahap program dan tarikh ia kali terakhir disemak',
-  'Training modules passed and quiz scores': 'Modul latihan yang lulus dan skor kuiz',
+    'Tahap program dan tarikh semakan terakhir',
+  'Training modules passed and quiz scores': 'Modul latihan yang diluluskan dan skor kuiz',
   'Recent verified supplier records': 'Rekod pembekal disahkan terkini',
   'Latest self-assessment band': 'Gred penilaian kendiri terkini',
   'Inspection date, findings and corrective actions':
@@ -168,7 +168,7 @@ const dictionary: Record<string, string> = {
     'QR ialah alat ketelusan. Ia tidak boleh membuktikan setiap hidangan disediakan dengan betul pada hari tertentu — ia menunjukkan sama ada peniaga mempunyai sistem, latihan dan rekod yang sewajarnya.',
   'Verification record': 'Rekod pengesahan',
   'This is the summary published to the public page.':
-    'Ini ialah ringkasan yang diterbitkan pada halaman awam.',
+    'Ringkasan ini diterbitkan pada halaman awam.',
   'Updated {date}': 'Dikemas kini {date}',
   'Joined {date}': 'Menyertai {date}',
   Training: 'Latihan',
@@ -190,7 +190,7 @@ const dictionary: Record<string, string> = {
   'Programme recognition, clearly labelled':
     'Pengiktirafan program, dilabel dengan jelas',
   'The QR record never uses the Malaysian halal logo. It states the programme tier and evidence, and points customers to JAKIM for official certification status.':
-    'Rekod QR tidak pernah menggunakan logo halal Malaysia. Ia menyatakan tahap program dan bukti, serta merujuk pelanggan kepada JAKIM untuk status pensijilan rasmi.',
+    'Rekod QR tidak pernah menggunakan logo halal Malaysia. Ia menyatakan tahap program dan bukti, serta mengarahkan pelanggan ke JAKIM untuk status pensijilan rasmi.',
 
   // Starter kit
   'HALALNiaga starter kit': 'Kit permulaan HALALNiaga',
@@ -203,29 +203,29 @@ const dictionary: Record<string, string> = {
   'Print, laminate, and keep it near the prep area.':
     'Cetak, laminasi dan simpan berhampiran kawasan penyediaan.',
   'The print layout removes the navigation and keeps the labels, checklist and QR sticker on the page.':
-    'Susun atur cetakan membuang navigasi dan mengekalkan label, senarai semak serta pelekat QR pada halaman.',
+    'Semasa dicetak, navigasi tidak dipaparkan. Label, senarai semak dan pelekat QR kekal pada halaman.',
   'Programme tool — not a halal certificate': 'Alat program — bukan sijil halal',
   'Quick handling guide': 'Panduan pengendalian ringkas',
   'Five habits that protect the dish — and the evidence behind it.':
-    'Lima tabiat yang melindungi hidangan — dan bukti di sebaliknya.',
-  'Keep visible': 'Sentiasa kelihatan',
+    'Lima tabiat yang melindungi hidangan, dan bukti di sebaliknya.',
+  'Keep visible': 'Pastikan kelihatan',
   'Buy from a verified source': 'Beli daripada sumber yang disahkan',
   'Check the supplier and product status before you pay. A company certificate does not automatically cover every product.':
-    'Semak status pembekal dan produk sebelum membayar. Sijil syarikat tidak semestinya melindungi setiap produk.',
-  'Record the purchase': 'Rekod pembelian',
+    'Semak status pembekal dan produk sebelum bayar. Sijil syarikat tidak semestinya meliputi setiap produk.',
+  'Record the purchase': 'Catat pembelian',
   'Supplier, product, quantity and receipt. Four fields turn an ingredient into a traceable record.':
-    'Pembekal, produk, kuantiti dan resit. Empat medan menjadikan bahan sebagai rekod yang boleh dijejak.',
+    'Pembekal, produk, kuantiti dan resit. Empat medan ini menjadikan bahan satu rekod yang boleh dijejak.',
   'Separate raw and cooked': 'Asingkan mentah dan masak',
   'Use a red board for raw meat, blue for seafood, green for produce and white for cooked food. Clean and sanitise between tasks.':
-    'Gunakan papan merah untuk daging mentah, biru untuk makanan laut, hijau untuk sayur-sayuran dan putih untuk makanan masak. Bersihkan dan sanitasi antara tugas.',
+    'Gunakan papan merah untuk daging mentah, biru untuk makanan laut, hijau untuk sayur dan putih untuk makanan masak. Bersihkan dan sanitasi antara tugas.',
   'Store covered, labelled and cold': 'Simpan bertutup, berlabel dan sejuk',
   'Raw food on the bottom shelf, cooked food above it. Keep chilled food at 4°C or below and label the date opened.':
-    'Makanan mentah di rak bawah, makanan masak di atasnya. Simpan makanan sejuk dingin pada 4°C atau ke bawah dan label tarikh dibuka.',
+    'Makanan mentah di rak bawah, makanan masak di atas. Simpan makanan sejuk pada 4°C atau ke bawah dan label tarikh dibuka.',
   'Keep the record current': 'Pastikan rekod terkini',
   'Run the self-assessment every 90 days and book a programme inspection before the 180-day window closes.':
     'Jalankan penilaian kendiri setiap 90 hari dan tempah pemeriksaan program sebelum tempoh 180 hari tamat.',
   'If something is unclear: pause, check the source, and record what you found. An unverified ingredient is not an emergency — an unrecorded one is a risk.':
-    'Jika ada yang tidak jelas: berhenti, semak sumber dan catat apa yang anda temui. Bahan yang tidak disahkan bukan kecemasan — bahan yang tidak direkodkan ialah risiko.',
+    'Jika ada yang tidak jelas, berhenti, semak sumber dan catat apa yang anda temui. Bahan yang tidak disahkan bukan kecemasan; bahan yang tidak direkodkan itulah risikonya.',
   'QR sticker': 'Pelekat QR',
   'For the stall counter.': 'Untuk kaunter gerai.',
   'Download QR': 'Muat turun QR',
@@ -237,13 +237,13 @@ const dictionary: Record<string, string> = {
   'RAW POULTRY · CHILLER': 'AYAM MENTAH · PETI SEJUK',
   'SEAFOOD · FREEZER': 'MAKANAN LAUT · PETI BEKU',
   'COOKED · CHILLER': 'MASAK · PETI SEJUK',
-  'PRODUCE · CHILLER': 'SAYUR-SAYURAN · PETI SEJUK',
+  'PRODUCE · CHILLER': 'SAYUR · PETI SEJUK',
   'OPENED · DATE ____': 'DIBUKA · TARIKH ____',
   'Keep raw meat, poultry and seafood separate from cooked food. Label everything that is opened, cooked or portioned.':
-    'Asingkan daging mentah, ayam dan makanan laut daripada makanan masak. Label semua yang dibuka, dimasak atau dibahagikan kepada bahagian.',
+    'Asingkan daging mentah, ayam dan makanan laut daripada makanan masak. Label setiap bahan yang dibuka, dimasak atau dibahagi.',
   'Equipment colour guide': 'Panduan warna peralatan',
   'One colour per food type. If you only have one board, clean and sanitise between tasks.':
-    'Satu warna bagi setiap jenis makanan. Jika anda hanya mempunyai satu papan, bersihkan dan sanitasi antara tugas.',
+    'Satu warna untuk setiap jenis makanan. Jika hanya ada satu papan, bersihkan dan sanitasi antara tugas.',
   Red: 'Merah',
   'Raw meat': 'Daging mentah',
   'Board, knife, container': 'Papan, pisau, bekas',
@@ -257,10 +257,10 @@ const dictionary: Record<string, string> = {
   'Cooked / ready-to-eat': 'Masak / sedia dimakan',
   'Board, knife, serving tray': 'Papan, pisau, dulang hidangan',
   'Store cleaning cloths away from food. Wash hands before changing between raw and cooked tasks.':
-    'Simpan kain pembersih jauh daripada makanan. Basuh tangan sebelum bertukar antara tugas mentah dan masak.',
+    'Simpan kain lap jauh daripada makanan. Basuh tangan sebelum bertukar antara tugas mentah dan masak.',
   'Hygiene & halal checklist': 'Senarai semak kebersihan & halal',
   'A quick daily and weekly check. Tick what is in place; note what needs fixing.':
-    'Semakan harian dan mingguan yang pantas. Tandakan yang telah dilaksanakan; catat yang perlu diperbaiki.',
+    'Semakan pantas harian dan mingguan. Tandakan yang sudah dilaksanakan; catat yang perlu dibaiki.',
   'Print & reuse': 'Cetak & guna semula',
   'Hands washed and apron clean before prep.':
     'Tangan dibasuh dan apron bersih sebelum penyediaan.',
@@ -277,9 +277,9 @@ const dictionary: Record<string, string> = {
   'Main ingredients traceable to a verified supplier.':
     'Bahan utama boleh dijejak kepada pembekal yang disahkan.',
   'Receipts or invoices filed for the last 30 days.':
-    'Resit atau invois difailkan untuk 30 hari lepas.',
+    'Resit atau invois disimpan untuk 30 hari lepas.',
   'No unknown sauces, stock cubes or flavourings in use.':
-    'Tiada sos, kiub stok atau perisa yang tidak diketahui digunakan.',
+    'Tiada penggunaan sos, kiub stok atau perisa yang tidak diketahui.',
   'Waste removed, bin covered and prep area pest-free.':
     'Sisa dibuang, tong sampah bertutup dan kawasan penyediaan bebas perosak.',
   'Signed by: ____________________ · Date: __________':
