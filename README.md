@@ -21,6 +21,19 @@ programme record.
 The demo opens with a seeded vendor, **Dapur Kak Nur** (Tanjung Aru, Kota
 Kinabalu), and is fully interactive. No sign-up is required.
 
+## Client brief
+
+This prototype was built for a UMS student team working to a limited budget:
+
+- Help small food vendors find **nearby halal suppliers**, especially for
+  **wet ingredients** — poultry, meat, seafood, produce, dairy and eggs.
+- Deliver a **PWA prototype**, not a full backend or an app-store product.
+
+The build responds with a wet-ingredient-first supplier finder (dedicated filter
+and nearest-first sort), an installable offline-capable PWA, a customer QR
+record, static Cloudflare Pages hosting and local demo data. No payment, backend
+or app-store costs are required.
+
 ## Screens
 
 ### Landing page
@@ -39,19 +52,32 @@ Kinabalu), and is fully interactive. No sign-up is required.
 
 ![Supplier finder with certificate status](docs/screenshots/app-suppliers.png)
 
+### Wet-ingredient sourcing
+
+![Wet-market supplier section](docs/screenshots/landing-wet.png)
+
+### Installable PWA
+
+![Installable PWA section](docs/screenshots/landing-pwa.png)
+
+### Supplier finder — wet ingredients only
+
+![Wet-ingredient filter with nearest-first sorting](docs/screenshots/app-suppliers-wet.png)
+
 More screens are in [`docs/screenshots/`](docs/screenshots/).
 
 ## What it demonstrates
 
 | Module | What a visitor can do |
 | --- | --- |
-| **01 · Supplier finder** | Filter eight Sabah suppliers by area, category and certificate status, inspect product-level halal status, save a shortlist, record a purchase |
+| **01 · Supplier finder** | Filter eight Sabah suppliers by area, category, certificate status and a wet-ingredients toggle; sort by distance; inspect product-level halal status; save a shortlist and record a purchase |
 | **02 · Halal education** | Read six practical modules and take a scored quiz; passing updates the training record |
 | **03 · Purchase tracking** | Review, search, filter and export a traceable purchase log; record a new purchase (verified or unverified) |
 | **04 · Self-assessment** | Complete an eight-question weighted assessment with live scoring, corrective actions and a 90-day validity cycle |
 | **05 · QR verification** | Preview, copy and download the customer QR record and a printable stall sticker |
 | **06 · Monitoring & recognition** | See the three-tier ladder, inspection history, certificate watchlist and record a simulated programme inspection |
 | **Support** | Community feed, simulated ingredient barcode scanner, and a scripted halal mentor conversation |
+| **PWA** | Install from the browser, reopen `/app` offline, and keep the cached shell available at a market with a weak signal |
 
 The public record at `/vendor/dapur-kak-nur` is the customer-facing view: tier,
 training, source records, assessment band, inspection history and a clear
@@ -103,6 +129,7 @@ demo** in the sidebar to restore the seed.
 - **qrcode.react** for verification and sticker generation
 - **Lucide** icons
 - **Vitest** for domain unit tests
+- **vite-plugin-pwa / Workbox** for the manifest, icons and offline caching
 - **Cloudflare Pages** for hosting
 
 ## Getting started
@@ -130,17 +157,24 @@ src/
   components/
     ui/            # buttons, cards, badges, fields, modal, progress
     app/           # app shell, purchase modal, shared page pieces
+    pwa/           # install prompt, offline status and install instructions
     Logo.tsx       # the Verified Seal and wordmark
+  lib/             # class merge, image paths and photo credits
   pages/
     Landing.tsx
     SignIn.tsx
     PublicVendor.tsx
+    Credits.tsx
     app/           # ten workspace modules
-public/            # logo variants, favicon, pattern, OG card, manifest
+public/
+  images/          # Sabah market photography (WebP, credited)
+  icons/           # PWA, maskable and Apple touch icons
+  ...              # logo variants, favicon, pattern, OG card
 docs/
   adr/             # architecture and policy decisions
   brand.md         # logo construction, colour, type, misuse
   demo-script.md   # 8-minute presentation walkthrough
+  image-credits.md # photo authors, licences and sources
 CONTEXT.md         # domain glossary and invariants
 ```
 
@@ -158,6 +192,23 @@ The domain suite covers:
 - alert derivation (certificate expiry, untraceable purchases, overdue records)
 - promotion to Monitored after a current inspection
 - seed integrity (every purchase resolves to a real supplier and product)
+
+## PWA and offline behaviour
+
+- The production build ships `manifest.webmanifest`, 192 px and 512 px icons, a
+  maskable icon and an Apple touch icon.
+- A Workbox service worker precaches the app shell and route chunks on the first
+  visit. Deep links such as `/app` and `/vendor/dapur-kak-nur` resolve through
+  the cached shell.
+- This was verified by loading `/app` with the browser set to offline after the
+  first visit; the dashboard still rendered.
+- Install from the browser (Android/desktop) or use Share → Add to Home Screen
+  on iOS. The landing banner and the sidebar **Install app** button both open
+  the instructions.
+- Demo data stays in `localStorage`, so it remains available offline on the same
+  device.
+- Run `npm run build && npm run preview`, then open the preview in Chrome to see
+  the service worker and manifest.
 
 ## Deployment
 
@@ -179,19 +230,32 @@ The Pages project is already created. To create it from scratch, run
 ## Limitations
 
 - This is a **prototype**, not a production compliance system.
-- Data is stored per browser. Changes do not sync between devices.
+- Data is stored per browser. Changes do not sync between devices. The PWA caches
+  the application shell, not a shared server record.
+- Market photographs are illustrative; they do not depict the seeded vendor or
+  the named suppliers.
 - Certificate status, supplier details and inspection records are illustrative.
 - The scanner and mentor are simulated; there is no camera, payment, email or
   supplier integration.
 - No real authentication. The sign-in page is a presentation flow.
 - Nothing here constitutes a halal certification decision.
 
+## Image credits
+
+Market photography is from Wikimedia Commons, used under CC BY-SA 3.0/4.0 and
+CC BY 3.0. Authors, licences and source links are in
+[`docs/image-credits.md`](docs/image-credits.md) and in the app at `/credits`.
+The images were cropped, resized and converted to WebP; those derivatives are
+shared under the same licences.
+
 ## Academic context
 
-Built as a working prototype for the **HALALNiaga** innovation proposal:
+Built as a working prototype for the **HALALNiaga** innovation proposal by a
+Universiti Malaysia Sabah (UMS) student team:
 *"Aplikasi Ekosistem Digital bagi Memperkasa Pematuhan Halal dalam Kalangan
-Peniaga Makanan Kecil-kecilan"*. The written proposal focuses on a Sabah pilot
-with small vendors, verified suppliers and programme monitoring.
+Peniaga Makanan Kecil-kecilan"*. The client brief asked for a PWA prototype on a
+limited budget, focused on nearby halal suppliers for wet ingredients and on
+making the evidence behind the food visible to customers.
 
 The identity and interface were designed in this repository; the logo concept and
 construction notes are in [`docs/brand.md`](docs/brand.md).

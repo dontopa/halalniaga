@@ -6,9 +6,14 @@ import {
   ArrowUpRight,
   Check,
   ClipboardCheck,
+  Droplets,
+  Drumstick,
+  Egg,
   FileCheck2,
+  Fish,
   GraduationCap,
   Handshake,
+  Leaf,
   MapPin,
   Menu,
   MessageSquareQuote,
@@ -16,10 +21,12 @@ import {
   QrCode,
   ScanLine,
   ShieldCheck,
+  Smartphone,
   Sparkles,
   Store,
   Truck,
   Users,
+  WifiOff,
   X,
 } from 'lucide-react';
 import { Wordmark } from '@/components/Logo';
@@ -27,6 +34,8 @@ import { Reveal } from '@/components/Reveal';
 import { TierBadge } from '@/components/badges';
 import { Badge, Card, Progress, buttonClass } from '@/components/ui';
 import { HeroMockup } from '@/pages/landing/HeroMockup';
+import { images } from '@/lib/images';
+import { openInstallHelp } from '@/components/pwa/PwaExperience';
 import { cn } from '@/lib/cn';
 
 /* -------------------------------------------------------------------------- */
@@ -133,8 +142,8 @@ const modules = [
     title: 'Halal supplier finder',
     icon: Store,
     description:
-      'Search certified and verified suppliers by area, compare product-level halal status, and attach every order to a source record.',
-    detail: ['Location-aware search', 'Product-level status', 'Direct order record'],
+      'Search certified and verified suppliers of fresh poultry, meat, seafood, produce, dairy and eggs by area — with a nearest-first list and a wet-ingredients filter.',
+    detail: ['Wet-market focus', 'Nearest first', 'Product-level status'],
     span: 'lg:col-span-3',
     featured: true,
   },
@@ -259,7 +268,7 @@ const problems = [
   {
     number: '01',
     title: 'Suppliers are hard to verify',
-    body: 'Certificates sit in drawers or inboxes, rarely at the point where a vendor decides who to buy from.',
+    body: 'Certificates sit in drawers or inboxes, rarely at the 6am wet-market decision about which chicken, fish or vegetable crate to buy.',
   },
   {
     number: '02',
@@ -274,12 +283,60 @@ const problems = [
   {
     number: '04',
     title: 'Purchase records do not exist',
-    body: 'Without receipts or supplier references, nobody can prove where the chicken or beef came from.',
+    body: 'Without receipts or supplier references, nobody can prove where the chicken, fish or produce came from.',
   },
   {
     number: '05',
     title: 'Cross-contamination is invisible',
     body: 'Shared boards, knives and oil are common — and almost never documented or corrected.',
+  },
+  {
+    number: '06',
+    title: 'Wet ingredients move faster than paperwork',
+    body: 'Chicken, fish, vegetables, eggs and milk are bought several times a week, often from different stalls. A record built for monthly invoices cannot keep up with a wet market.',
+  },
+];
+
+const wetCategories = [
+  {
+    category: 'Poultry & meat',
+    icon: Drumstick,
+    image: images.poultry,
+    alt: 'Live chickens at a market',
+    examples: 'Chicken, beef, mutton',
+    count: '2 sources',
+    note: 'Slaughter source recorded',
+    position: 'object-[50%_45%]',
+  },
+  {
+    category: 'Seafood',
+    icon: Fish,
+    image: images.seafood,
+    alt: 'Fish crates at the Sandakan fish market',
+    examples: 'Prawns, fish, shellfish',
+    count: '1 source',
+    note: 'Certificate renewal due',
+    position: 'object-[50%_82%]',
+  },
+  {
+    category: 'Produce',
+    icon: Leaf,
+    image: images.produce,
+    alt: 'Leafy greens and eggs at a Sabah market',
+    examples: 'Kangkung, tomato, shallots',
+    count: '1 source',
+    note: 'Market-direct sourcing',
+    position: 'object-[50%_55%]',
+  },
+  {
+    category: 'Dairy & eggs',
+    icon: Egg,
+    image: images.wetMarket,
+    alt: 'Egg trays and fresh produce at a Kota Kinabalu market',
+    examples: 'Grade A eggs, fresh milk',
+    count: '1 source',
+    note: 'Chilled delivery',
+    position: 'object-[78%_55%]',
   },
 ];
 
@@ -466,7 +523,7 @@ export const Landing = () => (
           <div className="inline-flex items-center gap-2 rounded-full border border-line bg-paper/80 px-3 py-1.5">
             <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-forest-500" />
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-2">
-              Sabah pilot · Academic innovation 2026
+              Sabah pilot · UMS student innovation
             </span>
           </div>
 
@@ -481,8 +538,9 @@ export const Landing = () => (
 
           <p className="mt-6 max-w-xl text-[15.5px] leading-relaxed text-ink-2 sm:text-[17px]">
             HALALNiaga is a digital halal ecosystem for small food vendors —
-            connecting verified suppliers, practical training and a traceable
-            record that customers can scan at the stall.
+            connecting nearby verified suppliers of fresh wet ingredients,
+            practical training and a traceable record customers can scan at the
+            stall.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -503,10 +561,26 @@ export const Landing = () => (
             authorities.
           </p>
 
-          <div className="mt-10 grid max-w-lg grid-cols-2 gap-x-6 gap-y-6 border-t border-line pt-7 sm:grid-cols-4">
+          <div className="mt-4 flex flex-wrap gap-2">
+            {[
+              { icon: Droplets, label: 'Wet-market first' },
+              { icon: Smartphone, label: 'Installable PWA' },
+              { icon: WifiOff, label: 'Works offline' },
+            ].map((chip) => (
+              <span
+                key={chip.label}
+                className="inline-flex items-center gap-1.5 rounded-full border border-forest-200 bg-forest-50 px-2.5 py-1 text-[10.5px] font-medium text-forest-800"
+              >
+                <chip.icon className="h-3 w-3" />
+                {chip.label}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-8 grid max-w-lg grid-cols-2 gap-x-6 gap-y-6 border-t border-line pt-7 sm:grid-cols-4">
             <Stat value="06" label="Integrated modules" />
             <Stat value="03" label="Recognition tiers" />
-            <Stat value="08" label="Pilot suppliers" />
+            <Stat value="05" label="Wet-ingredient sources" />
             <Stat value="01" label="Shared record" />
           </div>
         </div>
@@ -640,6 +714,100 @@ export const Landing = () => (
             </div>
           </Reveal>
         </div>
+      </div>
+    </section>
+
+    {/* Wet market first ---------------------------------------------------- */}
+    <section id="wet" className="scroll-mt-24 border-y border-line bg-paper/60 py-20 lg:py-24">
+      <div className="container-page">
+        <Reveal>
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+            <SectionHead
+              eyebrow="Wet market first"
+              title={
+                <>
+                  The morning run,
+                  <br />
+                  made <span className="italic text-forest-700">traceable.</span>
+                </>
+              }
+              lead="Fresh chicken, fish, vegetables, eggs and milk are bought often, stored carefully and hard to trace. HALALNiaga starts with the wet ingredients where trust is won or lost every day."
+            />
+            <div className="flex shrink-0 items-center gap-3 rounded-2xl border border-forest-200 bg-forest-50 px-4 py-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-paper text-forest-700">
+                <Droplets className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="font-display text-2xl leading-none text-ink">05</p>
+                <p className="mt-0.5 text-[10px] text-ink-3">
+                  wet-ingredient suppliers
+                </p>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {wetCategories.map((item, index) => (
+            <Reveal key={item.category} delay={index * 70}>
+              <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-line bg-sand">
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  loading="lazy"
+                  className={cn(
+                    'h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]',
+                    item.position,
+                  )}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest-950/95 via-forest-950/30 to-transparent" />
+                <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-2 p-3.5">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-ivory/20 bg-forest-950/45 px-2 py-1 font-mono text-[8.5px] uppercase tracking-[0.12em] text-ivory backdrop-blur-sm">
+                    <item.icon className="h-3 w-3 text-gold-300" />
+                    {item.category}
+                  </span>
+                  <span className="rounded-full bg-ivory/90 px-2 py-0.5 text-[8.5px] font-medium text-forest-900">
+                    {item.count}
+                  </span>
+                </div>
+                <div className="absolute inset-x-0 bottom-0 p-4 text-ivory">
+                  <p className="text-[13px] font-semibold">{item.examples}</p>
+                  <p className="mt-1 text-[10px] text-ivory/60">{item.note}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal>
+          <div className="mt-4 flex flex-col justify-between gap-4 rounded-2xl border border-line bg-ivory p-4 sm:flex-row sm:items-center">
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl">
+                <img
+                  src={images.dryGoods}
+                  alt="Dried goods at a Kota Kinabalu market"
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-[12px] font-semibold text-ink">
+                  Dry goods and sauces are in the network too.
+                </p>
+                <p className="mt-0.5 text-[10.5px] leading-relaxed text-ink-3">
+                  But the pilot starts with the categories that spoil fastest and
+                  carry the most daily risk.
+                </p>
+              </div>
+            </div>
+            <Link
+              to="/app/suppliers?wet=1"
+              className={buttonClass('secondary', 'sm', 'shrink-0')}
+            >
+              Browse wet ingredients <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
 
@@ -851,6 +1019,148 @@ export const Landing = () => (
             </Reveal>
           ))}
         </div>
+      </div>
+    </section>
+
+    {/* PWA ----------------------------------------------------------------- */}
+    <section id="pwa" className="scroll-mt-24 bg-ivory py-20 lg:py-24">
+      <div className="container-page grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+        <Reveal>
+          <SectionHead
+            eyebrow="Prototype · installable PWA"
+            title={
+              <>
+                Install it once.
+                <br />
+                Use it at the{' '}
+                <span className="italic text-forest-700">stall.</span>
+              </>
+            }
+            lead="The brief asked for a PWA prototype on a small budget. HALALNiaga installs straight from the browser, caches its shell, and keeps the workspace usable when the signal drops."
+          />
+          <div className="mt-8 space-y-3">
+            {[
+              {
+                icon: Smartphone,
+                title: 'Install from the browser',
+                body: 'No app store, no submission and no review queue. Add it to the home screen in seconds.',
+              },
+              {
+                icon: WifiOff,
+                title: 'Offline-ready',
+                body: 'The app shell and demo data stay available after the first visit — useful at a wet market with a weak signal.',
+              },
+              {
+                icon: Check,
+                title: 'No server bill',
+                body: 'A static Cloudflare Pages deployment and local demo data keep the prototype within a student budget.',
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="flex items-start gap-3 rounded-xl border border-line bg-paper p-4"
+              >
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-forest-50 text-forest-700">
+                  <item.icon className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="text-[12.5px] font-semibold text-ink">
+                    {item.title}
+                  </p>
+                  <p className="mt-1 text-[11px] leading-relaxed text-ink-3">
+                    {item.body}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={openInstallHelp}
+              className={buttonClass('primary', 'md')}
+            >
+              <Smartphone className="h-4 w-4" /> How to install
+            </button>
+            <Link to="/app" className={buttonClass('secondary', 'md')}>
+              Open the workspace <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </Reveal>
+
+        <Reveal delay={120}>
+          <div className="relative mx-auto w-full max-w-[330px]">
+            <div
+              aria-hidden="true"
+              className="absolute -inset-5 rotate-2 rounded-[3rem] border border-gold-300/40 bg-forest-50/70 pattern-geo"
+            />
+            <div className="relative rounded-[2.5rem] border-[9px] border-ink bg-ivory p-3 shadow-lift">
+              <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-ink/20" />
+              <div className="rounded-[2rem] bg-paper p-4">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="/icons/icon-192.png"
+                    alt=""
+                    className="h-12 w-12 rounded-xl"
+                  />
+                  <div className="min-w-0">
+                    <p className="text-[13px] font-semibold text-ink">
+                      HALALNiaga
+                    </p>
+                    <p className="truncate text-[9.5px] text-ink-3">
+                      halalniaga.pages.dev
+                    </p>
+                  </div>
+                  <Badge tone="success" className="ml-auto">
+                    Installed
+                  </Badge>
+                </div>
+
+                <div className="mt-4 rounded-xl border border-line p-3">
+                  <div className="flex items-center gap-1.5">
+                    <Droplets className="h-3.5 w-3.5 text-forest-700" />
+                    <p className="text-[10.5px] font-medium text-ink">
+                      Wet ingredients near you
+                    </p>
+                  </div>
+                  <div className="mt-2 space-y-1.5">
+                    {[
+                      ['Sabah Fresh Produce', '2.1 km'],
+                      ['Sri Tanjung Poultry', '6.4 km'],
+                      ['Kinabalu Dairy & Eggs', '7.8 km'],
+                    ].map(([name, distance]) => (
+                      <div
+                        key={name}
+                        className="flex items-center justify-between gap-2 rounded-md bg-ivory px-2 py-1.5 text-[9.5px]"
+                      >
+                        <span className="truncate text-ink-2">{name}</span>
+                        <span className="font-mono text-ink-3">{distance}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <div className="rounded-lg bg-forest-50 p-2 text-center">
+                    <p className="font-display text-lg leading-none text-ink">68</p>
+                    <p className="mt-0.5 text-[8px] text-ink-3">compliance</p>
+                  </div>
+                  <div className="rounded-lg bg-gold-100/60 p-2 text-center">
+                    <p className="text-[11px] font-semibold leading-none text-ink">
+                      Verified
+                    </p>
+                    <p className="mt-1 text-[8px] text-ink-3">tier</p>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex items-center justify-between rounded-lg bg-forest-800 px-3 py-2 text-ivory">
+                  <span className="text-[9px]">Opens offline</span>
+                  <WifiOff className="h-3 w-3 text-gold-300" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
 
@@ -1258,6 +1568,16 @@ export const Landing = () => (
       <div className="container-page">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] bg-forest-950 px-6 py-14 text-ivory sm:px-12 lg:px-16 lg:py-20">
+            <img
+              src={images.greens}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover object-[50%_55%] opacity-20"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-r from-forest-950 via-forest-950/90 to-forest-950/55"
+            />
             <div
               aria-hidden="true"
               className="absolute inset-0 opacity-[0.07] pattern-geo"
@@ -1318,7 +1638,7 @@ export const Landing = () => (
             <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-ivory px-3 py-1.5">
               <Sparkles className="h-3.5 w-3.5 text-gold-600" />
               <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink-2">
-                Sabah pilot · 2026
+                UMS student innovation · Sabah pilot
               </span>
             </div>
           </div>
@@ -1331,7 +1651,8 @@ export const Landing = () => (
               <li><a href="#modules" className="hover:text-forest-800">Modules</a></li>
               <li><a href="#how" className="hover:text-forest-800">How it works</a></li>
               <li><a href="#trust" className="hover:text-forest-800">Trust model</a></li>
-              <li><Link to="/app/suppliers" className="hover:text-forest-800">Supplier finder</Link></li>
+              <li><a href="#wet" className="hover:text-forest-800">Wet-ingredient sourcing</a></li>
+              <li><a href="#pwa" className="hover:text-forest-800">PWA prototype</a></li>
             </ul>
           </div>
 
@@ -1372,11 +1693,19 @@ export const Landing = () => (
         </div>
 
         <div className="mt-6 flex flex-col justify-between gap-3 border-t border-line pt-6 text-[11px] text-ink-3 sm:flex-row sm:items-center">
-          <p>© 2026 HALALNiaga. Academic innovation proposal.</p>
-          <p className="inline-flex items-center gap-1.5">
-            <FileCheck2 className="h-3.5 w-3.5" />
-            Designed and built as a working prototype
+          <p>
+            © 2026 HALALNiaga · A student innovation project, Universiti Malaysia
+            Sabah.
           </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <Link to="/credits" className="hover:text-forest-700">
+              Image credits
+            </Link>
+            <p className="inline-flex items-center gap-1.5">
+              <FileCheck2 className="h-3.5 w-3.5" />
+              Designed and built as a working prototype
+            </p>
+          </div>
         </div>
       </div>
     </footer>

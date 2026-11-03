@@ -9,7 +9,9 @@ import {
 } from 'react-router-dom';
 import { AppShell } from '@/components/app/AppShell';
 import { LogoMark } from '@/components/Logo';
+import { PwaExperience } from '@/components/pwa/PwaExperience';
 import { AppProvider } from '@/domain/store';
+import { Credits } from '@/pages/Credits';
 import { Landing } from '@/pages/Landing';
 import { PublicVendor } from '@/pages/PublicVendor';
 import { SignIn } from '@/pages/SignIn';
@@ -100,11 +102,13 @@ const App = () => (
   <AppProvider>
     <BrowserRouter>
       <ScrollManager />
+      <PwaExperience />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/vendor/:slug" element={<PublicVendor />} />
+          <Route path="/credits" element={<Credits />} />
 
           <Route path="/app" element={<AppLayout />}>
             <Route index element={<Dashboard />} />

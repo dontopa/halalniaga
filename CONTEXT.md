@@ -4,9 +4,13 @@
 
 HALALNiaga helps small food vendors in Sabah source from suppliers whose halal
 status can be evidenced, learn the handling practices that protect that status,
-and publish a record that customers can inspect at the stall.
+and publish a record that customers can inspect at the stall. The pilot focuses
+on **wet ingredients** — the fresh, fast-moving categories that are hardest to
+trace.
 
-The system is an **ecosystem record**, not a certification authority.
+The system is an **ecosystem record**, not a certification authority. The
+deliverable is a **PWA prototype**: installable, offline-capable, statically
+hosted, with local demo data and no backend.
 
 ## Bounded context
 
@@ -30,6 +34,13 @@ Actors:
 A certificate issued by JAKIM or a recognised state Islamic authority
 (MAIN/JAIN). Represented in the system as a supplier- or product-level record
 with a number, issue date and expiry date. **HALALNiaga never issues one.**
+
+### Wet ingredient
+
+A fresh, perishable category prioritised by the pilot: poultry & meat, seafood,
+produce, and dairy & eggs. Dry goods and sauces are supported in the network but
+are not the pilot focus. Wet ingredients are a first-class supplier filter and
+the default supplier list is sorted nearest-first.
 
 ### Verified source
 
@@ -105,6 +116,10 @@ disclaimer that the record is not a Malaysian halal certificate.
 3. A tier cannot be held if its evidence has expired.
 4. Every public record states the certification boundary in plain language.
 5. Training completion is based on a passing score, not video watch time.
+6. The supplier finder defaults to nearest-first and treats wet ingredients as a
+   first-class filter, not an afterthought.
+7. The application must remain usable offline after the first visit; the service
+   worker caches the shell, while records stay on the device.
 
 ## Naming conventions
 

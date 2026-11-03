@@ -3,6 +3,8 @@
 ## Before you start (2 minutes before class)
 
 1. Open the deployed landing page in one tab and the workspace in a second tab.
+   If possible, install the PWA on your phone before class and open it once
+   while online so the offline cache is ready.
 2. Set browser zoom to 100% and hide bookmarks if possible.
 3. Check that the demo is reset: workspace → sidebar → **Reset demo**.
 4. Have a phone ready with a QR scanner app for the customer-record moment.
@@ -12,10 +14,11 @@
 ## Opening (60 seconds)
 
 **Say:**
-> "My innovation is HALALNiaga. Most small food vendors want to do the right
-> thing, but they cannot prove what they already do. There is no affordable,
-> practical record that connects a stall to its suppliers, its training and its
-> handling practices. HALALNiaga is that record."
+> "My innovation is HALALNiaga. We are a UMS student team, and the brief is
+> simple: help small vendors find nearby halal suppliers — especially for wet
+> ingredients — and prove what they already do. The client asked for a PWA
+> prototype on a limited budget, so this is a working, installable prototype
+> rather than a full backend product."
 
 **Show:** the landing page hero. Point to the disclaimer under the CTA:
 
@@ -39,6 +42,7 @@ Click **Open the demo**. You land on Dapur Kak Nur's overview.
 - Compliance score: 70/100 — it is *not* 100 because monitoring has expired.
 - Alerts: a supplier certificate expiring in 24 days, a lapsed supplier, an
   overdue inspection.
+- The wet-market banner: five nearby sources for the fresh categories.
 - The QR record is live on the right.
 
 **Say:**
@@ -51,6 +55,8 @@ Click **Open the demo**. You land on Dapur Kak Nur's overview.
 Go to **Supplier finder**.
 
 - Show the four status counts: certified, verified, pending, lapsed.
+- Point to the **Wet ingredients** toggle (5 of 8 suppliers) and the
+  **Nearest first** sort. The closest source is 2.1 km away.
 - Open **Tawau Sea Harvest** → its certificate expired nine days ago.
 - Open **Sri Tanjung Poultry** → certified, but expiring in 24 days.
 
@@ -112,15 +118,30 @@ Go to **Verification & QR**. Click **Open record**.
 > inspection dates. And at the bottom: this is not a JAKIM certificate.
 > Transparency without overclaiming."
 
-## 8. Close (60 seconds)
+## 8. The PWA moment (45 seconds)
+
+Scroll to **Install it once** on the landing page.
+
+**Say:**
+> "Because this is a prototype on a student budget, it is a PWA — not an app
+> store submission. I can install it from the browser, and the shell is cached.
+> Let me show you: I will go offline and reopen the workspace."
+
+Install it if the browser allows, or open **How to install**. If you tested
+offline before class, say:
+
+> "The dashboard still opens with the browser offline. Records are stored on the
+> device; when the demo is connected again, the record is still there."
+
+## 9. Close (60 seconds)
 
 Return to the landing page and scroll to **Sabah pilot**.
 
 **Say:**
 > "The pilot starts in Kota Kinabalu with 24 stalls, then Sandakan and Tawau.
 > The three parties are the vendor, the verified supplier and the programme
-> officer. The output is not another directory — it is a maintained record.
-> Thank you."
+> officer. The output is not another directory — it is a maintained record for
+> wet ingredients and the people who sell them. Thank you."
 
 ## Likely questions
 
@@ -148,6 +169,18 @@ Return to the landing page and scroll to **Sabah pilot**.
 > A directory tells you a business exists. HALALNiaga maintains the evidence:
 > training scores, purchase records, assessment findings and inspection dates,
 > and it expires recognition when the evidence expires.
+
+**"Why a PWA and not a native app?"**
+> The brief has a limited budget. A PWA installs from the browser, needs no app
+> store review, runs on a static host, and can cache the shell for weak-signal
+> use at a wet market. The trade-off is that this prototype has no backend, so
+> records are local rather than shared across devices.
+
+**"Why focus on wet ingredients?"**
+> Chicken, fish, vegetables, eggs and milk are bought several times a week and
+> change supplier often. They are the hardest categories to trace and the ones
+> where a stale certificate matters most. The supplier finder filters for them
+> and sorts by distance.
 
 **"What about non-Muslim vendors?"**
 > Participation is based on compliance, not religion. The proposal explicitly

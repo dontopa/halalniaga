@@ -31,7 +31,9 @@ Build a **single-page React application** with:
   eight suppliers, eighteen purchases, six training modules, an assessment and
   two inspections,
 - static hosting on **Cloudflare Pages**, which provides a free
-  `*.pages.dev` domain.
+  `*.pages.dev` domain,
+- an installable PWA layer (web manifest + Workbox service worker) so the app
+  shell remains usable offline at the stall.
 
 The domain layer is framework-free and unit-tested with Vitest, so the rules can
 be lifted into a server-backed version without rewriting the business logic.
@@ -41,7 +43,8 @@ be lifted into a server-backed version without rewriting the business logic.
 **Positive**
 
 - One command builds; hosting is free and globally distributed.
-- The demo works offline after the first load, including the seeded data.
+- The demo works offline after the first load, including the seeded data, and
+  can be installed from the browser without an app store.
 - Domain rules are testable and independent of UI decisions.
 - No secrets, no database, no billing, no personal data.
 

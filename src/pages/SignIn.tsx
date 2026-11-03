@@ -12,6 +12,7 @@ import {
 import { Wordmark } from '@/components/Logo';
 import { Badge, Button, Field, Input } from '@/components/ui';
 import { TierBadge } from '@/components/badges';
+import { images } from '@/lib/images';
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -21,6 +22,16 @@ export const SignIn = () => {
   return (
     <div className="grid min-h-screen bg-ivory lg:grid-cols-[1.05fr_1fr]">
       <aside className="relative hidden overflow-hidden bg-forest-950 p-10 text-ivory lg:flex lg:flex-col lg:justify-between">
+        <img
+          src={images.produce}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-[30%_55%] opacity-25"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-b from-forest-950/85 via-forest-950/90 to-forest-950"
+        />
         <div aria-hidden="true" className="absolute inset-0 opacity-[0.08] pattern-geo" />
         <svg
           aria-hidden="true"
@@ -172,9 +183,14 @@ export const SignIn = () => {
               <Link to="/" className="inline-flex items-center gap-1 text-ink-3 hover:text-forest-700">
                 Back to website <ArrowUpRight className="h-3 w-3" />
               </Link>
-              <Link to="/vendor/dapur-kak-nur" className="text-forest-700 hover:underline">
-                View a customer QR record
-              </Link>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link to="/vendor/dapur-kak-nur" className="text-forest-700 hover:underline">
+                  View a customer QR record
+                </Link>
+                <Link to="/credits" className="text-ink-3 hover:text-forest-700">
+                  Image credits
+                </Link>
+              </div>
             </div>
           </div>
         </div>

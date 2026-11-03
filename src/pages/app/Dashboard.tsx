@@ -49,6 +49,7 @@ import {
 } from '@/domain/compliance';
 import { ASSESSMENT_QUESTIONS, TRAINING_MODULES } from '@/domain/seed';
 import { useApp } from '@/domain/store';
+import { images } from '@/lib/images';
 
 const StatCard = ({
   label,
@@ -265,6 +266,30 @@ export const Dashboard = () => {
           icon={BellRing}
           tone={alerts.length > 0 ? 'clay' : 'forest'}
         />
+      </div>
+
+      <div className="mt-3 flex flex-col gap-3 rounded-2xl border border-forest-200 bg-forest-50 p-3.5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <img
+            src={images.produce}
+            alt=""
+            loading="lazy"
+            className="h-12 w-12 shrink-0 rounded-xl object-cover"
+          />
+          <div>
+            <p className="text-[12px] font-semibold text-ink">Wet-market focus</p>
+            <p className="mt-0.5 text-[10.5px] leading-relaxed text-ink-3">
+              5 nearby suppliers for poultry, meat, seafood, produce, dairy and
+              eggs.
+            </p>
+          </div>
+        </div>
+        <Link
+          to="/app/suppliers?wet=1"
+          className="inline-flex shrink-0 items-center gap-1 text-[11.5px] font-medium text-forest-800 hover:underline"
+        >
+          Browse wet ingredients <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
       </div>
 
       <div className="mt-4 grid gap-4 xl:grid-cols-3">

@@ -27,6 +27,7 @@ import {
 } from '@/domain/compliance';
 import { ASSESSMENT_QUESTIONS, TRAINING_MODULES } from '@/domain/seed';
 import { useApp } from '@/domain/store';
+import { images } from '@/lib/images';
 
 const bandFor = (score: number) => {
   if (score >= 90) return { label: 'Strong', tone: 'success' as const };
@@ -123,6 +124,19 @@ export const PublicVendor = () => {
         >
           <ArrowLeft className="h-3 w-3" /> HALALNiaga programme record
         </Link>
+
+        <div className="relative mt-5 h-[190px] overflow-hidden rounded-2xl border border-line sm:h-[230px]">
+          <img
+            src={images.produce}
+            alt="Fresh vegetables and eggs at a Sabah market"
+            className="h-full w-full object-cover object-[30%_55%]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ivory via-ivory/15 to-forest-950/10" />
+          <div className="absolute bottom-4 left-4 flex flex-wrap items-center gap-2">
+            <Badge tone="forest">Wet-market vendor</Badge>
+            <Badge tone="neutral">Fresh produce · Tanjung Aru</Badge>
+          </div>
+        </div>
 
         <div className="mt-5 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
           <div>
@@ -510,6 +524,9 @@ export const PublicVendor = () => {
               </Link>
               <Link to="/app" className="hover:text-forest-700">
                 Vendor workspace
+              </Link>
+              <Link to="/credits" className="hover:text-forest-700">
+                Image credits
               </Link>
               <a
                 href="https://www.halal.gov.my/"

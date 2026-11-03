@@ -406,7 +406,7 @@ const suppliers: Supplier[] = [
     validUntil: daysAhead(24),
     rating: 4.8,
     reviewCount: 126,
-    tags: ['Fresh daily', 'Halal slaughter evidence', 'Cold chain'],
+    tags: ['Fresh daily', 'Wet market', 'Halal slaughter evidence'],
     accent: '#0f6b52',
   },
   {
@@ -423,7 +423,7 @@ const suppliers: Supplier[] = [
     validUntil: daysAhead(205),
     rating: 4.6,
     reviewCount: 89,
-    tags: ['Beef & mutton', 'Vacuum packed', 'Invoice portal'],
+    tags: ['Beef & mutton', 'Wet market', 'Vacuum packed'],
     accent: '#7a3b2e',
   },
   {
@@ -440,7 +440,7 @@ const suppliers: Supplier[] = [
     validUntil: daysAhead(95),
     rating: 4.7,
     reviewCount: 211,
-    tags: ['Market-direct', 'Daily harvest', 'No preservatives'],
+    tags: ['Market-direct', 'Wet market', 'Daily harvest'],
     accent: '#3f7d20',
   },
   {
@@ -457,7 +457,7 @@ const suppliers: Supplier[] = [
     validUntil: daysAhead(320),
     rating: 4.5,
     reviewCount: 74,
-    tags: ['Grade A eggs', 'Chilled delivery', 'Halal certified'],
+    tags: ['Grade A eggs', 'Wet market', 'Chilled delivery'],
     accent: '#b07d2b',
   },
   {
@@ -508,7 +508,7 @@ const suppliers: Supplier[] = [
     validUntil: daysAgo(9),
     rating: 4.2,
     reviewCount: 31,
-    tags: ['Frozen seafood', 'Bulk supply'],
+    tags: ['Frozen seafood', 'Wet market', 'Bulk supply'],
     accent: '#1c5f7a',
   },
   {

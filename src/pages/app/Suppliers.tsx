@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   AlertTriangle,
   ArrowUpRight,
   Bookmark,
   BookmarkCheck,
   Check,
+  Droplets,
   MapPin,
   Package,
   PackagePlus,
@@ -30,6 +32,7 @@ import { daysUntil, formatDate } from '@/domain/compliance';
 import { useApp } from '@/domain/store';
 import type { HalalStatus, Supplier, SupplierCategory } from '@/domain/types';
 import { cn } from '@/lib/cn';
+import { supplierImage } from '@/lib/images';
 
 const categories: Array<SupplierCategory | 'All categories'> = [
   'All categories',
@@ -49,6 +52,16 @@ const statusFilters: Array<{ value: HalalStatus | 'all'; label: string }> = [
   { value: 'expired', label: 'Lapsed' },
 ];
 
+const wetCategories: SupplierCategory[] = [
+  'Poultry & meat',
+  'Seafood',
+  'Produce',
+  'Dairy & eggs',
+];
+
+const isWet = (supplier: Supplier) =>
+  supplier.categories.some((category) => wetCategories.includes(category));
+
 const expiryTone = (supplier: Supplier) => {
   if (!supplier.validUntil) return 'text-ink-3';
   const days = daysUntil(supplier.validUntil, new Date()) ?? 0;
@@ -59,12 +72,15 @@ const expiryTone = (supplier: Supplier) => {
 
 export const Suppliers = () => {
   const { state, toggleSavedSupplier } = useApp();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [area, setArea] = useState('All areas');
   const [category, setCategory] = useState<SupplierCategory | 'All categories'>(
     'All categories',
   );
   const [status, setStatus] = useState<HalalStatus | 'all'>('all');
+  const [wetOnly, setWetOnly] = useState(searchParams.get('wet') === '1');
+  const [sortBy, setSortBy] = useState<'nearest' | 'rating' | 'name'>('nearest');
   const [selected, setSelected] = useState<Supplier | null>(null);
   const [purchaseOpen, setPurchaseOpen] = useState(false);
   const [purchaseSupplier, setPurchaseSupplier] = useState<string | undefined>();
@@ -90,9 +106,35 @@ export const Suppliers = () => {
       const matchesCategory =
         category === 'All categories' || supplier.categories.includes(category);
       const matchesStatus = status === 'all' || supplier.status === status;
-      return matchesQuery && matchesArea && matchesCategory && matchesStatus;
+      const matchesWet = !wetOnly || isWet(supplier);
+      return (
+        matchesQuery &&
+        matchesArea &&
+        matchesCategory &&
+        matchesStatus &&
+        matchesWet
+      );
     });
-  }, [state.suppliers, state.products, query, area, category, status]);
+  }, [state.suppliers, state.products, query, area, category, status, wetOnly]);
+
+  const sorted = useMemo(() => {
+    const list = [...filtered];
+    if (sortBy === 'nearest') list.sort((a, b) => a.distanceKm - b.distanceKm);
+    else if (sortBy === 'rating') list.sort((a, b) => b.rating - a.rating);
+    else list.sort((a, b) => a.name.localeCompare(b.name));
+    return list;
+  }, [filtered, sortBy]);
+
+  const wetCount = state.suppliers.filter(isWet).length;
+
+  const toggleWet = () => {
+    const next = !wetOnly;
+    setWetOnly(next);
+    const params = new URLSearchParams(searchParams);
+    if (next) params.set('wet', '1');
+    else params.delete('wet');
+    setSearchParams(params, { replace: true });
+  };
 
   const saved = state.suppliers.filter((supplier) =>
     state.savedSupplierIds.includes(supplier.id),
@@ -112,7 +154,7 @@ export const Suppliers = () => {
       <PageHeader
         eyebrow="Module 01 · Supplier finder"
         title="Find a source you can stand behind."
-        description="Search by area, category or product. Certification status is shown at product level, because a supplier’s company certificate does not automatically cover every item it sells."
+        description="Search nearby suppliers of fresh wet ingredients — poultry, meat, seafood, produce, dairy and eggs — or broaden to dry goods. Certification status is shown at product level, because a company certificate does not automatically cover every item it sells."
         actions={
           <Button size="sm" onClick={() => { setPurchaseSupplier(undefined); setPurchaseOpen(true); }}>
             <PackagePlus className="h-3.5 w-3.5" /> Record purchase
@@ -168,26 +210,44 @@ export const Suppliers = () => {
               ))}
             </Select>
           </Field>
-          <Field label="Status" htmlFor="filter-status" className="[&>label]:sr-only">
+          <Field label="Sort" htmlFor="filter-sort" className="[&>label]:sr-only">
             <Select
-              id="filter-status"
-              value={status}
-              onChange={(event) => setStatus(event.target.value as HalalStatus | 'all')}
+              id="filter-sort"
+              value={sortBy}
+              onChange={(event) =>
+                setSortBy(event.target.value as 'nearest' | 'rating' | 'name')
+              }
             >
-              {statusFilters.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
+              <option value="nearest">Nearest first</option>
+              <option value="rating">Highest rated</option>
+              <option value="name">Name A–Z</option>
             </Select>
           </Field>
         </div>
         <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-line-soft pt-3">
-          <p className="text-[11px] text-ink-3">
-            <span className="font-medium text-ink">{filtered.length}</span> of{' '}
-            {state.suppliers.length} suppliers
-          </p>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <button
+              type="button"
+              onClick={toggleWet}
+              aria-pressed={wetOnly}
+              className={cn(
+                'inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10.5px] font-medium transition-colors',
+                wetOnly
+                  ? 'border-forest-800 bg-forest-800 text-ivory'
+                  : 'border-forest-200 bg-forest-50 text-forest-800 hover:border-forest-300',
+              )}
+            >
+              <Droplets className="h-3 w-3" />
+              Wet ingredients
+              <span
+                className={cn(
+                  'rounded-full px-1.5 py-0.5 font-mono text-[9px]',
+                  wetOnly ? 'bg-ivory/15' : 'bg-paper',
+                )}
+              >
+                {wetCount}
+              </span>
+            </button>
             {statusFilters.map((option) => (
               <button
                 key={option.value}
@@ -204,10 +264,14 @@ export const Suppliers = () => {
               </button>
             ))}
           </div>
+          <p className="text-[11px] text-ink-3">
+            <span className="font-medium text-ink">{sorted.length}</span> of{' '}
+            {state.suppliers.length} suppliers
+          </p>
         </div>
       </Card>
 
-      {filtered.length === 0 ? (
+      {sorted.length === 0 ? (
         <EmptyState
           icon={<Store className="h-5 w-5" />}
           title="No suppliers match this search"
@@ -215,7 +279,7 @@ export const Suppliers = () => {
         />
       ) : (
         <div className="grid gap-3 md:grid-cols-2">
-          {filtered.map((supplier) => {
+          {sorted.map((supplier) => {
             const isSaved = state.savedSupplierIds.includes(supplier.id);
             const productCount = state.products.filter(
               (product) => product.supplierId === supplier.id,
@@ -223,15 +287,18 @@ export const Suppliers = () => {
             return (
               <Card key={supplier.id} className="flex flex-col p-5">
                 <div className="flex items-start gap-3">
-                  <div
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl font-display text-[15px]"
-                    style={{ backgroundColor: `${supplier.accent}16`, color: supplier.accent }}
-                  >
-                    {supplier.shortName
-                      .split(' ')
-                      .map((word) => word[0])
-                      .join('')
-                      .slice(0, 2)}
+                  <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-line">
+                    <img
+                      src={supplierImage(supplier.categories)}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    {isWet(supplier) && (
+                      <span className="absolute right-0.5 top-0.5 rounded-full bg-paper/90 p-0.5 text-forest-700">
+                        <Droplets className="h-2.5 w-2.5" />
+                      </span>
+                    )}
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
@@ -251,8 +318,13 @@ export const Suppliers = () => {
                         )}
                       </button>
                     </div>
-                    <p className="mt-1 flex items-center gap-1 text-[11px] text-ink-3">
+                    <p className="mt-1 flex flex-wrap items-center gap-1 text-[11px] text-ink-3">
                       <MapPin className="h-3 w-3" /> {supplier.area} · {supplier.distanceKm} km
+                      {supplier.distanceKm <= 5 && (
+                        <span className="rounded-full border border-forest-200 bg-forest-50 px-1.5 py-0.5 text-[8.5px] text-forest-700">
+                          Nearby
+                        </span>
+                      )}
                     </p>
                     <div className="mt-2">
                       <StatusBadge status={supplier.status} />

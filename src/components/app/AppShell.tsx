@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   Bell,
   ClipboardCheck,
+  Download,
   GraduationCap,
   LayoutDashboard,
   LifeBuoy,
@@ -20,6 +21,7 @@ import {
 import { Wordmark } from '@/components/Logo';
 import { TierBadge } from '@/components/badges';
 import { Badge, Progress } from '@/components/ui';
+import { openInstallHelp } from '@/components/pwa/PwaExperience';
 import { ASSESSMENT_QUESTIONS } from '@/domain/seed';
 import { deriveAlerts, getCompliance } from '@/domain/compliance';
 import { useApp } from '@/domain/store';
@@ -189,6 +191,13 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
         </div>
         <div className="space-y-3 border-t border-line-soft p-4">
           <VendorCard />
+          <button
+            type="button"
+            onClick={openInstallHelp}
+            className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-line bg-paper px-3 py-2 text-[11.5px] text-ink-2 transition-colors hover:border-forest-200 hover:bg-forest-50 hover:text-forest-800"
+          >
+            <Download className="h-3.5 w-3.5" /> Install app
+          </button>
           <div className="flex items-center justify-between gap-2 px-1">
             <Link
               to="/"
@@ -237,6 +246,13 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
             </div>
             <div className="space-y-3 border-t border-line-soft p-4">
               <VendorCard />
+              <button
+                type="button"
+                onClick={openInstallHelp}
+                className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-line bg-paper px-3 py-2 text-[11.5px] text-ink-2 transition-colors hover:border-forest-200 hover:bg-forest-50 hover:text-forest-800"
+              >
+                <Download className="h-3.5 w-3.5" /> Install app
+              </button>
               <button
                 type="button"
                 onClick={resetDemo}
