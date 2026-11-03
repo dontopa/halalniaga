@@ -21,6 +21,7 @@ import { PageHeader, ScoreRing, Toast, useToast } from '@/components/app/shared'
 import { TRAINING_MODULES } from '@/domain/seed';
 import { useApp } from '@/domain/store';
 import type { TrainingModule } from '@/domain/types';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 const PASS_MARK = 80;
@@ -28,6 +29,7 @@ const PASS_MARK = 80;
 export const Academy = () => {
   const { state, completeQuiz } = useApp();
   const { toast, show, clear } = useToast();
+  const t = useT();
   const [selectedId, setSelectedId] = useState(
     () =>
       TRAINING_MODULES.find(
@@ -88,11 +90,17 @@ export const Academy = () => {
     completeQuiz(quizModule.id, nextScore);
     if (nextScore >= PASS_MARK) {
       show(
-        `${quizModule.title} completed with ${nextScore}%. Your training record has been updated.`,
+        t('{title} completed with {score}%. Your training record has been updated.', {
+          title: t(quizModule.title),
+          score: nextScore,
+        }),
       );
     } else {
       show(
-        `Score ${nextScore}% — the pass mark is ${PASS_MARK}%. Review the explanations and try again.`,
+        t('Score {score}% — the pass mark is {pass}%. Review the explanations and try again.', {
+          score: nextScore,
+          pass: PASS_MARK,
+        }),
         'warning',
       );
     }
@@ -101,26 +109,32 @@ export const Academy = () => {
   return (
     <>
       <PageHeader
-        eyebrow="Module 02 · Halal education & training"
-        title="Learn the detail that protects the dish."
-        description="Six short modules built around the decisions a small vendor makes every day. Each ends with a scored quiz; the pass mark is 80%."
+        eyebrow={t('Module 02 · Halal education & training')}
+        title={t('Learn the detail that protects the dish.')}
+        description={t('Six short modules built around the decisions a small vendor makes every day. Each ends with a scored quiz; the pass mark is 80%.')}
         actions={
           <Badge tone="forest">
-            {completedCount} of {TRAINING_MODULES.length} complete
+            {t('{done} of {total} complete', {
+              done: completedCount,
+              total: TRAINING_MODULES.length,
+            })}
           </Badge>
         }
       />
 
       <div className="mb-4 grid gap-3 sm:grid-cols-3">
         <Card className="flex items-center gap-4 p-5">
-          <ScoreRing score={averageScore} size={96} label="Average" tone={averageScore >= PASS_MARK ? 'forest' : 'gold'} />
+          <ScoreRing score={averageScore} size={96} label={t('Average')} tone={averageScore >= PASS_MARK ? 'forest' : 'gold'} />
           <div>
-            <p className="text-[12px] font-semibold text-ink">Training average</p>
+            <p className="text-[12px] font-semibold text-ink">{t('Training average')}</p>
             <p className="mt-1 text-[11px] leading-relaxed text-ink-3">
-              Best score across all six modules.
+              {t('Best score across all six modules.')}
             </p>
             <p className="mt-2 font-mono text-[10px] text-ink-3">
-              {completedCount}/{TRAINING_MODULES.length} passed
+              {t('{done}/{total} passed', {
+                done: completedCount,
+                total: TRAINING_MODULES.length,
+              })}
             </p>
           </div>
         </Card>
@@ -128,7 +142,7 @@ export const Academy = () => {
           <div className="flex items-center gap-2">
             <Clock3 className="h-4 w-4 text-forest-700" />
             <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-              Total learning time
+              {t('Total learning time')}
             </p>
           </div>
           <p className="mt-3 font-display text-3xl tracking-[-0.03em] text-ink">
@@ -136,7 +150,7 @@ export const Academy = () => {
             <span className="ml-1 text-base text-ink-3">min</span>
           </p>
           <p className="mt-1 text-[11px] leading-relaxed text-ink-3">
-            Designed in short blocks that fit between prep and service.
+            {t('Designed in short blocks that fit between prep and service.')}
           </p>
           <Progress value={100} className="mt-3 h-1" />
         </Card>
@@ -144,15 +158,14 @@ export const Academy = () => {
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-gold-600" />
             <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-              Recognition
+              {t('Recognition')}
             </p>
           </div>
           <p className="mt-3 text-[13px] font-semibold leading-snug text-ink">
-            Complete all six modules with 80%+ to qualify for the Learner tier.
+            {t('Complete all six modules with 80%+ to qualify for the Learner tier.')}
           </p>
           <p className="mt-2 text-[11px] leading-relaxed text-ink-3">
-            Your completion record is attached to the vendor QR profile and
-            reviewed during inspection.
+            {t('Your completion record is attached to the vendor QR profile and reviewed during inspection.')}
           </p>
         </Card>
       </div>
@@ -160,8 +173,8 @@ export const Academy = () => {
       <div className="grid gap-4 lg:grid-cols-[1fr_0.85fr]">
         <Card className="overflow-hidden">
           <CardHeader
-            title="Course modules"
-            description="Work through the list in order, or revisit any module at any time."
+            title={t('Course modules')}
+            description={t('Work through the list in order, or revisit any module at any time.')}
           />
           <ul className="divide-y divide-line-soft">
             {TRAINING_MODULES.map((module, index) => {
@@ -191,26 +204,26 @@ export const Academy = () => {
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <p className="text-[13px] font-semibold text-ink">
-                          {module.title}
+                          {t(module.title)}
                         </p>
                         <span className="font-mono text-[9.5px] text-ink-3">
                           {module.durationMin} min
                         </span>
                       </div>
                       <p className="mt-1 line-clamp-1 text-[11.5px] text-ink-3">
-                        {module.summary}
+                        {t(module.summary)}
                       </p>
                       <div className="mt-2 flex items-center gap-2">
                         {complete ? (
                           <Badge tone="success" dot>
-                            Passed · {progress?.bestScore}%
+                            {t('Passed · {score}%', { score: progress?.bestScore ?? 0 })}
                           </Badge>
                         ) : progress?.attempts ? (
                           <Badge tone="warning" dot>
-                            Attempted · {progress.bestScore}%
+                            {t('Attempted · {score}%', { score: progress.bestScore ?? 0 })}
                           </Badge>
                         ) : (
-                          <Badge tone="neutral">Not started</Badge>
+                          <Badge tone="neutral">{t('Not started')}</Badge>
                         )}
                         <div className="h-1 w-20 overflow-hidden rounded-full bg-sand">
                           <div
@@ -232,28 +245,28 @@ export const Academy = () => {
             <div className="bg-forest-800 px-5 py-5 text-ivory">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-gold-300">
-                  Module {String(selected.order).padStart(2, '0')}
+                  {t('Module {number}', { number: String(selected.order).padStart(2, '0') })}
                 </span>
                 {isComplete(selected.id) ? (
                   <Badge tone="success" dot>
-                    Completed
+                    {t('Completed')}
                   </Badge>
                 ) : (
-                  <Badge tone="gold">In progress</Badge>
+                  <Badge tone="gold">{t('In progress')}</Badge>
                 )}
               </div>
               <h3 className="mt-3 font-display text-xl leading-snug tracking-[-0.02em]">
-                {selected.title}
+                {t(selected.title)}
               </h3>
               <p className="mt-2 text-[12px] leading-relaxed text-ivory/65">
-                {selected.summary}
+                {t(selected.summary)}
               </p>
               <div className="mt-4 flex items-center gap-4 text-[10.5px] text-ivory/60">
                 <span className="inline-flex items-center gap-1.5">
                   <Clock3 className="h-3.5 w-3.5" /> {selected.durationMin} min
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <BookOpen className="h-3.5 w-3.5" /> {selected.quiz.length} questions
+                  <BookOpen className="h-3.5 w-3.5" /> {t('{count} questions', { count: selected.quiz.length })}
                 </span>
               </div>
             </div>
@@ -261,13 +274,13 @@ export const Academy = () => {
             <div className="space-y-4 p-5">
               <div>
                 <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-                  What you will cover
+                  {t('What you will cover')}
                 </p>
                 <ul className="mt-2 space-y-1.5">
                   {selected.topics.map((topic) => (
                     <li key={topic} className="flex items-start gap-2 text-[11.5px] text-ink-2">
                       <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-600" />
-                      {topic}
+                      {t(topic)}
                     </li>
                   ))}
                 </ul>
@@ -275,30 +288,29 @@ export const Academy = () => {
 
               <div className="rounded-xl border border-line bg-sand/40 p-3">
                 <div className="flex items-center justify-between text-[10.5px] text-ink-3">
-                  <span>Best quiz score</span>
+                  <span>{t('Best quiz score')}</span>
                   <span className="font-mono text-ink">
                     {selectedProgress?.bestScore != null ? `${selectedProgress.bestScore}%` : '—'}
                   </span>
                 </div>
                 <div className="mt-1.5 flex items-center justify-between text-[10.5px] text-ink-3">
-                  <span>Attempts</span>
+                  <span>{t('Attempts')}</span>
                   <span className="font-mono text-ink">
                     {selectedProgress?.attempts ?? 0}
                   </span>
                 </div>
                 <div className="mt-1.5 flex items-center justify-between text-[10.5px] text-ink-3">
-                  <span>Pass mark</span>
+                  <span>{t('Pass mark')}</span>
                   <span className="font-mono text-ink">{PASS_MARK}%</span>
                 </div>
               </div>
 
               <Button className="w-full" onClick={() => openQuiz(selected)}>
                 <PlayCircle className="h-4 w-4" />
-                {isComplete(selected.id) ? 'Retake the quiz' : 'Start the quiz'}
+                {isComplete(selected.id) ? t('Retake the quiz') : t('Start the quiz')}
               </Button>
               <p className="text-center text-[9.5px] leading-relaxed text-ink-3">
-                The quiz is a learning check, not a professional certification.
-                Completion is recorded in your programme profile.
+                {t('The quiz is a learning check, not a professional certification. Completion is recorded in your programme profile.')}
               </p>
             </div>
           </Card>
@@ -308,11 +320,14 @@ export const Academy = () => {
       <Modal
         open={Boolean(quizModule)}
         onClose={() => setQuizModule(null)}
-        title={quizModule ? `Quiz · ${quizModule.title}` : 'Quiz'}
+        title={quizModule ? t('Quiz · {title}', { title: t(quizModule.title) }) : t('Quiz')}
         description={
           submitted
-            ? `Score ${score}% · pass mark ${PASS_MARK}%`
-            : `${quizModule?.quiz.length ?? 0} questions · pass mark ${PASS_MARK}%`
+            ? t('Score {score}% · pass mark {pass}%', { score, pass: PASS_MARK })
+            : t('{count} questions · pass mark {pass}%', {
+                count: quizModule?.quiz.length ?? 0,
+                pass: PASS_MARK,
+              })
         }
         size="lg"
         footer={
@@ -327,17 +342,17 @@ export const Academy = () => {
                     setScore(0);
                   }}
                 >
-                  <RotateCcw className="h-4 w-4" /> Retake
+                  <RotateCcw className="h-4 w-4" /> {t('Retake')}
                 </Button>
-                <Button onClick={() => setQuizModule(null)}>Done</Button>
+                <Button onClick={() => setQuizModule(null)}>{t('Done')}</Button>
               </>
             ) : (
               <>
                 <Button variant="ghost" onClick={() => setQuizModule(null)}>
-                  Cancel
+                  {t('Cancel')}
                 </Button>
                 <Button onClick={submitQuiz} disabled={!allAnswered}>
-                  Submit answers
+                  {t('Submit answers')}
                 </Button>
               </>
             )
@@ -358,17 +373,19 @@ export const Academy = () => {
                 <ScoreRing
                   score={score}
                   size={96}
-                  label="Score"
+                  label={t('Score')}
                   tone={score >= PASS_MARK ? 'forest' : 'gold'}
                 />
                 <div>
                   <p className="text-[14px] font-semibold text-ink">
-                    {score >= PASS_MARK ? 'Module passed' : 'Not passed yet'}
+                    {score >= PASS_MARK ? t('Module passed') : t('Not passed yet')}
                   </p>
                   <p className="mt-1 text-[11.5px] leading-relaxed text-ink-2">
                     {score >= PASS_MARK
-                      ? 'Your best score has been saved to the training record.'
-                      : `You need ${PASS_MARK}% to pass. Read the explanations below, then retake the quiz.`}
+                      ? t('Your best score has been saved to the training record.')
+                      : t('You need {pass}% to pass. Read the explanations below, then retake the quiz.', {
+                          pass: PASS_MARK,
+                        })}
                   </p>
                 </div>
               </div>
@@ -383,7 +400,7 @@ export const Academy = () => {
                     <span className="mr-2 font-mono text-[10px] text-ink-3">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    {question.prompt}
+                    {t(question.prompt)}
                   </p>
                   <div className="mt-3 space-y-1.5">
                     {question.options.map((option, optionIndex) => {
@@ -414,7 +431,7 @@ export const Academy = () => {
                             disabled={submitted}
                             className="mt-0.5 h-3.5 w-3.5 accent-forest-700"
                           />
-                          <span className="text-ink-2">{option}</span>
+                          <span className="text-ink-2">{t(option)}</span>
                         </label>
                       );
                     })}
@@ -429,9 +446,13 @@ export const Academy = () => {
                       )}
                     >
                       <p className="font-medium">
-                        {correct ? 'Correct.' : `The correct answer is: ${question.options[question.answer]}`}
+                        {correct
+                          ? t('Correct.')
+                          : t('The correct answer is: {answer}', {
+                              answer: t(question.options[question.answer]),
+                            })}
                       </p>
-                      <p className="mt-1">{question.explanation}</p>
+                      <p className="mt-1">{t(question.explanation)}</p>
                     </div>
                   )}
                 </div>
@@ -441,7 +462,7 @@ export const Academy = () => {
             {!submitted && (
               <p className="flex items-center gap-1.5 text-[10.5px] text-ink-3">
                 <Circle className="h-3 w-3" />
-                Answer every question to enable submission.
+                {t('Answer every question to enable submission.')}
               </p>
             )}
           </div>

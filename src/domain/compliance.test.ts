@@ -12,6 +12,10 @@ import {
   daysAhead,
 } from './seed';
 import type { AppState, AssessmentValue } from './types';
+import { setActiveLang } from '@/i18n/lang';
+
+// These tests assert the English copy; the app defaults to Malay in the UI.
+setActiveLang('en');
 
 const today = new Date();
 

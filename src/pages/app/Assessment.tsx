@@ -27,6 +27,7 @@ import {
 import { ASSESSMENT_QUESTIONS } from '@/domain/seed';
 import { useApp } from '@/domain/store';
 import type { AssessmentValue } from '@/domain/types';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 const options: Array<{ value: AssessmentValue; label: string; hint: string }> = [
@@ -46,6 +47,7 @@ const bandFor = (score: number) => {
 export const Assessment = () => {
   const { state, submitAssessment } = useApp();
   const { toast, show, clear } = useToast();
+  const t = useT();
   const latest = latestAssessment(state.assessments);
   const [answers, setAnswers] = useState<Record<string, AssessmentValue>>(
     () => latest?.answers ?? {},
@@ -82,22 +84,24 @@ export const Assessment = () => {
     const score = submitAssessment(answers);
     setResult(score);
     setResultOpen(true);
-    show(`Self-assessment recorded at ${score}%.`);
+    show(t('Self-assessment recorded at {score}%.', { score }));
   };
 
   return (
     <>
       <PageHeader
-        eyebrow="Module 04 · Halal self-assessment"
-        title="Check the controls before someone else does."
-        description="Eight weighted questions, repeated on a 90-day cycle. The assessment is designed to surface the weakest control and give you a specific correction — not just a score."
+        eyebrow={t('Module 04 · Halal self-assessment')}
+        title={t('Check the controls before someone else does.')}
+        description={t('Eight weighted questions, repeated on a 90-day cycle. The assessment is designed to surface the weakest control and give you a specific correction — not just a score.')}
         actions={
           <Badge tone={dueSoon ? 'warning' : 'success'} dot>
             {age === null
-              ? 'Not yet completed'
+              ? t('Not yet completed')
               : dueSoon
-                ? `Renewal due · ${Math.max(ASSESSMENT_VALID_DAYS - age, 0)} days left`
-                : `Current · ${ASSESSMENT_VALID_DAYS - age} days left`}
+                ? t('Renewal due · {count} days left', {
+                    count: Math.max(ASSESSMENT_VALID_DAYS - age, 0),
+                  })
+                : t('Current · {count} days left', { count: ASSESSMENT_VALID_DAYS - age })}
           </Badge>
         }
       />
@@ -108,9 +112,7 @@ export const Assessment = () => {
             <div className="flex items-start gap-3">
               <Info className="mt-0.5 h-4 w-4 shrink-0 text-forest-700" />
               <p className="text-[11.5px] leading-relaxed text-ink-2">
-                Answer for the last 30 days, not for an ideal week. A “No” is
-                useful information: it tells the programme where to help. Critical
-                controls carry extra weight and cap the score at 55% if failed.
+                {t('Answer for the last 30 days, not for an ideal week. A “No” is useful information: it tells the programme where to help. Critical controls carry extra weight and cap the score at 55% if failed.')}
               </p>
             </div>
           </Card>
@@ -124,21 +126,21 @@ export const Assessment = () => {
                   </span>
                   <div>
                     <p className="text-[13px] font-medium leading-relaxed text-ink">
-                      {question.prompt}
+                      {t(question.prompt)}
                     </p>
                     <p className="mt-1 text-[11px] leading-relaxed text-ink-3">
-                      {question.help}
+                      {t(question.help)}
                     </p>
                   </div>
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-1">
                   {question.critical && (
                     <Badge tone="danger">
-                      <ShieldAlert className="h-3 w-3" /> Critical
+                      <ShieldAlert className="h-3 w-3" /> {t('Critical')}
                     </Badge>
                   )}
                   <span className="font-mono text-[9px] text-ink-3">
-                    weight {question.weight}
+                    {t('weight {weight}', { weight: question.weight })}
                   </span>
                 </div>
               </div>
@@ -166,10 +168,10 @@ export const Assessment = () => {
                       )}
                     >
                       <p className="text-[11.5px] font-medium text-ink">
-                        {option.label}
+                        {t(option.label)}
                       </p>
                       <p className="mt-0.5 text-[9.5px] leading-snug text-ink-3">
-                        {option.hint}
+                        {t(option.hint)}
                       </p>
                     </button>
                   );
@@ -180,7 +182,10 @@ export const Assessment = () => {
 
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-paper p-4">
             <p className="text-[11px] text-ink-3">
-              {answeredCount} of {ASSESSMENT_QUESTIONS.length} answered
+              {t('{answered} of {total} answered', {
+                answered: answeredCount,
+                total: ASSESSMENT_QUESTIONS.length,
+              })}
             </p>
             <div className="flex gap-2">
               <Button
@@ -188,13 +193,13 @@ export const Assessment = () => {
                 size="sm"
                 onClick={() => {
                   setAnswers(latest?.answers ?? {});
-                  show('Answers reset to the last recorded assessment.', 'info');
+                  show(t('Answers reset to the last recorded assessment.'), 'info');
                 }}
               >
-                <RotateCcw className="h-3.5 w-3.5" /> Reset
+                <RotateCcw className="h-3.5 w-3.5" /> {t('Reset')}
               </Button>
               <Button size="sm" onClick={handleSubmit} disabled={!complete}>
-                <ClipboardCheck className="h-3.5 w-3.5" /> Submit assessment
+                <ClipboardCheck className="h-3.5 w-3.5" /> {t('Submit assessment')}
               </Button>
             </div>
           </div>
@@ -203,33 +208,33 @@ export const Assessment = () => {
         <div className="space-y-4 lg:sticky lg:top-24 lg:self-start">
           <Card className="p-5">
             <p className="font-mono text-[9.5px] uppercase tracking-[0.15em] text-ink-3">
-              Live score preview
+              {t('Live score preview')}
             </p>
             <div className="mt-4 flex items-center gap-4">
               <ScoreRing
                 score={preview}
                 size={112}
-                label="Projected"
+                label={t('Projected')}
                 tone={preview >= 80 ? 'forest' : preview >= 60 ? 'gold' : 'clay'}
               />
               <div>
-                <Badge tone={band.tone}>{band.label}</Badge>
+                <Badge tone={band.tone}>{t(band.label)}</Badge>
                 <p className="mt-2 text-[11px] leading-relaxed text-ink-3">
                   {preview >= 80
-                    ? 'This would satisfy the self-assessment requirement.'
-                    : 'A score of 80% or higher is required for the Verified tier.'}
+                    ? t('This would satisfy the self-assessment requirement.')
+                    : t('A score of 80% or higher is required for the Verified tier.')}
                 </p>
               </div>
             </div>
             <div className="mt-4 space-y-2 border-t border-line-soft pt-3">
               <div className="flex items-center justify-between text-[10.5px] text-ink-3">
-                <span>Questions answered</span>
+                <span>{t('Questions answered')}</span>
                 <span className="font-mono text-ink">
                   {answeredCount}/{ASSESSMENT_QUESTIONS.length}
                 </span>
               </div>
               <div className="flex items-center justify-between text-[10.5px] text-ink-3">
-                <span>Critical controls failed</span>
+                <span>{t('Critical controls failed')}</span>
                 <span className={cn('font-mono', criticalFailures.length ? 'text-danger' : 'text-forest-700')}>
                   {criticalFailures.length}
                 </span>
@@ -239,23 +244,25 @@ export const Assessment = () => {
             {criticalFailures.length > 0 && (
               <div className="mt-3 flex items-start gap-2 rounded-xl border border-danger/20 bg-danger-soft/60 p-3 text-[10.5px] leading-relaxed text-ink-2">
                 <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-danger" />
-                Fix the critical control before submitting: {criticalFailures.map((q) => q.prompt).join(' ')}
+                {t('Fix the critical control before submitting: {prompts}', {
+                  prompts: criticalFailures.map((q) => t(q.prompt)).join(' '),
+                })}
               </div>
             )}
           </Card>
 
           {weakControls.length > 0 && (
             <Card>
-              <CardHeader title="Corrective actions" description="Suggested next steps based on this draft." />
+              <CardHeader title={t('Corrective actions')} description={t('Suggested next steps based on this draft.')} />
               <ul className="space-y-2.5 p-4">
                 {weakControls.slice(0, 4).map((question) => (
                   <li key={question.id} className="flex items-start gap-2 text-[10.5px] leading-relaxed text-ink-2">
                     <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />
                     <span>
                       <strong className="font-medium text-ink">
-                        {answers[question.id] === 'no' ? 'Not in place: ' : 'Partly in place: '}
+                        {answers[question.id] === 'no' ? t('Not in place: ') : t('Partly in place: ')}
                       </strong>
-                      {question.help}
+                      {t(question.help)}
                     </span>
                   </li>
                 ))}
@@ -264,7 +271,7 @@ export const Assessment = () => {
           )}
 
           <Card>
-            <CardHeader title="Assessment history" />
+            <CardHeader title={t('Assessment history')} />
             <div className="divide-y divide-line-soft">
               {[...state.assessments]
                 .sort(
@@ -276,7 +283,7 @@ export const Assessment = () => {
                   <div key={record.id} className="flex items-center justify-between gap-3 px-4 py-3">
                     <div>
                       <p className="text-[11.5px] font-medium text-ink">
-                        {index === 0 ? 'Latest assessment' : 'Previous assessment'}
+                        {index === 0 ? t('Latest assessment') : t('Previous assessment')}
                       </p>
                       <p className="mt-0.5 flex items-center gap-1 text-[9.5px] text-ink-3">
                         <Clock3 className="h-3 w-3" /> {formatDate(record.completedAt)}
@@ -289,7 +296,7 @@ export const Assessment = () => {
                 ))}
               {state.assessments.length === 0 && (
                 <p className="px-4 py-5 text-[11.5px] text-ink-3">
-                  No assessments recorded yet.
+                  {t('No assessments recorded yet.')}
                 </p>
               )}
             </div>
@@ -297,8 +304,7 @@ export const Assessment = () => {
 
           <div className="flex items-start gap-2 rounded-xl border border-line bg-sand/40 p-3.5 text-[10px] leading-relaxed text-ink-3">
             <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-700" />
-            The self-assessment is a programme tool. It does not replace an
-            official inspection by JAKIM or a state Islamic authority.
+            {t('The self-assessment is a programme tool. It does not replace an official inspection by JAKIM or a state Islamic authority.')}
           </div>
         </div>
       </div>
@@ -306,14 +312,17 @@ export const Assessment = () => {
       <Modal
         open={resultOpen}
         onClose={() => setResultOpen(false)}
-        title="Self-assessment recorded"
-        description={`Saved to ${state.vendor.name} · ${formatDate(new Date().toISOString())}`}
+        title={t('Self-assessment recorded')}
+        description={t('Saved to {vendor} · {date}', {
+          vendor: state.vendor.name,
+          date: formatDate(new Date().toISOString()),
+        })}
         footer={
           <>
             <Button variant="secondary" onClick={() => setResultOpen(false)}>
-              Close
+              {t('Close')}
             </Button>
-            <Button onClick={() => setResultOpen(false)}>Continue</Button>
+            <Button onClick={() => setResultOpen(false)}>{t('Continue')}</Button>
           </>
         }
       >
@@ -323,36 +332,37 @@ export const Assessment = () => {
               <ScoreRing
                 score={result}
                 size={110}
-                label="Recorded"
+                label={t('Recorded')}
                 tone={result >= 80 ? 'forest' : 'gold'}
               />
               <div>
-                <Badge tone={bandFor(result).tone}>{bandFor(result).label}</Badge>
+                <Badge tone={bandFor(result).tone}>{t(bandFor(result).label)}</Badge>
                 <p className="mt-2 text-[12px] leading-relaxed text-ink-2">
                   {result >= 80
-                    ? 'Your assessment meets the programme threshold. Keep the corrective actions below on your prep list.'
-                    : 'Below the 80% threshold. Address the weak controls and re-run the assessment when they are in place.'}
+                    ? t('Your assessment meets the programme threshold. Keep the corrective actions below on your prep list.')
+                    : t('Below the 80% threshold. Address the weak controls and re-run the assessment when they are in place.')}
                 </p>
               </div>
             </div>
             {weakControls.length > 0 && (
               <div>
                 <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-                  Recommended corrections
+                  {t('Recommended corrections')}
                 </p>
                 <ul className="mt-2 space-y-1.5">
                   {weakControls.map((question) => (
                     <li key={question.id} className="flex items-start gap-2 text-[11px] leading-relaxed text-ink-2">
                       <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />
-                      {question.help}
+                      {t(question.help)}
                     </li>
                   ))}
                 </ul>
               </div>
             )}
             <p className="text-[9.5px] leading-relaxed text-ink-3">
-              Assessment valid for {ASSESSMENT_VALID_DAYS} days. The next
-              renewal reminder will appear on your overview.
+              {t('Assessment valid for {days} days. The next renewal reminder will appear on your overview.', {
+                days: ASSESSMENT_VALID_DAYS,
+              })}
             </p>
           </div>
         )}

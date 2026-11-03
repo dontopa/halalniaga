@@ -11,6 +11,7 @@ import { AppShell } from '@/components/app/AppShell';
 import { LogoMark } from '@/components/Logo';
 import { PwaExperience } from '@/components/pwa/PwaExperience';
 import { AppProvider } from '@/domain/store';
+import { LanguageProvider, useT } from '@/i18n';
 import { Admin } from '@/pages/Admin';
 import { AdminEditor } from '@/pages/AdminEditor';
 import { Credits } from '@/pages/Credits';
@@ -68,16 +69,19 @@ const Verification = lazy(() =>
   })),
 );
 
-const RouteFallback = () => (
-  <div className="flex min-h-[50vh] items-center justify-center">
-    <div className="flex items-center gap-3 rounded-full border border-line bg-paper px-4 py-2.5 shadow-soft">
-      <LogoMark className="h-5 w-5 animate-pulse-soft text-forest-800" />
-      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-3">
-        Loading workspace
-      </span>
+const RouteFallback = () => {
+  const t = useT();
+  return (
+    <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="flex items-center gap-3 rounded-full border border-line bg-paper px-4 py-2.5 shadow-soft">
+        <LogoMark className="h-5 w-5 animate-pulse-soft text-forest-800" />
+        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-3">
+          {t('Loading workspace')}
+        </span>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 
 const ScrollManager = () => {
@@ -106,8 +110,9 @@ const AppLayout = () => (
 );
 
 const App = () => (
-  <AppProvider>
-    <BrowserRouter>
+  <LanguageProvider>
+    <AppProvider>
+      <BrowserRouter>
       <ScrollManager />
       <PwaExperience />
       <Suspense fallback={<RouteFallback />}>
@@ -136,8 +141,9 @@ const App = () => (
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
-    </BrowserRouter>
-  </AppProvider>
+      </BrowserRouter>
+    </AppProvider>
+  </LanguageProvider>
 );
 
 export default App;

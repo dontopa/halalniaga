@@ -1,6 +1,7 @@
 import { BadgeCheck, GraduationCap, ShieldCheck } from 'lucide-react';
 import { TIER_META, type HalalStatus, type Tier } from '@/domain/types';
 import { Badge } from '@/components/ui';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 export const TierBadge = ({
@@ -12,6 +13,7 @@ export const TierBadge = ({
   className?: string;
   showLabel?: boolean;
 }) => {
+  const t = useT();
   const meta = TIER_META[tier];
   const tone = tier === 'monitored' ? 'gold' : tier === 'verified' ? 'forest' : 'info';
   const Icon =
@@ -23,7 +25,7 @@ export const TierBadge = ({
   return (
     <Badge tone={tone} className={cn('gap-1.5', className)}>
       <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-      {showLabel ? meta.short : null}
+      {showLabel ? t(meta.short) : null}
     </Badge>
   );
 };
@@ -45,10 +47,11 @@ export const StatusBadge = ({
   status: HalalStatus;
   className?: string;
 }) => {
+  const t = useT();
   const meta = statusMap[status];
   return (
     <Badge tone={meta.tone} dot className={className}>
-      {meta.label}
+      {t(meta.label)}
     </Badge>
   );
 };

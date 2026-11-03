@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 /* -------------------------------------------------------------------------- */
@@ -178,6 +179,7 @@ export const Progress = ({
   className?: string;
   label?: string;
 }) => {
+  const t = useT();
   const colors: Record<string, string> = {
     forest: 'bg-forest-600',
     gold: 'bg-gold-500',
@@ -191,7 +193,7 @@ export const Progress = ({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(value)}
-      aria-label={label}
+      aria-label={label ? t(label) : undefined}
     >
       <div
         className={cn('h-full rounded-full transition-[width] duration-700', colors[tone])}
@@ -222,19 +224,24 @@ export const Field = ({
   htmlFor?: string;
   children: ReactNode;
   className?: string;
-}) => (
-  <div className={cn('space-y-1.5', className)}>
-    <label
-      htmlFor={htmlFor}
-      className="block text-[12px] font-medium tracking-wide text-ink-2"
-    >
-      {label}
-    </label>
-    {children}
-    {hint && !error && <p className="text-[11.5px] text-ink-3">{hint}</p>}
-    {error && <p className="text-[11.5px] font-medium text-danger">{error}</p>}
-  </div>
-);
+}) => {
+  const t = useT();
+  return (
+    <div className={cn('space-y-1.5', className)}>
+      <label
+        htmlFor={htmlFor}
+        className="block text-[12px] font-medium tracking-wide text-ink-2"
+      >
+        {t(label)}
+      </label>
+      {children}
+      {hint && !error && <p className="text-[11.5px] text-ink-3">{t(hint)}</p>}
+      {error && (
+        <p className="text-[11.5px] font-medium text-danger">{t(error)}</p>
+      )}
+    </div>
+  );
+};
 
 export const Input = ({
   className,
@@ -283,6 +290,7 @@ export const Modal = ({
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
+  const t = useT();
 
   useEffect(() => {
     if (!open) return;
@@ -322,18 +330,18 @@ export const Modal = ({
         <div className="flex items-start justify-between gap-4 border-b border-line-soft px-5 py-4 sm:px-6">
           <div>
             <h2 id={titleId} className="font-display text-xl text-ink">
-              {title}
+              {t(title)}
             </h2>
             {description && (
               <p className="mt-1 text-[13px] leading-relaxed text-ink-3">
-                {description}
+                {t(description)}
               </p>
             )}
           </div>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close dialog"
+            aria-label={t('Close dialog')}
             className="cursor-pointer rounded-full p-1.5 text-ink-3 transition-colors hover:bg-sand hover:text-ink"
           >
             <X className="h-4 w-4" />
@@ -365,17 +373,20 @@ export const EmptyState = ({
   title: string;
   description: string;
   action?: ReactNode;
-}) => (
-  <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-paper/60 px-6 py-14 text-center">
-    {icon && (
-      <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-forest-50 text-forest-700">
-        {icon}
-      </div>
-    )}
-    <p className="text-sm font-semibold text-ink">{title}</p>
-    <p className="mt-1 max-w-sm text-[13px] leading-relaxed text-ink-3">
-      {description}
-    </p>
-    {action && <div className="mt-4">{action}</div>}
-  </div>
-);
+}) => {
+  const t = useT();
+  return (
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-paper/60 px-6 py-14 text-center">
+      {icon && (
+        <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-forest-50 text-forest-700">
+          {icon}
+        </div>
+      )}
+      <p className="text-sm font-semibold text-ink">{t(title)}</p>
+      <p className="mt-1 max-w-sm text-[13px] leading-relaxed text-ink-3">
+        {t(description)}
+      </p>
+      {action && <div className="mt-4">{action}</div>}
+    </div>
+  );
+};

@@ -12,10 +12,13 @@ import {
 import { Wordmark } from '@/components/Logo';
 import { Badge, Button, Field, Input } from '@/components/ui';
 import { TierBadge } from '@/components/badges';
+import { useT } from '@/i18n';
+import { LanguageToggle } from '@/i18n/LanguageToggle';
 import { images } from '@/lib/images';
 
 export const SignIn = () => {
   const navigate = useNavigate();
+  const t = useT();
   const [email, setEmail] = useState('nurul@dapurkaknur.my');
   const [password, setPassword] = useState('demo1234');
 
@@ -47,23 +50,24 @@ export const SignIn = () => {
         </svg>
 
         <div className="relative">
-          <Link to="/" aria-label="HALALNiaga home">
+          <Link to="/" aria-label={t('HALALNiaga home')}>
             <Wordmark tone="light" />
           </Link>
         </div>
 
         <div className="relative max-w-md">
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold-300">
-            Sabah pilot · 2026
+            {t('Sabah pilot · 2026')}
           </p>
           <h1 className="mt-4 font-display text-[clamp(2.3rem,3.6vw,3.4rem)] leading-[1.02] tracking-[-0.04em]">
-            The record behind
+            {t('The record behind')}
             <br />
-            the food.
+            {t('the food.')}
           </h1>
           <p className="mt-5 text-[14px] leading-relaxed text-ivory/65">
-            Sign in to your demo workspace to see the compliance record, source
-            log and verification page from a working Sabah vendor.
+            {t(
+              'Sign in to your demo workspace to see the compliance record, source log and verification page from a working Sabah vendor.',
+            )}
           </p>
 
           <ul className="mt-8 space-y-3">
@@ -76,7 +80,7 @@ export const SignIn = () => {
                 <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gold-300/15">
                   <Check className="h-2.5 w-2.5 text-gold-300" />
                 </span>
-                {item}
+                {t(item)}
               </li>
             ))}
           </ul>
@@ -84,7 +88,7 @@ export const SignIn = () => {
 
         <div className="relative flex items-end justify-between gap-6">
           <div>
-            <p className="text-[11px] text-ivory/45">Demo vendor</p>
+            <p className="text-[11px] text-ivory/45">{t('Demo vendor')}</p>
             <p className="mt-1 text-[13px] font-medium">Dapur Kak Nur</p>
             <p className="text-[10.5px] text-ivory/45">
               Tanjung Aru Food Court · Kota Kinabalu
@@ -94,27 +98,34 @@ export const SignIn = () => {
         </div>
       </aside>
 
-      <main className="flex flex-col">
+      <main className="relative flex flex-col">
+        <div className="absolute right-5 top-5 hidden lg:block">
+          <LanguageToggle />
+        </div>
         <div className="flex items-center justify-between px-5 py-5 lg:hidden">
           <Link to="/">
             <Wordmark />
           </Link>
-          <Link to="/" className="text-[11.5px] text-ink-3 hover:text-forest-700">
-            Back to site
-          </Link>
+          <div className="flex items-center gap-3">
+            <LanguageToggle />
+            <Link to="/" className="text-[11.5px] text-ink-3 hover:text-forest-700">
+              {t('Back to site')}
+            </Link>
+          </div>
         </div>
 
         <div className="flex flex-1 items-center justify-center px-5 py-10 sm:px-8">
           <div className="w-full max-w-[420px]">
             <Badge tone="forest" dot>
-              Demo access
+              {t('Demo access')}
             </Badge>
             <h2 className="mt-4 font-display text-[2rem] leading-tight tracking-[-0.03em] text-ink">
-              Vendor sign in
+              {t('Vendor sign in')}
             </h2>
             <p className="mt-2 text-[13px] leading-relaxed text-ink-3">
-              This is a presentation prototype. No credentials are transmitted —
-              any details will open the seeded demo workspace.
+              {t(
+                'This is a presentation prototype. No credentials are transmitted — any details will open the seeded demo workspace.',
+              )}
             </p>
 
             <form
@@ -124,7 +135,7 @@ export const SignIn = () => {
                 navigate('/app');
               }}
             >
-              <Field label="Email address" htmlFor="signin-email">
+              <Field label={t('Email address')} htmlFor="signin-email">
                 <div className="relative">
                   <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-3" />
                   <Input
@@ -139,7 +150,7 @@ export const SignIn = () => {
                 </div>
               </Field>
 
-              <Field label="Password" htmlFor="signin-password">
+              <Field label={t('Password')} htmlFor="signin-password">
                 <div className="relative">
                   <LockKeyhole className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-3" />
                   <Input
@@ -155,7 +166,7 @@ export const SignIn = () => {
               </Field>
 
               <Button type="submit" className="w-full" size="lg">
-                <Store className="h-4 w-4" /> Enter the demo workspace
+                <Store className="h-4 w-4" /> {t('Enter the demo workspace')}
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </form>
@@ -163,9 +174,9 @@ export const SignIn = () => {
             <div className="mt-5 rounded-xl border border-line bg-paper p-3.5">
               <div className="flex items-center justify-between gap-2">
                 <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-                  Demo account
+                  {t('Demo account')}
                 </p>
-                <Badge tone="gold">Pre-filled</Badge>
+                <Badge tone="gold">{t('Pre-filled')}</Badge>
               </div>
               <div className="mt-2 space-y-1 font-mono text-[10.5px] text-ink-2">
                 <p>nurul@dapurkaknur.my</p>
@@ -175,20 +186,21 @@ export const SignIn = () => {
 
             <div className="mt-5 flex items-start gap-2 text-[10.5px] leading-relaxed text-ink-3">
               <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-700" />
-              All workspace data is stored locally in your browser. Resetting the
-              demo from the sidebar restores the seeded Sabah vendor.
+              {t(
+                'All workspace data is stored locally in your browser. Resetting the demo from the sidebar restores the seeded Sabah vendor.',
+              )}
             </div>
 
             <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4 text-[11px]">
               <Link to="/" className="inline-flex items-center gap-1 text-ink-3 hover:text-forest-700">
-                Back to website <ArrowUpRight className="h-3 w-3" />
+                {t('Back to website')} <ArrowUpRight className="h-3 w-3" />
               </Link>
               <div className="flex flex-wrap items-center gap-4">
                 <Link to="/vendor/dapur-kak-nur" className="text-forest-700 hover:underline">
-                  View a customer QR record
+                  {t('View a customer QR record')}
                 </Link>
                 <Link to="/credits" className="text-ink-3 hover:text-forest-700">
-                  Image credits
+                  {t('Image credits')}
                 </Link>
               </div>
             </div>

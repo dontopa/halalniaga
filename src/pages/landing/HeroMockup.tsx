@@ -2,6 +2,7 @@ import { AlertTriangle, ArrowUpRight, MapPin, QrCode, Star } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react';
 import { Badge, Progress } from '@/components/ui';
 import { TierBadge } from '@/components/badges';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 import vendorProfile from '@/content/vendor.json';
 import suppliersContent from '@/content/suppliers.json';
@@ -18,6 +19,7 @@ const metrics = [
 ];
 
 export const HeroMockup = ({ className }: { className?: string }) => {
+  const t = useT();
   const primarySupplier = suppliersContent[0];
   const supplierStatus =
     primarySupplier?.status === 'certified'
@@ -67,7 +69,7 @@ export const HeroMockup = ({ className }: { className?: string }) => {
           </span>
           <span className="inline-flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-forest-700">
             <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-forest-500" />
-            Live
+            {t('Live')}
           </span>
         </div>
 
@@ -94,12 +96,12 @@ export const HeroMockup = ({ className }: { className?: string }) => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-mono text-[9.5px] uppercase tracking-[0.15em] text-ink-3">
-                    Compliance record
+                    {t('Compliance record')}
                   </p>
-                  <p className="mt-1 text-[11px] text-ink-3">Updated today</p>
+                  <p className="mt-1 text-[11px] text-ink-3">{t('Updated today')}</p>
                 </div>
                 <Badge tone="success" dot>
-                  Current
+                  {t('Current')}
                 </Badge>
               </div>
               <div className="mt-3 flex items-center gap-4">
@@ -132,7 +134,7 @@ export const HeroMockup = ({ className }: { className?: string }) => {
                     <div key={metric.label}>
                       <div className="mb-1 flex items-center justify-between gap-2">
                         <span className="truncate text-[10px] text-ink-2">
-                          {metric.label}
+                          {t(metric.label)}
                         </span>
                         <span className="font-mono text-[9px] text-ink-3">
                           {metric.value}%
@@ -145,7 +147,7 @@ export const HeroMockup = ({ className }: { className?: string }) => {
               </div>
               <div className="mt-3 flex items-center gap-1.5 border-t border-line-soft pt-2.5 text-[10px] text-ink-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-gold-500" />
-                Monitoring due · book an inspection
+                {t('Monitoring due · book an inspection')}
               </div>
             </div>
 
@@ -155,11 +157,13 @@ export const HeroMockup = ({ className }: { className?: string }) => {
                   <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warn" />
                   <div>
                     <p className="text-[11.5px] font-semibold leading-snug text-ink">
-                      Certificate expires in {primarySupplier?.validInDays ?? 0} days
+                      {t('Certificate expires in {days} days', {
+                        days: primarySupplier?.validInDays ?? 0,
+                      })}
                     </p>
                     <p className="mt-1 text-[10.5px] leading-relaxed text-ink-2">
-                      {primarySupplier?.name ?? 'Verified supplier'} · request renewal before purchases
-                      resume.
+                      {primarySupplier?.name ?? t('Verified supplier')} ·{' '}
+                      {t('Request renewal before purchases resume.')}
                     </p>
                   </div>
                 </div>
@@ -169,23 +173,26 @@ export const HeroMockup = ({ className }: { className?: string }) => {
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <p className="text-[11.5px] font-semibold text-ink">
-                      {primarySupplier?.name ?? 'Verified supplier'}
+                      {primarySupplier?.name ?? t('Verified supplier')}
                     </p>
                     <p className="mt-0.5 flex items-center gap-1 text-[10px] text-ink-3">
                       <MapPin className="h-3 w-3" /> {primarySupplier?.distanceKm ?? 0} km · {primarySupplier?.area ?? 'Kota Kinabalu'}
                     </p>
                   </div>
                   <Badge tone={primarySupplier?.status === 'certified' ? 'success' : 'forest'} dot>
-                    {supplierStatus}
+                    {t(supplierStatus)}
                   </Badge>
                 </div>
                 <div className="mt-2.5 flex items-center justify-between border-t border-line-soft pt-2.5">
                   <span className="flex items-center gap-1 text-[10px] text-ink-2">
                     <Star className="h-3 w-3 fill-gold-400 text-gold-400" />
-                    {primarySupplier?.rating ?? 0} · {primarySupplier?.reviewCount ?? 0} reviews
+                    {primarySupplier?.rating ?? 0} ·{' '}
+                    {t('{count} reviews', {
+                      count: primarySupplier?.reviewCount ?? 0,
+                    })}
                   </span>
                   <span className="font-mono text-[9px] text-forest-700">
-                    {primarySupplier?.tags?.[0] ?? 'Verified source'}
+                    {t(primarySupplier?.tags?.[0] ?? 'Verified source')}
                   </span>
                 </div>
               </div>
@@ -200,18 +207,18 @@ export const HeroMockup = ({ className }: { className?: string }) => {
                 bgColor="#FAF7F0"
                 fgColor="#0B4F3C"
                 level="M"
-                aria-label="Vendor verification QR code"
+                aria-label={t('Vendor verification QR code')}
               />
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-gold-300">
-                Customer verification
+                {t('Customer verification')}
               </p>
               <p className="mt-0.5 text-[12px] font-medium leading-snug">
-                Scan the stall QR to see the record behind the food.
+                {t('Scan the stall QR to see the record behind the food.')}
               </p>
               <p className="mt-1 text-[10px] text-ivory/60">
-                Training · Sourcing · Assessment · Inspections
+                {t('Training · Sourcing · Assessment · Inspections')}
               </p>
             </div>
             <ArrowUpRight className="h-4 w-4 shrink-0 text-gold-300" />
@@ -221,7 +228,7 @@ export const HeroMockup = ({ className }: { className?: string }) => {
             <span className="inline-flex items-center gap-1">
               <QrCode className="h-3 w-3" /> HN-VERIFIED-PARTICIPANT
             </span>
-            <span>NOT A JAKIM CERTIFICATE</span>
+            <span>{t('NOT A JAKIM CERTIFICATE')}</span>
           </div>
         </div>
       </div>

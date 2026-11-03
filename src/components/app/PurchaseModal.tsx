@@ -11,6 +11,7 @@ import { Toast, useToast } from '@/components/app/shared';
 import { StatusBadge } from '@/components/badges';
 import { useApp } from '@/domain/store';
 import { formatDate } from '@/domain/compliance';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 export const PurchaseModal = ({
@@ -22,6 +23,7 @@ export const PurchaseModal = ({
   onClose: () => void;
   defaultSupplierId?: string;
 }) => {
+  const t = useT();
   const { state, addPurchase } = useApp();
   const { toast, show, clear } = useToast();
   const [supplierId, setSupplierId] = useState(
@@ -66,8 +68,14 @@ export const PurchaseModal = ({
     addPurchase({ supplierId, productId, quantity: qty, receiptNo });
     show(
       verified
-        ? `${product?.name ?? 'Purchase'} recorded from ${supplier?.shortName}. Source verified.`
-        : `${product?.name ?? 'Purchase'} recorded — this supplier is not verified, so it will not earn sourcing credit.`,
+        ? t('{product} recorded from {supplier}. Source verified.', {
+            product: product?.name ?? t('Purchase'),
+            supplier: supplier?.shortName ?? '',
+          })
+        : t(
+            '{product} recorded — this supplier is not verified, so it will not earn sourcing credit.',
+            { product: product?.name ?? t('Purchase') },
+          ),
       verified ? 'success' : 'warning',
     );
     onClose();
@@ -78,12 +86,14 @@ export const PurchaseModal = ({
       <Modal
         open={open}
         onClose={onClose}
-        title="Record a purchase"
-        description="Every record adds a traceable link between your stall and the source of the ingredient."
+        title={t('Record a purchase')}
+        description={t(
+          'Every record adds a traceable link between your stall and the source of the ingredient.',
+        )}
         footer={
           <>
             <Button variant="ghost" onClick={onClose} type="button">
-              Cancel
+              {t('Cancel')}
             </Button>
             <Button
               type="submit"
@@ -91,13 +101,13 @@ export const PurchaseModal = ({
               disabled={!productId || Number(quantity) <= 0}
             >
               <PackageCheck className="h-4 w-4" />
-              Save purchase
+              {t('Save purchase')}
             </Button>
           </>
         }
       >
         <form id="purchase-form" onSubmit={handleSubmit} className="space-y-4">
-          <Field label="Supplier" htmlFor="purchase-supplier">
+          <Field label={t('Supplier')} htmlFor="purchase-supplier">
             <Select
               id="purchase-supplier"
               value={supplierId}
@@ -105,7 +115,7 @@ export const PurchaseModal = ({
             >
               {state.suppliers.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.name} · {item.status === 'certified' ? 'Certified' : item.status === 'verified' ? 'Verified' : item.status === 'pending' ? 'Pending' : 'Lapsed'}
+                  {item.name} · {item.status === 'certified' ? t('Certified') : item.status === 'verified' ? t('Verified') : item.status === 'pending' ? t('Pending') : t('Lapsed')}
                 </option>
               ))}
             </Select>
@@ -136,32 +146,41 @@ export const PurchaseModal = ({
                 </div>
                 <p className="mt-1.5">
                   {verified
-                    ? `Certificate valid until ${formatDate(supplier.validUntil)}. This purchase will count toward verified sourcing.`
-                    : 'This supplier is not currently verified. The purchase will be logged, but it will not count toward your sourcing score.'}
+                    ? t(
+                        'Certificate valid until {date}. This purchase will count toward verified sourcing.',
+                        { date: formatDate(supplier.validUntil) },
+                      )
+                    : t(
+                        'This supplier is not currently verified. The purchase will be logged, but it will not count toward your sourcing score.',
+                      )}
                 </p>
               </div>
             </div>
           )}
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Product" htmlFor="purchase-product">
+            <Field label={t('Product')} htmlFor="purchase-product">
               <Select
                 id="purchase-product"
                 value={productId}
                 onChange={(event) => setProductId(event.target.value)}
               >
-                {products.length === 0 && <option value="">No products listed</option>}
+                {products.length === 0 && <option value="">{t('No products listed')}</option>}
                 {products.map((item) => (
                   <option key={item.id} value={item.id}>
-                    {item.name} · RM {item.price.toFixed(2)}/{item.unit}
+                    {t(item.name)} · RM {item.price.toFixed(2)}/{item.unit}
                   </option>
                 ))}
               </Select>
             </Field>
             <Field
-              label="Quantity"
+              label={t('Quantity')}
               htmlFor="purchase-quantity"
-              hint={product ? `Unit: ${product.unit}` : undefined}
+              hint={
+                product
+                  ? t('Unit: {unit}', { unit: product.unit })
+                  : undefined
+              }
             >
               <Input
                 id="purchase-quantity"
@@ -175,13 +194,15 @@ export const PurchaseModal = ({
           </div>
 
           <Field
-            label="Receipt / invoice number"
+            label={t('Receipt / invoice number')}
             htmlFor="purchase-receipt"
-            hint="Optional. A receipt number makes the record easier to verify during inspection."
+            hint={t(
+              'Optional. A receipt number makes the record easier to verify during inspection.',
+            )}
           >
             <Input
               id="purchase-receipt"
-              placeholder="e.g. INV-2026-0421"
+              placeholder={t('e.g. INV-2026-0421')}
               value={receiptNo}
               onChange={(event) => setReceiptNo(event.target.value)}
             />
@@ -189,27 +210,28 @@ export const PurchaseModal = ({
 
           <div className="rounded-xl border border-line bg-sand/40 p-3.5">
             <div className="flex items-center justify-between text-[12px]">
-              <span className="text-ink-3">Estimated total</span>
+              <span className="text-ink-3">{t('Estimated total')}</span>
               <span className="font-mono text-[14px] font-medium text-ink">
                 RM {amount.toFixed(2)}
               </span>
             </div>
             <div className="mt-2 flex items-center justify-between text-[11px] text-ink-3">
-              <span>Source record</span>
+              <span>{t('Source record')}</span>
               <span className={verified ? 'text-forest-700' : 'text-warn'}>
-                {verified ? 'Verified supplier' : 'Unverified supplier'}
+                {verified ? t('Verified supplier') : t('Unverified supplier')}
               </span>
             </div>
             <div className="mt-2 flex items-center justify-between text-[11px] text-ink-3">
-              <span>Logged by</span>
+              <span>{t('Logged by')}</span>
               <span>{state.vendor.owner}</span>
             </div>
           </div>
 
           <p className="flex items-start gap-1.5 text-[10.5px] leading-relaxed text-ink-3">
             <ArrowRight className="mt-0.5 h-3 w-3 shrink-0" />
-            In this prototype the purchase is stored locally in your browser. No
-            payment is processed and no order is sent to the supplier.
+            {t(
+              'In this prototype the purchase is stored locally in your browser. No payment is processed and no order is sent to the supplier.',
+            )}
           </p>
         </form>
       </Modal>

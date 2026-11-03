@@ -27,6 +27,8 @@ import {
 } from '@/domain/compliance';
 import { ASSESSMENT_QUESTIONS, TRAINING_MODULES } from '@/domain/seed';
 import { useApp } from '@/domain/store';
+import { useT } from '@/i18n';
+import { LanguageToggle } from '@/i18n/LanguageToggle';
 
 const bandFor = (score: number) => {
   if (score >= 90) return { label: 'Strong', tone: 'success' as const };
@@ -36,6 +38,7 @@ const bandFor = (score: number) => {
 };
 
 export const PublicVendor = () => {
+  const t = useT();
   const { slug } = useParams();
   const { state } = useApp();
   const profileUrl = `${window.location.origin}/vendor/${state.vendor.qrSlug}`;
@@ -45,20 +48,21 @@ export const PublicVendor = () => {
       <div className="flex min-h-screen flex-col items-center justify-center bg-ivory px-6 text-center">
         <Wordmark />
         <h1 className="mt-8 font-display text-3xl tracking-[-0.03em] text-ink">
-          Record not found
+          {t('Record not found')}
         </h1>
         <p className="mt-3 max-w-md text-[13px] leading-relaxed text-ink-3">
-          This demo contains one seeded vendor record. Open the live profile to see
-          how a customer experiences programme verification.
+          {t(
+            'This demo contains one seeded vendor record. Open the live profile to see how a customer experiences programme verification.',
+          )}
         </p>
         <Link
           to="/vendor/dapur-kak-nur"
           className="mt-6 inline-flex items-center gap-2 rounded-full bg-forest-800 px-5 py-2.5 text-[13px] text-ivory hover:bg-forest-700"
         >
-          Open the demo vendor record <ArrowUpRight className="h-3.5 w-3.5" />
+          {t('Open the demo vendor record')} <ArrowUpRight className="h-3.5 w-3.5" />
         </Link>
         <Link to="/" className="mt-4 text-[11.5px] text-ink-3 hover:text-forest-700">
-          Back to HALALNiaga
+          {t('Back to HALALNiaga')}
         </Link>
       </div>
     );
@@ -92,25 +96,26 @@ export const PublicVendor = () => {
     <div className="min-h-screen overflow-x-clip bg-ivory">
       <header className="sticky top-0 z-20 border-b border-line/80 bg-ivory/90 backdrop-blur-xl print:hidden">
         <div className="mx-auto flex h-[68px] max-w-[1040px] items-center justify-between gap-4 px-5 sm:px-8">
-          <Link to="/" aria-label="HALALNiaga home">
+          <Link to="/" aria-label={t('HALALNiaga home')}>
             <Wordmark />
           </Link>
           <div className="flex items-center gap-2">
+            <LanguageToggle showIcon={false} />
             <Badge tone="forest" dot className="hidden sm:inline-flex">
-              Programme verification
+              {t('Programme verification')}
             </Badge>
             <button
               type="button"
               onClick={() => window.print()}
               className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1.5 text-[11px] text-ink-2 transition-colors hover:border-forest-200"
             >
-              <Printer className="h-3.5 w-3.5" /> Print
+              <Printer className="h-3.5 w-3.5" /> {t('Print')}
             </button>
             <Link
               to="/app"
               className="hidden items-center gap-1 rounded-full bg-forest-800 px-3.5 py-1.5 text-[11px] text-ivory sm:inline-flex"
             >
-              Vendor workspace <ArrowUpRight className="h-3 w-3" />
+              {t('Vendor workspace')} <ArrowUpRight className="h-3 w-3" />
             </Link>
           </div>
         </div>
@@ -121,19 +126,19 @@ export const PublicVendor = () => {
           to="/"
           className="inline-flex items-center gap-1.5 text-[10.5px] text-ink-3 hover:text-forest-700 print:hidden"
         >
-          <ArrowLeft className="h-3 w-3" /> HALALNiaga programme record
+          <ArrowLeft className="h-3 w-3" /> {t('HALALNiaga programme record')}
         </Link>
 
         <div className="relative mt-5 h-[190px] overflow-hidden rounded-2xl border border-line sm:h-[230px]">
           <img
             src={state.vendor.coverImage}
-            alt="Fresh vegetables and eggs at a Sabah market"
+            alt={t('Fresh vegetables and eggs at a Sabah market')}
             className="h-full w-full object-cover object-[30%_55%]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ivory via-ivory/15 to-forest-950/10" />
           <div className="absolute bottom-4 left-4 flex flex-wrap items-center gap-2">
-            <Badge tone="forest">Wet-market vendor</Badge>
-            <Badge tone="neutral">Fresh produce · Tanjung Aru</Badge>
+            <Badge tone="forest">{t('Wet-market vendor')}</Badge>
+            <Badge tone="neutral">{t('Fresh produce · Tanjung Aru')}</Badge>
           </div>
         </div>
 
@@ -142,9 +147,13 @@ export const PublicVendor = () => {
             <div className="flex flex-wrap items-center gap-2">
               <TierBadge tier={snapshot.tier} />
               <Badge tone="neutral">
-                Joined {formatDate(state.vendor.joinedAt)}
+                {t('Joined {date}', { date: formatDate(state.vendor.joinedAt) })}
               </Badge>
-              <Badge tone="gold">Updated {formatDate(new Date().toISOString())}</Badge>
+              <Badge tone="gold">
+                {t('Updated {date}', {
+                  date: formatDate(new Date().toISOString()),
+                })}
+              </Badge>
             </div>
             <h1 className="mt-3 font-display text-[clamp(2.2rem,4.4vw,3.4rem)] leading-[1.02] tracking-[-0.04em] text-ink">
               {state.vendor.name}
@@ -155,10 +164,10 @@ export const PublicVendor = () => {
                 <MapPin className="h-3 w-3" /> {state.vendor.stall}, {state.vendor.area}
               </span>
               <span>·</span>
-              <span>{state.vendor.category}</span>
+              <span>{t(state.vendor.category)}</span>
             </p>
             <p className="mt-4 max-w-xl font-display text-[17px] italic leading-snug text-forest-800">
-              “{state.vendor.tagline}”
+              “{t(state.vendor.tagline)}”
             </p>
           </div>
 
@@ -166,7 +175,7 @@ export const PublicVendor = () => {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-gold-700">
-                  HALALNiaga programme record
+                  {t('HALALNiaga programme record')}
                 </p>
                 <p className="mt-2 text-[12px] font-semibold text-ink">
                   {state.vendor.name}
@@ -180,14 +189,14 @@ export const PublicVendor = () => {
                   bgColor="transparent"
                   fgColor="#0B4F3C"
                   level="M"
-                  aria-label="Vendor verification QR code"
+                  aria-label={t('Vendor verification QR code')}
                 />
               </div>
             </div>
             <div className="mt-4 flex items-end justify-between gap-3 border-t border-line-soft pt-3">
               <div>
                 <p className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-ink-3">
-                  Record ID
+                  {t('Record ID')}
                 </p>
                 <p className="mt-0.5 font-mono text-[10px] text-ink">
                   HN-{state.vendor.qrSlug.toUpperCase().replace(/-/g, '')}
@@ -195,10 +204,10 @@ export const PublicVendor = () => {
               </div>
               <div className="text-right">
                 <p className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-ink-3">
-                  Status
+                  {t('Status')}
                 </p>
                 <p className="mt-0.5 text-[10.5px] font-medium text-forest-700">
-                  Active
+                  {t('Active')}
                 </p>
               </div>
             </div>
@@ -211,10 +220,12 @@ export const PublicVendor = () => {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h2 className="text-[13px] font-semibold text-ink">
-                    Programme compliance
+                    {t('Programme compliance')}
                   </h2>
                   <p className="mt-0.5 text-[10.5px] text-ink-3">
-                    Weighted across training, sourcing, assessment and monitoring.
+                    {t(
+                      'Weighted across training, sourcing, assessment and monitoring.',
+                    )}
                   </p>
                 </div>
                 <span className="font-display text-3xl tracking-[-0.04em] text-ink">
@@ -231,7 +242,7 @@ export const PublicVendor = () => {
                 ].map(([label, value, tone]) => (
                   <div key={String(label)}>
                     <div className="mb-1 flex items-center justify-between text-[10.5px]">
-                      <span className="text-ink-2">{label}</span>
+                      <span className="text-ink-2">{t(String(label))}</span>
                       <span className="font-mono text-ink-3">{value}%</span>
                     </div>
                     <div className="h-1.5 overflow-hidden rounded-full bg-sand">
@@ -252,7 +263,7 @@ export const PublicVendor = () => {
               {snapshot.gaps.length > 0 && (
                 <p className="mt-4 flex items-start gap-2 rounded-xl border border-warn/20 bg-warn-soft/40 p-3 text-[10.5px] leading-relaxed text-ink-2">
                   <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warn" />
-                  Open improvement: {snapshot.gaps[0]}
+                  {t('Open improvement: {gap}', { gap: snapshot.gaps[0] })}
                 </p>
               )}
             </section>
@@ -261,11 +272,13 @@ export const PublicVendor = () => {
               <div className="flex items-center justify-between border-b border-line-soft px-5 py-4">
                 <div>
                   <h2 className="text-[13px] font-semibold text-ink">
-                    Halal training
+                    {t('Halal training')}
                   </h2>
                   <p className="mt-0.5 text-[10.5px] text-ink-3">
-                    {snapshot.modulesCompleted} of {snapshot.modulesTotal} modules
-                    passed · pass mark 80%
+                    {t('{completed} of {total} modules passed · pass mark 80%', {
+                      completed: snapshot.modulesCompleted,
+                      total: snapshot.modulesTotal,
+                    })}
                   </p>
                 </div>
                 <Badge tone={snapshot.modulesCompleted === snapshot.modulesTotal ? 'success' : 'warning'}>
@@ -292,10 +305,13 @@ export const PublicVendor = () => {
                         </span>
                         <div className="min-w-0">
                           <p className="truncate text-[11.5px] font-medium text-ink">
-                            {module.title}
+                            {t(module.title)}
                           </p>
                           <p className="text-[9.5px] text-ink-3">
-                            {module.durationMin} min · {module.quiz.length} questions
+                            {t('{duration} min · {count} questions', {
+                              duration: module.durationMin,
+                              count: module.quiz.length,
+                            })}
                           </p>
                         </div>
                       </div>
@@ -312,10 +328,10 @@ export const PublicVendor = () => {
               <div className="flex items-center justify-between border-b border-line-soft px-5 py-4">
                 <div>
                   <h2 className="text-[13px] font-semibold text-ink">
-                    Verified source records
+                    {t('Verified source records')}
                   </h2>
                   <p className="mt-0.5 text-[10.5px] text-ink-3">
-                    Suppliers recorded against recent purchases.
+                    {t('Suppliers recorded against recent purchases.')}
                   </p>
                 </div>
                 <TrendingUp className="h-4 w-4 text-forest-700" />
@@ -333,10 +349,10 @@ export const PublicVendor = () => {
                       <StatusBadge status={supplier!.status} />
                     </div>
                     <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 pl-5 text-[9.5px] text-ink-3">
-                      <span>{count} recorded {count === 1 ? 'purchase' : 'purchases'}</span>
-                      <span>Last {formatDate(lastPurchase)}</span>
+                      <span>{t('{count} recorded purchases', { count })}</span>
+                      <span>{t('Last {date}', { date: formatDate(lastPurchase) })}</span>
                       <span className="font-mono">
-                        {supplier!.certificateNo ?? 'No certificate on file'}
+                        {supplier!.certificateNo ?? t('No certificate on file')}
                       </span>
                     </div>
                   </li>
@@ -348,17 +364,26 @@ export const PublicVendor = () => {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h2 className="text-[13px] font-semibold text-ink">
-                    Self-assessment
+                    {t('Self-assessment')}
                   </h2>
                   <p className="mt-0.5 text-[10.5px] text-ink-3">
-                    Completed {assessment ? formatDate(assessment.completedAt) : '—'}
+                    {t('Completed {date}', {
+                      date: assessment ? formatDate(assessment.completedAt) : '—',
+                    })}
                     {assessment
-                      ? ` · ${daysBetween(new Date(assessment.completedAt), new Date())} days ago`
+                      ? ` · ${t('{count} days ago', {
+                          count: daysBetween(
+                            new Date(assessment.completedAt),
+                            new Date(),
+                          ),
+                        })}`
                       : ''}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge tone={band.tone}>{assessment ? band.label : 'Not completed'}</Badge>
+                  <Badge tone={band.tone}>
+                    {assessment ? t(band.label) : t('Not completed')}
+                  </Badge>
                   <span className="font-display text-2xl text-ink">
                     {assessment?.score ?? '—'}
                     <span className="text-xs text-ink-3">%</span>
@@ -389,7 +414,7 @@ export const PublicVendor = () => {
                             {ok && <Check className="h-2.5 w-2.5" />}
                           </span>
                           <span className="text-[9.5px] leading-snug text-ink-2">
-                            {question.prompt}
+                            {t(question.prompt)}
                           </span>
                         </div>
                       );
@@ -397,10 +422,10 @@ export const PublicVendor = () => {
                   </div>
                   {weakControls.length > 0 && (
                     <p className="mt-3 text-[9.5px] leading-relaxed text-ink-3">
-                      {weakControls.length} control
-                      {weakControls.length === 1 ? '' : 's'} flagged for
-                      improvement. The vendor has a corrective action list in the
-                      workspace.
+                      {t(
+                        '{count} controls flagged for improvement. The vendor has a corrective action list in the workspace.',
+                        { count: weakControls.length },
+                      )}
                     </p>
                   )}
                 </>
@@ -413,24 +438,25 @@ export const PublicVendor = () => {
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-forest-700" />
                 <p className="text-[12px] font-semibold text-ink">
-                  What this record means
+                  {t('What this record means')}
                 </p>
               </div>
               <p className="mt-2 text-[11px] leading-relaxed text-ink-2">
-                The vendor has completed programme training, recorded purchases
-                from verified suppliers and completed a self-assessment. The
-                record is maintained through periodic programme checks.
+                {t(
+                  'The vendor has completed programme training, recorded purchases from verified suppliers and completed a self-assessment. The record is maintained through periodic programme checks.',
+                )}
               </p>
               <p className="mt-3 text-[10.5px] font-medium leading-relaxed text-forest-900">
-                It is not a Malaysian halal certificate. SPHM certification is
-                issued only by JAKIM or a recognised state Islamic authority.
+                {t(
+                  'It is not a Malaysian halal certificate. SPHM certification is issued only by JAKIM or a recognised state Islamic authority.',
+                )}
               </p>
             </section>
 
             <section className="rounded-2xl border border-line bg-paper">
               <div className="flex items-center justify-between border-b border-line-soft px-5 py-4">
                 <h2 className="text-[13px] font-semibold text-ink">
-                  Inspection history
+                  {t('Inspection history')}
                 </h2>
                 <Badge tone="neutral">{inspections.length}</Badge>
               </div>
@@ -448,18 +474,18 @@ export const PublicVendor = () => {
                       </span>
                     </div>
                     <p className="mt-0.5 text-[9.5px] text-ink-3">
-                      {inspection.officer}
+                      {t(inspection.officer)}
                     </p>
                     {inspection.findings.length > 0 && (
                       <p className="mt-1.5 text-[9.5px] leading-relaxed text-ink-3">
-                        {inspection.findings.join(' · ')}
+                        {inspection.findings.map((finding) => t(finding)).join(' · ')}
                       </p>
                     )}
                   </li>
                 ))}
                 {inspections.length === 0 && (
                   <li className="text-[11px] text-ink-3">
-                    No inspection recorded yet.
+                    {t('No inspection recorded yet.')}
                   </li>
                 )}
               </ol>
@@ -468,18 +494,18 @@ export const PublicVendor = () => {
             <section className="rounded-2xl border border-line bg-paper p-5">
               <div className="flex items-center gap-2">
                 <ClipboardCheck className="h-4 w-4 text-forest-700" />
-                <p className="text-[12px] font-semibold text-ink">At a glance</p>
+                <p className="text-[12px] font-semibold text-ink">{t('At a glance')}</p>
               </div>
               <dl className="mt-3 space-y-2.5">
                 {[
-                  ['Recognition tier', snapshot.tier === 'monitored' ? 'Monitored participant' : snapshot.tier === 'verified' ? 'Verified participant' : 'Learner'],
-                  ['Training', `${snapshot.modulesCompleted}/${snapshot.modulesTotal} modules`],
+                  ['Recognition tier', snapshot.tier === 'monitored' ? t('Monitored participant') : snapshot.tier === 'verified' ? t('Verified participant') : t('Learner')],
+                  ['Training', t('{completed}/{total} modules', { completed: snapshot.modulesCompleted, total: snapshot.modulesTotal })],
                   ['Verified sourcing', `${snapshot.sourcingPct}%`],
-                  ['Self-assessment', assessment ? `${assessment.score}%` : 'Not completed'],
-                  ['Last inspection', inspections[0] ? formatDate(inspections[0].inspectedAt) : 'None'],
+                  ['Self-assessment', assessment ? `${assessment.score}%` : t('Not completed')],
+                  ['Last inspection', inspections[0] ? formatDate(inspections[0].inspectedAt) : t('None')],
                 ].map(([label, value]) => (
                   <div key={label} className="flex items-start justify-between gap-3 text-[10.5px]">
-                    <dt className="text-ink-3">{label}</dt>
+                    <dt className="text-ink-3">{t(label)}</dt>
                     <dd className="text-right font-medium text-ink">{value}</dd>
                   </div>
                 ))}
@@ -489,9 +515,9 @@ export const PublicVendor = () => {
             <section className="rounded-2xl border border-line bg-sand/40 p-4">
               <p className="flex items-start gap-2 text-[9.5px] leading-relaxed text-ink-3">
                 <FileText className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                This page is generated from the HALALNiaga demo workspace. Data is
-                illustrative and stored locally in the visitor’s browser. It is not
-                an official halal verification service.
+                {t(
+                  'This page is generated from the HALALNiaga demo workspace. Data is illustrative and stored locally in the visitor’s browser. It is not an official halal verification service.',
+                )}
               </p>
             </section>
 
@@ -499,7 +525,7 @@ export const PublicVendor = () => {
               <QrCode className="h-5 w-5 shrink-0 text-forest-700" />
               <div className="min-w-0">
                 <p className="text-[10.5px] font-medium text-ink">
-                  Share this record
+                  {t('Share this record')}
                 </p>
                 <p className="truncate font-mono text-[9px] text-ink-3">
                   {profileUrl}
@@ -513,19 +539,19 @@ export const PublicVendor = () => {
           <div className="flex flex-col items-center gap-3">
             <Wordmark />
             <p className="max-w-xl text-[10px] leading-relaxed text-ink-3">
-              HALALNiaga is an academic innovation prototype. Programme
-              recognition is not halal certification. For official certification
-              status, consult JAKIM or the relevant state Islamic authority.
+              {t(
+                'HALALNiaga is an academic innovation prototype. Programme recognition is not halal certification. For official certification status, consult JAKIM or the relevant state Islamic authority.',
+              )}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 text-[10.5px] text-ink-3">
               <Link to="/" className="hover:text-forest-700">
-                About HALALNiaga
+                {t('About HALALNiaga')}
               </Link>
               <Link to="/app" className="hover:text-forest-700">
-                Vendor workspace
+                {t('Vendor workspace')}
               </Link>
               <Link to="/credits" className="hover:text-forest-700">
-                Image credits
+                {t('Image credits')}
               </Link>
               <a
                 href="https://www.halal.gov.my/"

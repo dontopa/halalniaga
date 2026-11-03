@@ -20,6 +20,8 @@ import { LogoMark } from '@/components/Logo';
 import { PageHeader } from '@/components/app/shared';
 import { Badge, Button, Card, CardHeader } from '@/components/ui';
 import { useApp } from '@/domain/store';
+import { useT } from '@/i18n';
+import { dateLocale } from '@/i18n/lang';
 import { cn } from '@/lib/cn';
 
 const handlingSteps = [
@@ -101,6 +103,7 @@ const checklist = [
 
 export const StarterKit = () => {
   const { state } = useApp();
+  const t = useT();
   const qrRef = useRef<HTMLCanvasElement>(null);
   const profileUrl = `${window.location.origin}/vendor/${state.vendor.qrSlug}`;
 
@@ -118,12 +121,12 @@ export const StarterKit = () => {
         <div className="flex items-center gap-2">
           <LogoMark className="h-6 w-6 text-forest-800" />
           <span className="font-display text-xl tracking-[-0.02em] text-ink">
-            HALALNiaga starter kit
+            {t('HALALNiaga starter kit')}
           </span>
         </div>
         <p className="mt-1 text-[10px] text-ink-3">
-          {state.vendor.name} · {state.vendor.stall} · Printed{' '}
-          {new Date().toLocaleDateString('en-GB', {
+          {state.vendor.name} · {t(state.vendor.stall)} · {t('Printed')}{' '}
+          {new Date().toLocaleDateString(dateLocale(), {
             day: '2-digit',
             month: 'short',
             year: 'numeric',
@@ -133,16 +136,16 @@ export const StarterKit = () => {
 
       <div className="print:hidden">
         <PageHeader
-          eyebrow="Support · Halal starter kit"
-          title="The kit for the first week."
-          description="A printable bundle for the stall: handling guide, storage labels, equipment colours, a hygiene checklist and the customer QR sticker."
+          eyebrow={t('Support · Halal starter kit')}
+          title={t('The kit for the first week.')}
+          description={t('A printable bundle for the stall: handling guide, storage labels, equipment colours, a hygiene checklist and the customer QR sticker.')}
           actions={
             <>
               <Button variant="secondary" size="sm" onClick={downloadQr}>
-                <Download className="h-3.5 w-3.5" /> QR image
+                <Download className="h-3.5 w-3.5" /> {t('QR image')}
               </Button>
               <Button size="sm" onClick={() => window.print()}>
-                <Printer className="h-3.5 w-3.5" /> Print kit
+                <Printer className="h-3.5 w-3.5" /> {t('Print kit')}
               </Button>
             </>
           }
@@ -154,23 +157,22 @@ export const StarterKit = () => {
           <PackageOpen className="mt-0.5 h-4 w-4 shrink-0 text-forest-700" />
           <div>
             <p className="text-[12px] font-semibold text-ink">
-              Print, laminate, and keep it near the prep area.
+              {t('Print, laminate, and keep it near the prep area.')}
             </p>
             <p className="mt-0.5 text-[10.5px] leading-relaxed text-ink-2">
-              The print layout removes the navigation and keeps the labels,
-              checklist and QR sticker on the page.
+              {t('The print layout removes the navigation and keeps the labels, checklist and QR sticker on the page.')}
             </p>
           </div>
         </div>
-        <Badge tone="gold">Programme tool — not a halal certificate</Badge>
+        <Badge tone="gold">{t('Programme tool — not a halal certificate')}</Badge>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2 print:break-inside-avoid">
           <CardHeader
-            title="Quick handling guide"
-            description="Five habits that protect the dish — and the evidence behind it."
-            action={<Badge tone="forest">Keep visible</Badge>}
+            title={t('Quick handling guide')}
+            description={t('Five habits that protect the dish — and the evidence behind it.')}
+            action={<Badge tone="forest">{t('Keep visible')}</Badge>}
           />
           <ol className="divide-y divide-line-soft">
             {handlingSteps.map((step, index) => (
@@ -183,10 +185,10 @@ export const StarterKit = () => {
                     <span className="mr-2 font-mono text-[9px] text-ink-3">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    {step.title}
+                    {t(step.title)}
                   </p>
                   <p className="mt-1 text-[11px] leading-relaxed text-ink-3">
-                    {step.body}
+                    {t(step.body)}
                   </p>
                 </div>
               </li>
@@ -194,18 +196,16 @@ export const StarterKit = () => {
           </ol>
           <div className="flex items-start gap-2 border-t border-line-soft bg-sand/30 px-5 py-3 text-[10px] leading-relaxed text-ink-3">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warn" />
-            If something is unclear: pause, check the source, and record what you
-            found. An unverified ingredient is not an emergency — an unrecorded
-            one is a risk.
+            {t('If something is unclear: pause, check the source, and record what you found. An unverified ingredient is not an emergency — an unrecorded one is a risk.')}
           </div>
         </Card>
 
         <Card className="flex flex-col overflow-hidden print:break-inside-avoid">
           <div className="flex items-center justify-between border-b border-line-soft px-5 py-4">
             <div>
-              <h3 className="text-[13px] font-semibold text-ink">QR sticker</h3>
+              <h3 className="text-[13px] font-semibold text-ink">{t('QR sticker')}</h3>
               <p className="mt-0.5 text-[10.5px] text-ink-3">
-                For the stall counter.
+                {t('For the stall counter.')}
               </p>
             </div>
             <QrCode className="h-4 w-4 text-forest-700" />
@@ -214,9 +214,9 @@ export const StarterKit = () => {
             <div className="w-full max-w-[230px] rounded-xl border border-line bg-forest-800 p-4 text-center text-ivory print:border-ink/30 print:bg-white print:text-ink">
               <LogoMark className="mx-auto h-6 w-6 text-gold-300 print:text-forest-800" />
               <p className="mt-2 font-mono text-[7.5px] uppercase tracking-[0.17em] text-gold-300 print:text-gold-700">
-                HALALNiaga · Sabah pilot
+                {t('HALALNiaga · Sabah pilot')}
               </p>
-              <p className="mt-1 font-display text-[15px]">Scan to verify</p>
+              <p className="mt-1 font-display text-[15px]">{t('Scan to verify')}</p>
               <div className="mx-auto mt-2.5 w-fit rounded-lg bg-ivory p-1.5">
                 <QRCodeSVG
                   value={profileUrl}
@@ -224,27 +224,27 @@ export const StarterKit = () => {
                   bgColor="#FAF7F0"
                   fgColor="#0B4F3C"
                   level="M"
-                  aria-label="Vendor verification QR code"
+                  aria-label={t('Vendor verification QR code')}
                 />
               </div>
               <p className="mt-2.5 text-[10px] font-semibold">
                 {state.vendor.name}
               </p>
-              <p className="text-[8px] text-ivory/60 print:text-ink-3">{state.vendor.stall}</p>
+              <p className="text-[8px] text-ivory/60 print:text-ink-3">{t(state.vendor.stall)}</p>
               <p className="mt-1.5 text-[6.5px] leading-relaxed text-ivory/45 print:text-ink-3">
-                Programme recognition — not a JAKIM halal certificate.
+                {t('Programme recognition — not a JAKIM halal certificate.')}
               </p>
             </div>
           </div>
           <div className="space-y-2 border-t border-line-soft p-4 print:hidden">
             <Button variant="secondary" size="sm" className="w-full" onClick={downloadQr}>
-              <Download className="h-3.5 w-3.5" /> Download QR
+              <Download className="h-3.5 w-3.5" /> {t('Download QR')}
             </Button>
             <Link
               to="/app/verification"
               className="flex w-full items-center justify-center gap-1.5 rounded-full border border-line px-4 py-2 text-[11px] text-ink-2 transition-colors hover:border-forest-200 hover:bg-forest-50"
             >
-              Open the full QR kit <ArrowUpRight className="h-3 w-3" />
+              {t('Open the full QR kit')} <ArrowUpRight className="h-3 w-3" />
             </Link>
           </div>
         </Card>
@@ -253,8 +253,8 @@ export const StarterKit = () => {
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Card className="print:break-inside-avoid">
           <CardHeader
-            title="Storage labels"
-            description="Print, cut and stick on containers. Write the date opened."
+            title={t('Storage labels')}
+            description={t('Print, cut and stick on containers. Write the date opened.')}
             action={<Scissors className="h-4 w-4 text-ink-3" />}
           />
           <div className="grid gap-2 p-4 sm:grid-cols-2">
@@ -264,7 +264,7 @@ export const StarterKit = () => {
                 className="flex h-[74px] flex-col justify-between rounded-lg border border-dashed border-ink/30 bg-paper p-2.5"
               >
                 <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-ink">
-                  {label}
+                  {t(label)}
                 </p>
                 <p className="text-[8px] text-ink-3">
                   {state.vendor.name} · HALALNiaga
@@ -273,15 +273,14 @@ export const StarterKit = () => {
             ))}
           </div>
           <p className="border-t border-line-soft px-4 py-2.5 text-[9px] leading-relaxed text-ink-3">
-            Keep raw meat, poultry and seafood separate from cooked food. Label
-            everything that is opened, cooked or portioned.
+            {t('Keep raw meat, poultry and seafood separate from cooked food. Label everything that is opened, cooked or portioned.')}
           </p>
         </Card>
 
         <Card className="print:break-inside-avoid">
           <CardHeader
-            title="Equipment colour guide"
-            description="One colour per food type. If you only have one board, clean and sanitise between tasks."
+            title={t('Equipment colour guide')}
+            description={t('One colour per food type. If you only have one board, clean and sanitise between tasks.')}
             action={<Utensils className="h-4 w-4 text-ink-3" />}
           />
           <div className="space-y-2 p-4">
@@ -296,33 +295,32 @@ export const StarterKit = () => {
                     item.className,
                   )}
                 >
-                  {item.colour.slice(0, 3)}
+                  {t(item.colour).slice(0, 3)}
                 </span>
                 <div className="min-w-0">
                   <p className="text-[11.5px] font-semibold text-ink">
-                    {item.use}
+                    {t(item.use)}
                   </p>
-                  <p className="text-[9.5px] text-ink-3">{item.note}</p>
+                  <p className="text-[9.5px] text-ink-3">{t(item.note)}</p>
                 </div>
                 <span className="ml-auto font-mono text-[8px] uppercase tracking-[0.1em] text-ink-3">
-                  {item.colour}
+                  {t(item.colour)}
                 </span>
               </div>
             ))}
           </div>
           <div className="flex items-start gap-2 border-t border-line-soft bg-sand/30 px-4 py-3 text-[9.5px] leading-relaxed text-ink-3">
             <Droplets className="mt-0.5 h-3.5 w-3.5 shrink-0 text-info" />
-            Store cleaning cloths away from food. Wash hands before changing
-            between raw and cooked tasks.
+            {t('Store cleaning cloths away from food. Wash hands before changing between raw and cooked tasks.')}
           </div>
         </Card>
       </div>
 
       <Card className="mt-4 print:break-inside-avoid">
         <CardHeader
-          title="Hygiene & halal checklist"
-          description="A quick daily and weekly check. Tick what is in place; note what needs fixing."
-          action={<Badge tone="forest">Print & reuse</Badge>}
+          title={t('Hygiene & halal checklist')}
+          description={t('A quick daily and weekly check. Tick what is in place; note what needs fixing.')}
+          action={<Badge tone="forest">{t('Print & reuse')}</Badge>}
         />
         <div className="grid gap-x-8 gap-y-2.5 p-5 sm:grid-cols-2">
           {checklist.map((item) => (
@@ -333,26 +331,25 @@ export const StarterKit = () => {
               <span className="mt-0.5 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-[3px] border border-ink/30 bg-paper">
                 <Check className="h-2.5 w-2.5 text-transparent print:text-transparent" />
               </span>
-              {item}
+              {t(item)}
             </label>
           ))}
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line-soft px-5 py-3.5">
           <p className="text-[9.5px] text-ink-3">
-            Signed by: ____________________ · Date: __________
+            {t('Signed by: ____________________ · Date: __________')}
           </p>
           <p className="flex items-center gap-1.5 text-[9px] text-ink-3">
-            <Thermometer className="h-3 w-3" /> Chiller target: 4°C or below
+            <Thermometer className="h-3 w-3" /> {t('Chiller target: 4°C or below')}
           </p>
         </div>
       </Card>
 
       <p className="mt-4 flex items-start gap-2 rounded-xl border border-line bg-sand/40 p-3.5 text-[9.5px] leading-relaxed text-ink-3">
         <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-700" />
-        HALALNiaga starter kit · {state.vendor.name}. This is a programme tool for
-        training and record-keeping. It is not a Malaysian halal certificate, and
-        it does not replace an inspection by JAKIM or a recognised state Islamic
-        authority.
+        {t('HALALNiaga starter kit · {vendor}. This is a programme tool for training and record-keeping. It is not a Malaysian halal certificate, and it does not replace an inspection by JAKIM or a recognised state Islamic authority.', {
+          vendor: state.vendor.name,
+        })}
       </p>
 
       <div className="hidden" aria-hidden="true">

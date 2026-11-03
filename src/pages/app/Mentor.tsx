@@ -13,6 +13,7 @@ import { Badge, Button, Card, CardHeader, Textarea } from '@/components/ui';
 import { PageHeader } from '@/components/app/shared';
 import { relativeDate } from '@/domain/compliance';
 import { useApp } from '@/domain/store';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 const suggested = [
@@ -22,6 +23,7 @@ const suggested = [
 ];
 
 export const Mentor = () => {
+  const t = useT();
   const { state, sendMentorMessage } = useApp();
   const [draft, setDraft] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -39,12 +41,14 @@ export const Mentor = () => {
   return (
     <>
       <PageHeader
-        eyebrow="Support · Halal mentor"
-        title="A second opinion, before service starts."
-        description="Ask about equipment, suppliers, labels or inspection preparation. The mentor replies with practical steps for a small stall."
+        eyebrow={t('Support · Halal mentor')}
+        title={t('A second opinion, before service starts.')}
+        description={t(
+          'Ask about equipment, suppliers, labels or inspection preparation. The mentor replies with practical steps for a small stall.',
+        )}
         actions={
           <Badge tone="success" dot>
-            Mentor online
+            {t('Mentor online')}
           </Badge>
         }
       />
@@ -62,12 +66,12 @@ export const Mentor = () => {
               <div>
                 <p className="text-[13px] font-semibold text-ink">Hafiz Roslan</p>
                 <p className="text-[10px] text-ink-3">
-                  Programme officer · Halal mentor
+                  {t('Programme officer · Halal mentor')}
                 </p>
               </div>
             </div>
             <Badge tone="neutral">
-              <CircleDot className="h-3 w-3 text-forest-600" /> Replies in minutes
+              <CircleDot className="h-3 w-3 text-forest-600" /> {t('Replies in minutes')}
             </Badge>
           </div>
 
@@ -76,7 +80,7 @@ export const Mentor = () => {
             className="flex-1 space-y-4 overflow-y-auto bg-sand/20 px-5 py-5"
           >
             <div className="mx-auto mb-2 w-fit rounded-full border border-line bg-ivory px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-3">
-              Demo conversation · scripted replies
+              {t('Demo conversation · scripted replies')}
             </div>
             {state.mentorMessages.map((message) => {
               const mine = message.role === 'vendor';
@@ -99,7 +103,7 @@ export const Mentor = () => {
                           : 'rounded-bl-md border border-line bg-paper text-ink-2',
                       )}
                     >
-                      {message.body}
+                      {t(message.body)}
                     </div>
                     <p className="mt-1 px-1 text-[9px] text-ink-3">
                       {relativeDate(message.sentAt)}
@@ -119,7 +123,7 @@ export const Mentor = () => {
                   onClick={() => send(question)}
                   className="cursor-pointer rounded-full border border-line bg-ivory px-2.5 py-1 text-[9.5px] text-ink-2 transition-colors hover:border-forest-200 hover:bg-forest-50"
                 >
-                  {question}
+                  {t(question)}
                 </button>
               ))}
             </div>
@@ -133,18 +137,21 @@ export const Mentor = () => {
               <Textarea
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
-                placeholder="Ask about sourcing, storage, equipment or an inspection…"
+                placeholder={t(
+                  'Ask about sourcing, storage, equipment or an inspection…',
+                )}
                 className="min-h-[44px] flex-1 resize-none py-2.5"
                 rows={1}
-                aria-label="Message the halal mentor"
+                aria-label={t('Message the halal mentor')}
               />
               <Button type="submit" size="sm" disabled={!draft.trim()} className="mb-0.5">
-                <Send className="h-3.5 w-3.5" /> Send
+                <Send className="h-3.5 w-3.5" /> {t('Send')}
               </Button>
             </form>
             <p className="mt-2 text-[9px] leading-relaxed text-ink-3">
-              Prototype notice: replies are pre-written demo guidance and must not
-              be treated as a fatwa or official ruling.
+              {t(
+                'Prototype notice: replies are pre-written demo guidance and must not be treated as a fatwa or official ruling.',
+              )}
             </p>
           </div>
         </Card>
@@ -158,7 +165,7 @@ export const Mentor = () => {
               <div>
                 <p className="text-[13px] font-semibold text-ink">Hafiz Roslan</p>
                 <p className="text-[10px] text-ink-3">
-                  Programme officer · 8 years in food safety
+                  {t('Programme officer · 8 years in food safety')}
                 </p>
               </div>
             </div>
@@ -169,15 +176,15 @@ export const Mentor = () => {
                 ['Availability', 'Mon–Sat · 8am–6pm'],
               ].map(([label, value]) => (
                 <div key={label} className="flex items-start justify-between gap-3 text-[10.5px]">
-                  <span className="text-ink-3">{label}</span>
-                  <span className="text-right text-ink-2">{value}</span>
+                  <span className="text-ink-3">{t(label)}</span>
+                  <span className="text-right text-ink-2">{t(value)}</span>
                 </div>
               ))}
             </div>
           </Card>
 
           <Card>
-            <CardHeader title="Good questions to ask" />
+            <CardHeader title={t('Good questions to ask')} />
             <ul className="space-y-2.5 p-4">
               {[
                 'Can I use this sauce with an unclear label?',
@@ -187,7 +194,7 @@ export const Mentor = () => {
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2 text-[10.5px] leading-relaxed text-ink-2">
                   <LifeBuoy className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-600" />
-                  {item}
+                  {t(item)}
                 </li>
               ))}
             </ul>
@@ -196,7 +203,7 @@ export const Mentor = () => {
           <Card className="p-5">
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-forest-700" />
-              <p className="text-[12px] font-semibold text-ink">Escalation path</p>
+              <p className="text-[12px] font-semibold text-ink">{t('Escalation path')}</p>
             </div>
             <ol className="mt-3 space-y-2.5">
               {[
@@ -208,7 +215,7 @@ export const Mentor = () => {
                   <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-sand font-mono text-[8px] text-ink-2">
                     {step}
                   </span>
-                  {text}
+                  {t(text)}
                 </li>
               ))}
             </ol>
@@ -225,16 +232,21 @@ export const Mentor = () => {
           <Card className="border-line bg-sand/40 p-4">
             <p className="flex items-start gap-2 text-[10px] leading-relaxed text-ink-3">
               <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-              This is a design prototype. Mentor messages are not sent to a real
-              officer and are stored only in this browser.
+              {t(
+                'This is a design prototype. Mentor messages are not sent to a real officer and are stored only in this browser.',
+              )}
             </p>
             <div className="mt-3 flex items-center gap-2 text-[9.5px] text-ink-3">
               <CalendarClock className="h-3 w-3" />
-              Session started {relativeDate(state.mentorMessages[0]?.sentAt ?? new Date().toISOString())}
+              {t('Session started {date}', {
+                date: relativeDate(
+                  state.mentorMessages[0]?.sentAt ?? new Date().toISOString(),
+                ),
+              })}
             </div>
             <div className="mt-1 flex items-center gap-2 text-[9.5px] text-ink-3">
               <BadgeCheck className="h-3 w-3" />
-              Programme guidance, not a religious ruling
+              {t('Programme guidance, not a religious ruling')}
             </div>
           </Card>
         </div>

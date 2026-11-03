@@ -34,6 +34,7 @@ import { Reveal } from '@/components/Reveal';
 import { TierBadge } from '@/components/badges';
 import { Badge, Card, Progress, buttonClass } from '@/components/ui';
 import { HeroMockup } from '@/pages/landing/HeroMockup';
+import { LanguageToggle } from '@/i18n/LanguageToggle';
 import { images } from '@/lib/images';
 import siteContent from '@/content/site.json';
 import vendorProfile from '@/content/vendor.json';
@@ -41,6 +42,7 @@ import suppliersContent from '@/content/suppliers.json';
 import productsContent from '@/content/products.json';
 import type { LucideIcon } from 'lucide-react';
 import { openInstallHelp } from '@/components/pwa/PwaExperience';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 /* -------------------------------------------------------------------------- */
@@ -61,8 +63,11 @@ const SectionHead = ({
   lead?: string;
   align?: 'left' | 'center';
   dark?: boolean;
-}) => (
-  <div className={cn('max-w-3xl', align === 'center' && 'mx-auto text-center')}>
+}) => {
+  const t = useT();
+
+  return (
+    <div className={cn('max-w-3xl', align === 'center' && 'mx-auto text-center')}>
     <div
       className={cn(
         'flex items-center gap-3',
@@ -86,7 +91,7 @@ const SectionHead = ({
           dark ? 'text-gold-300' : 'text-forest-700',
         )}
       >
-        {eyebrow}
+        {t(eyebrow)}
       </span>
     </div>
     <h2
@@ -105,11 +110,12 @@ const SectionHead = ({
           dark ? 'text-ivory/70' : 'text-ink-2',
         )}
       >
-        {lead}
+        {t(lead)}
       </p>
     )}
-  </div>
-);
+    </div>
+  );
+};
 
 const Stat = ({
   value,
@@ -119,8 +125,11 @@ const Stat = ({
   value: string;
   label: string;
   dark?: boolean;
-}) => (
-  <div>
+}) => {
+  const t = useT();
+
+  return (
+    <div>
     <p
       className={cn(
         'font-display text-3xl tracking-[-0.03em] sm:text-4xl',
@@ -135,10 +144,11 @@ const Stat = ({
         dark ? 'text-ivory/55' : 'text-ink-3',
       )}
     >
-      {label}
+      {t(label)}
     </p>
   </div>
-);
+  );
+};
 
 const moduleMeta: Record<
   string,
@@ -298,6 +308,7 @@ const navLinks = [
 ];
 
 const SiteNav = () => {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -318,49 +329,53 @@ const SiteNav = () => {
       )}
     >
       <div className="container-page flex h-[72px] items-center justify-between gap-6">
-        <Link to="/" aria-label="HALALNiaga home" className="shrink-0">
+        <Link to="/" aria-label={t('HALALNiaga home')} className="shrink-0">
           <Wordmark />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
+        <nav className="hidden items-center gap-7 lg:flex" aria-label={t('Main')}>
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               className="text-[13px] text-ink-2 transition-colors hover:text-forest-800"
             >
-              {link.label}
+              {t(link.label)}
             </a>
           ))}
         </nav>
 
         <div className="hidden items-center gap-2 sm:flex">
+          <LanguageToggle showIcon={false} />
           <Link
             to="/signin"
             className={buttonClass('ghost', 'sm', 'hidden md:inline-flex')}
           >
-            Vendor sign in
+            {t('Vendor sign in')}
           </Link>
           <Link to="/app" className={buttonClass('primary', 'sm')}>
-            Open the demo
+            {t('Open the demo')}
             <ArrowUpRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((value) => !value)}
-          className="cursor-pointer rounded-full p-2 text-ink-2 hover:bg-sand sm:hidden"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2 sm:hidden">
+          <LanguageToggle showIcon={false} />
+          <button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            className="cursor-pointer rounded-full p-2 text-ink-2 hover:bg-sand"
+            aria-label={open ? t('Close menu') : t('Open menu')}
+            aria-expanded={open}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {open && (
         <div className="border-t border-line bg-ivory px-5 py-4 sm:hidden">
-          <nav className="space-y-1" aria-label="Mobile">
+          <nav className="space-y-1" aria-label={t('Mobile')}>
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -368,20 +383,20 @@ const SiteNav = () => {
                 onClick={() => setOpen(false)}
                 className="block rounded-lg px-3 py-2.5 text-sm text-ink-2 hover:bg-sand"
               >
-                {link.label}
+                {t(link.label)}
               </a>
             ))}
             <Link
               to="/signin"
               className="block rounded-lg px-3 py-2.5 text-sm text-ink-2 hover:bg-sand"
             >
-              Vendor sign in
+              {t('Vendor sign in')}
             </Link>
             <Link
               to="/app"
               className={buttonClass('primary', 'md', 'mt-2 w-full')}
             >
-              Open the demo <ArrowUpRight className="h-4 w-4" />
+              {t('Open the demo')} <ArrowUpRight className="h-4 w-4" />
             </Link>
           </nav>
         </div>
@@ -394,7 +409,10 @@ const SiteNav = () => {
 /* Page                                                                        */
 /* -------------------------------------------------------------------------- */
 
-export const Landing = () => (
+export const Landing = () => {
+  const t = useT();
+
+  return (
   <div className="overflow-x-clip">
     <SiteNav />
 
@@ -409,40 +427,40 @@ export const Landing = () => (
           <div className="inline-flex items-center gap-2 rounded-full border border-line bg-paper/80 px-3 py-1.5">
             <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-forest-500" />
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-2">
-              {siteContent.hero.eyebrow}
+              {t(siteContent.hero.eyebrow)}
             </span>
           </div>
 
           <h1 className="mt-6 font-display text-[clamp(2.7rem,6.2vw,4.9rem)] leading-[0.98] tracking-[-0.045em] text-ink">
             {siteContent.hero.titleLines.map((line, index) => (
               <span key={`${line}-${index}`}>
-                {line}
+                {t(line)}
                 <br />
               </span>
             ))}
             <span className="italic text-forest-700">
-              {siteContent.hero.titleEmphasis}
+              {t(siteContent.hero.titleEmphasis)}
             </span>
           </h1>
 
           <p className="mt-6 max-w-xl text-[15.5px] leading-relaxed text-ink-2 sm:text-[17px]">
-            {siteContent.hero.lead}
+            {t(siteContent.hero.lead)}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link to="/app" className={buttonClass('primary', 'lg')}>
-              {siteContent.hero.ctaPrimary}
+              {t(siteContent.hero.ctaPrimary)}
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <a href="#how" className={buttonClass('secondary', 'lg')}>
-              {siteContent.hero.ctaSecondary}
+              {t(siteContent.hero.ctaSecondary)}
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
 
           <p className="mt-4 flex max-w-xl items-start gap-2 text-[12px] leading-relaxed text-ink-3">
             <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-600" />
-            {siteContent.hero.disclaimer}
+            {t(siteContent.hero.disclaimer)}
           </p>
 
           <div className="mt-4 flex flex-wrap gap-2">
@@ -454,7 +472,7 @@ export const Landing = () => (
                   className="inline-flex items-center gap-1.5 rounded-full border border-forest-200 bg-forest-50 px-2.5 py-1 text-[10.5px] font-medium text-forest-800"
                 >
                   <Icon className="h-3 w-3" />
-                  {label}
+                  {t(label)}
                 </span>
               );
             })}
@@ -475,7 +493,7 @@ export const Landing = () => (
       <div className="border-y border-line bg-paper/60">
         <div className="container-page flex flex-wrap items-center justify-between gap-x-8 gap-y-3 py-5">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-3">
-            Built for the vendors the system usually misses
+            {t('Built for the vendors the system usually misses')}
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-ink-2">
             {[
@@ -488,7 +506,7 @@ export const Landing = () => (
             ].map((item) => (
               <span key={item} className="inline-flex items-center gap-2">
                 <span className="h-1 w-1 rounded-full bg-gold-500" />
-                {item}
+                {t(item)}
               </span>
             ))}
           </div>
@@ -506,22 +524,20 @@ export const Landing = () => (
               eyebrow="The problem"
               title={
                 <>
-                  The gap isn’t
+                  {t('The gap isn’t')}
                   <br />
-                  intention. It’s{' '}
-                  <span className="italic text-forest-700">evidence.</span>
+                  {t('intention. It’s')}{' '}
+                  <span className="italic text-forest-700">{t('evidence.')}</span>
                 </>
               }
               lead="Most small vendors want to do the right thing. What they lack is a practical way to prove what they already do — and a clear next step when something is missing."
             />
             <div className="mt-8 rounded-2xl border border-gold-500/25 bg-gold-100/40 p-5">
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold-700">
-                The design stance
+                {t('The design stance')}
               </p>
               <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
-                Do not ask a vendor to become an administrator. Build the record
-                from the work they already do — buying, cooking, cleaning,
-                serving.
+                {t('Do not ask a vendor to become an administrator. Build the record from the work they already do — buying, cooking, cleaning, serving.')}
               </p>
             </div>
           </Reveal>
@@ -536,10 +552,10 @@ export const Landing = () => (
                 </span>
                 <div className="flex-1">
                   <h3 className="text-[17px] font-semibold tracking-[-0.015em] text-ink transition-colors group-hover:text-forest-800">
-                    {problem.title}
+                    {t(problem.title)}
                   </h3>
                   <p className="mt-1.5 max-w-lg text-[13.5px] leading-relaxed text-ink-3">
-                    {problem.body}
+                    {t(problem.body)}
                   </p>
                 </div>
                 <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-line transition-colors group-hover:text-gold-600" />
@@ -556,11 +572,10 @@ export const Landing = () => (
         <div className="grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <Reveal>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold-300">
-              Not another directory
+              {t('Not another directory')}
             </p>
             <h2 className="mt-4 font-display text-[clamp(1.9rem,3.4vw,2.8rem)] leading-[1.05] tracking-[-0.03em]">
-              An ecosystem that connects the three parties the supply chain
-              depends on.
+              {t('An ecosystem that connects the three parties the supply chain depends on.')}
             </h2>
           </Reveal>
           <Reveal delay={120}>
@@ -587,9 +602,9 @@ export const Landing = () => (
                   className="rounded-2xl border border-ivory/10 bg-ivory/[0.04] p-5 transition-colors hover:border-gold-300/30 hover:bg-ivory/[0.06]"
                 >
                   <party.icon className="h-5 w-5 text-gold-300" />
-                  <h3 className="mt-4 text-[14px] font-semibold">{party.title}</h3>
+                  <h3 className="mt-4 text-[14px] font-semibold">{t(party.title)}</h3>
                   <p className="mt-1.5 text-[12.5px] leading-relaxed text-ivory/60">
-                    {party.body}
+                    {t(party.body)}
                   </p>
                 </div>
               ))}
@@ -608,9 +623,10 @@ export const Landing = () => (
               eyebrow="Wet market first"
               title={
                 <>
-                  The morning run,
+                  {t('The morning run,')}
                   <br />
-                  made <span className="italic text-forest-700">traceable.</span>
+                  {t('made')}{' '}
+                  <span className="italic text-forest-700">{t('traceable.')}</span>
                 </>
               }
               lead="Fresh chicken, fish, vegetables, eggs and milk are bought often, stored carefully and hard to trace. HALALNiaga starts with the wet ingredients where trust is won or lost every day."
@@ -624,7 +640,7 @@ export const Landing = () => (
                 {String(wetSupplierCount).padStart(2, '0')}
               </p>
                 <p className="mt-0.5 text-[10px] text-ink-3">
-                  wet-ingredient suppliers
+                  {t('wet-ingredient suppliers')}
                 </p>
               </div>
             </div>
@@ -637,7 +653,7 @@ export const Landing = () => (
               <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-line bg-sand">
                 <img
                   src={item.image}
-                  alt={item.alt}
+                  alt={t(item.alt)}
                   loading="lazy"
                   className={cn(
                     'h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]',
@@ -648,15 +664,15 @@ export const Landing = () => (
                 <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-2 p-3.5">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-ivory/20 bg-forest-950/45 px-2 py-1 font-mono text-[8.5px] uppercase tracking-[0.12em] text-ivory backdrop-blur-sm">
                     <item.icon className="h-3 w-3 text-gold-300" />
-                    {item.category}
+                    {t(item.category)}
                   </span>
                   <span className="rounded-full bg-ivory/90 px-2 py-0.5 text-[8.5px] font-medium text-forest-900">
-                    {item.count}
+                    {t(item.count)}
                   </span>
                 </div>
                 <div className="absolute inset-x-0 bottom-0 p-4 text-ivory">
-                  <p className="text-[13px] font-semibold">{item.examples}</p>
-                  <p className="mt-1 text-[10px] text-ivory/60">{item.note}</p>
+                  <p className="text-[13px] font-semibold">{t(item.examples)}</p>
+                  <p className="mt-1 text-[10px] text-ivory/60">{t(item.note)}</p>
                 </div>
               </div>
             </Reveal>
@@ -669,18 +685,17 @@ export const Landing = () => (
               <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl">
                 <img
                   src={images.dryGoods}
-                  alt="Dried goods at a Kota Kinabalu market"
+                  alt={t('Dried goods at a Kota Kinabalu market')}
                   loading="lazy"
                   className="h-full w-full object-cover"
                 />
               </div>
               <div>
                 <p className="text-[12px] font-semibold text-ink">
-                  Dry goods and sauces are in the network too.
+                  {t('Dry goods and sauces are in the network too.')}
                 </p>
                 <p className="mt-0.5 text-[10.5px] leading-relaxed text-ink-3">
-                  But the pilot starts with the categories that spoil fastest and
-                  carry the most daily risk.
+                  {t('But the pilot starts with the categories that spoil fastest and carry the most daily risk.')}
                 </p>
               </div>
             </div>
@@ -688,7 +703,7 @@ export const Landing = () => (
               to="/app/suppliers?wet=1"
               className={buttonClass('secondary', 'sm', 'shrink-0')}
             >
-              Browse wet ingredients <ArrowUpRight className="h-3.5 w-3.5" />
+              {t('Browse wet ingredients')} <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </Reveal>
@@ -704,10 +719,10 @@ export const Landing = () => (
             eyebrow="The system"
             title={
               <>
-                Six modules.
+                {t('Six modules.')}
                 <br />
-                One continuous{' '}
-                <span className="italic text-forest-700">record.</span>
+                {t('One continuous')}{' '}
+                <span className="italic text-forest-700">{t('record.')}</span>
               </>
             }
             lead="Training, sourcing, assessment and inspection stop living in separate notebooks. Each module feeds the same compliance record."
@@ -754,7 +769,7 @@ export const Landing = () => (
                     module.featured ? 'text-ivory' : 'text-ink',
                   )}
                 >
-                  {module.title}
+                  {t(module.title)}
                 </h3>
                 <p
                   className={cn(
@@ -762,7 +777,7 @@ export const Landing = () => (
                     module.featured ? 'text-ivory/65' : 'text-ink-3',
                   )}
                 >
-                  {module.description}
+                  {t(module.description)}
                 </p>
                 <ul className="mt-5 flex flex-wrap gap-1.5">
                   {module.detail.map((detail) => (
@@ -776,7 +791,7 @@ export const Landing = () => (
                         module.wide && 'bg-paper',
                       )}
                     >
-                      {detail}
+                      {t(detail)}
                     </li>
                   ))}
                 </ul>
@@ -790,7 +805,7 @@ export const Landing = () => (
                     ].map(([label, value]) => (
                       <div key={String(label)}>
                         <div className="mb-1 flex justify-between text-[10px] text-ink-3">
-                          <span>{label}</span>
+                          <span>{t(String(label))}</span>
                           <span className="font-mono">{value}%</span>
                         </div>
                         <Progress value={Number(value)} className="h-1" />
@@ -803,10 +818,10 @@ export const Landing = () => (
                   <div className="mt-5 rounded-xl border border-ivory/15 bg-ivory/[0.06] p-3">
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-gold-300">
-                        Nearby verified sources
+                        {t('Nearby verified sources')}
                       </span>
                       <span className="font-mono text-[9px] text-ivory/40">
-                        3 matches
+                        {t('3 matches')}
                       </span>
                     </div>
                     <div className="mt-2.5 space-y-2">
@@ -833,7 +848,7 @@ export const Landing = () => (
                               </p>
                             </div>
                             <span className="shrink-0 rounded-full border border-ivory/15 px-2 py-0.5 text-[8.5px] text-gold-300">
-                              {status}
+                              {t(status)}
                             </span>
                           </div>
                         );
@@ -849,10 +864,10 @@ export const Landing = () => (
                     </div>
                     <div>
                       <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-                        Live vendor record
+                        {t('Live vendor record')}
                       </p>
                       <p className="text-[11px] font-medium text-ink">
-                        4 controls · 1 scan
+                        {t('4 controls · 1 scan')}
                       </p>
                     </div>
                   </div>
@@ -866,7 +881,7 @@ export const Landing = () => (
                         className="flex items-center gap-2 rounded-lg border border-line bg-paper px-3 py-2"
                       >
                         <TierBadge tier={tier.tier} showLabel={false} />
-                        <span className="text-[11px] text-ink-2">{tier.title}</span>
+                        <span className="text-[11px] text-ink-2">{t(tier.title)}</span>
                       </div>
                     ))}
                   </div>
@@ -885,7 +900,7 @@ export const Landing = () => (
           <SectionHead
             index="03"
             eyebrow="How it works"
-            title="Five steps, built into the working day."
+            title={t('Five steps, built into the working day.')}
             lead="No new paperwork ritual. Each step adds a small amount of evidence to a record that compounds over time."
           />
         </Reveal>
@@ -902,10 +917,10 @@ export const Landing = () => (
                   </span>
                 </div>
                 <h3 className="mt-4 text-[13.5px] font-semibold text-ink">
-                  {step.title}
+                  {t(step.title)}
                 </h3>
                 <p className="mt-1.5 text-[12px] leading-relaxed text-ink-3">
-                  {step.body}
+                  {t(step.body)}
                 </p>
               </div>
             </Reveal>
@@ -922,10 +937,10 @@ export const Landing = () => (
             eyebrow="Prototype · installable PWA"
             title={
               <>
-                Install it once.
+                {t('Install it once.')}
                 <br />
-                Use it at the{' '}
-                <span className="italic text-forest-700">stall.</span>
+                {t('Use it at the')}{' '}
+                <span className="italic text-forest-700">{t('stall.')}</span>
               </>
             }
             lead="The brief asked for a PWA prototype on a small budget. HALALNiaga installs straight from the browser, caches its shell, and keeps the workspace usable when the signal drops."
@@ -957,10 +972,10 @@ export const Landing = () => (
                 </div>
                 <div>
                   <p className="text-[12.5px] font-semibold text-ink">
-                    {item.title}
+                    {t(item.title)}
                   </p>
                   <p className="mt-1 text-[11px] leading-relaxed text-ink-3">
-                    {item.body}
+                    {t(item.body)}
                   </p>
                 </div>
               </div>
@@ -972,10 +987,10 @@ export const Landing = () => (
               onClick={openInstallHelp}
               className={buttonClass('primary', 'md')}
             >
-              <Smartphone className="h-4 w-4" /> How to install
+              <Smartphone className="h-4 w-4" /> {t('How to install')}
             </button>
             <Link to="/app" className={buttonClass('secondary', 'md')}>
-              Open the workspace <ArrowUpRight className="h-4 w-4" />
+              {t('Open the workspace')} <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>
         </Reveal>
@@ -1004,7 +1019,7 @@ export const Landing = () => (
                     </p>
                   </div>
                   <Badge tone="success" className="ml-auto">
-                    Installed
+                    {t('Installed')}
                   </Badge>
                 </div>
 
@@ -1012,7 +1027,7 @@ export const Landing = () => (
                   <div className="flex items-center gap-1.5">
                     <Droplets className="h-3.5 w-3.5 text-forest-700" />
                     <p className="text-[10.5px] font-medium text-ink">
-                      Wet ingredients near you
+                      {t('Wet ingredients near you')}
                     </p>
                   </div>
                   <div className="mt-2 space-y-1.5">
@@ -1035,18 +1050,18 @@ export const Landing = () => (
                 <div className="mt-3 grid grid-cols-2 gap-2">
                   <div className="rounded-lg bg-forest-50 p-2 text-center">
                     <p className="font-display text-lg leading-none text-ink">68</p>
-                    <p className="mt-0.5 text-[8px] text-ink-3">compliance</p>
+                    <p className="mt-0.5 text-[8px] text-ink-3">{t('compliance')}</p>
                   </div>
                   <div className="rounded-lg bg-gold-100/60 p-2 text-center">
                     <p className="text-[11px] font-semibold leading-none text-ink">
-                      Verified
+                      {t('Verified')}
                     </p>
-                    <p className="mt-1 text-[8px] text-ink-3">tier</p>
+                    <p className="mt-1 text-[8px] text-ink-3">{t('tier')}</p>
                   </div>
                 </div>
 
                 <div className="mt-3 flex items-center justify-between rounded-lg bg-forest-800 px-3 py-2 text-ivory">
-                  <span className="text-[9px]">Opens offline</span>
+                  <span className="text-[9px]">{t('Opens offline')}</span>
                   <WifiOff className="h-3 w-3 text-gold-300" />
                 </div>
               </div>
@@ -1065,10 +1080,10 @@ export const Landing = () => (
             eyebrow="Trust model"
             title={
               <>
-                Three tiers of recognition.
+                {t('Three tiers of recognition.')}
                 <br />
-                One clear{' '}
-                <span className="italic text-forest-700">boundary.</span>
+                {t('One clear')}{' '}
+                <span className="italic text-forest-700">{t('boundary.')}</span>
               </>
             }
             lead="HALALNiaga recognition is a programme credential. It describes participation and evidence — it is not, and never claims to be, a Malaysian halal certificate."
@@ -1087,11 +1102,11 @@ export const Landing = () => (
                 <div className="flex items-center justify-between">
                   <TierBadge tier={tier.tier} />
                   <span className="font-mono text-[10px] tracking-[0.16em] text-ink-3">
-                    {tier.level}
+                    {t('Tier {number}', { number: index + 1 })}
                   </span>
                 </div>
                 <h3 className="mt-5 font-display text-2xl tracking-[-0.03em] text-ink">
-                  {tier.title}
+                  {t(tier.title)}
                 </h3>
                 <ul className="mt-5 flex-1 space-y-2.5">
                   {tier.criteria.map((criterion) => (
@@ -1100,16 +1115,16 @@ export const Landing = () => (
                       className="flex items-start gap-2 text-[12.5px] leading-relaxed text-ink-2"
                     >
                       <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-600" />
-                      {criterion}
+                      {t(criterion)}
                     </li>
                   ))}
                 </ul>
                 <div className="mt-6 rounded-xl border border-line bg-paper px-3.5 py-3">
                   <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-                    Recognition
+                    {t('Recognition')}
                   </p>
                   <p className="mt-1 text-[12px] font-medium text-ink">
-                    {tier.recognition}
+                    {t(tier.recognition)}
                   </p>
                 </div>
               </Card>
@@ -1122,15 +1137,10 @@ export const Landing = () => (
             <ShieldCheck className="h-5 w-5 shrink-0 text-forest-700" />
             <div>
               <p className="text-[13px] font-semibold text-forest-900">
-                What this is not
+                {t('What this is not')}
               </p>
               <p className="mt-1 max-w-4xl text-[12.5px] leading-relaxed text-forest-900/75">
-                HALALNiaga does not certify halal status, does not use the
-                Malaysian halal logo, and does not replace inspections by JAKIM
-                or a state Islamic authority. Malaysian Halal Certification
-                (SPHM) remains with JAKIM and MAIN/JAIN. Food-handler training
-                requirements remain subject to KKM. Every QR record carries this
-                disclaimer.
+                {t('HALALNiaga does not certify halal status, does not use the Malaysian halal logo, and does not replace inspections by JAKIM or a state Islamic authority. Malaysian Halal Certification (SPHM) remains with JAKIM and MAIN/JAIN. Food-handler training requirements remain subject to KKM. Every QR record carries this disclaimer.')}
               </p>
             </div>
           </div>
@@ -1143,16 +1153,14 @@ export const Landing = () => (
       <div className="container-page grid items-center gap-14 lg:grid-cols-2">
         <Reveal>
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold-300">
-            05 · Customer verification
+            {t('05 · Customer verification')}
           </p>
           <h2 className="mt-5 font-display text-[clamp(2rem,4vw,3.3rem)] leading-[1.05] tracking-[-0.035em]">
-            Trust, at the point of{' '}
-            <span className="italic text-gold-300">sale.</span>
+            {t('Trust, at the point of')}{' '}
+            <span className="italic text-gold-300">{t('sale.')}</span>
           </h2>
           <p className="mt-5 max-w-lg text-[14.5px] leading-relaxed text-ivory/70">
-            A customer scans the sticker on the stall. No app, no account, no
-            marketing claim — just the programme record behind the food, with the
-            date it was last checked.
+            {t('A customer scans the sticker on the stall. No app, no account, no marketing claim — just the programme record behind the food, with the date it was last checked.')}
           </p>
           <ul className="mt-7 space-y-3">
             {[
@@ -1165,7 +1173,7 @@ export const Landing = () => (
                 <span className="mt-1 flex h-4 w-4 items-center justify-center rounded-full bg-gold-300/15">
                   <Check className="h-2.5 w-2.5 text-gold-300" />
                 </span>
-                {item}
+                {t(item)}
               </li>
             ))}
           </ul>
@@ -1173,7 +1181,7 @@ export const Landing = () => (
             to={`/vendor/${vendorProfile.qrSlug}`}
             className={buttonClass('gold', 'md', 'mt-8')}
           >
-            Open a live vendor profile
+            {t('Open a live vendor profile')}
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </Reveal>
@@ -1193,7 +1201,7 @@ export const Landing = () => (
                   <div>
                     <p className="text-[14px] font-semibold">{vendorProfile.name}</p>
                     <p className="text-[10.5px] text-ink-3">
-                      {vendorProfile.category}
+                      {t(vendorProfile.category)}
                     </p>
                   </div>
                 </div>
@@ -1203,9 +1211,9 @@ export const Landing = () => (
               <div className="mt-4 rounded-xl border border-line bg-sand/40 px-3.5 py-3">
                 <div className="flex items-center justify-between text-[10.5px]">
                   <span className="font-mono uppercase tracking-[0.12em] text-ink-3">
-                    Last verified
+                    {t('Last verified')}
                   </span>
-                  <span className="font-medium text-forest-700">31 days ago</span>
+                  <span className="font-medium text-forest-700">{t('31 days ago')}</span>
                 </div>
               </div>
 
@@ -1218,8 +1226,8 @@ export const Landing = () => (
                 ].map((row) => (
                   <div key={row.label}>
                     <div className="mb-1 flex items-center justify-between gap-2">
-                      <span className="text-[11px] text-ink-2">{row.label}</span>
-                      <span className="text-[10px] text-ink-3">{row.value}</span>
+                      <span className="text-[11px] text-ink-2">{t(row.label)}</span>
+                      <span className="text-[10px] text-ink-3">{t(row.value)}</span>
                     </div>
                     <Progress
                       value={row.pct}
@@ -1232,7 +1240,7 @@ export const Landing = () => (
 
               <div className="mt-4 rounded-xl border border-line bg-paper p-3">
                 <p className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-ink-3">
-                  Most recent source records
+                  {t('Most recent source records')}
                 </p>
                 <div className="mt-2 space-y-1.5">
                   {suppliersContent.slice(0, 3).map((supplier) => {
@@ -1248,7 +1256,7 @@ export const Landing = () => (
                           {supplier.name}
                         </span>
                         <span className="shrink-0 text-ink-3">
-                          {product?.name ?? 'Source record'}
+                          {product ? t(product.name) : t('Source record')}
                         </span>
                       </div>
                     );
@@ -1257,9 +1265,7 @@ export const Landing = () => (
               </div>
 
               <p className="mt-4 text-[8.5px] leading-relaxed text-ink-3">
-                HALALNiaga programme recognition. Not a JAKIM halal certificate.
-                Official certification is issued by JAKIM or a recognised state
-                Islamic authority.
+                {t('HALALNiaga programme recognition. Not a JAKIM halal certificate. Official certification is issued by JAKIM or a recognised state Islamic authority.')}
               </p>
             </div>
           </div>
@@ -1277,10 +1283,10 @@ export const Landing = () => (
               eyebrow="Sabah pilot"
               title={
                 <>
-                  Start where the
+                  {t('Start where the')}
                   <br />
-                  supply chain is{' '}
-                  <span className="italic text-forest-700">local.</span>
+                  {t('supply chain is')}{' '}
+                  <span className="italic text-forest-700">{t('local.')}</span>
                 </>
               }
               lead="Sabah’s food economy runs through wet markets, small suppliers and neighbourhood stalls. A pilot here tests the model where it matters most — with short routes, visible relationships and real accountability."
@@ -1294,7 +1300,7 @@ export const Landing = () => (
 
             <div className="mt-8 rounded-2xl border border-line bg-paper p-5">
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-3">
-                Proposed pilot network
+                {t('Proposed pilot network')}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {[
@@ -1309,13 +1315,12 @@ export const Landing = () => (
                     key={partner}
                     className="rounded-full border border-line bg-ivory px-3 py-1.5 text-[11.5px] text-ink-2"
                   >
-                    {partner}
+                    {t(partner)}
                   </span>
                 ))}
               </div>
               <p className="mt-3 text-[10.5px] leading-relaxed text-ink-3">
-                Illustrative pilot network for this academic prototype. No
-                partnership or endorsement is claimed.
+                {t('Illustrative pilot network for this academic prototype. No partnership or endorsement is claimed.')}
               </p>
             </div>
           </Reveal>
@@ -1324,10 +1329,10 @@ export const Landing = () => (
             <Card className="overflow-hidden">
               <div className="border-b border-line-soft px-6 py-5">
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-3">
-                  Pilot footprint
+                  {t('Pilot footprint')}
                 </p>
                 <h3 className="mt-1.5 text-[15px] font-semibold text-ink">
-                  Five districts, one shared standard
+                  {t('Five districts, one shared standard')}
                 </h3>
               </div>
               <ul>
@@ -1351,22 +1356,22 @@ export const Landing = () => (
                         <p className="text-[13px] font-medium text-ink">
                           {area.area}
                         </p>
-                        <p className="text-[10.5px] text-ink-3">{area.note}</p>
+                        <p className="text-[10.5px] text-ink-3">{t(area.note)}</p>
                       </div>
                     </div>
                     {area.active ? (
                       <Badge tone="success" dot>
-                        Active
+                        {t('Active')}
                       </Badge>
                     ) : (
-                      <Badge tone="neutral">Planned</Badge>
+                      <Badge tone="neutral">{t('Planned')}</Badge>
                     )}
                   </li>
                 ))}
               </ul>
               <div className="bg-sand/40 px-6 py-5">
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-3">
-                  12-week rollout
+                  {t('12-week rollout')}
                 </p>
                 <div className="mt-3 space-y-3">
                   {[
@@ -1377,9 +1382,9 @@ export const Landing = () => (
                   ].map(([window, task]) => (
                     <div key={window} className="flex gap-3 text-[11.5px]">
                       <span className="w-20 shrink-0 font-mono text-[10px] text-gold-700">
-                        {window}
+                        {t(window)}
                       </span>
-                      <span className="text-ink-2">{task}</span>
+                      <span className="text-ink-2">{t(task)}</span>
                     </div>
                   ))}
                 </div>
@@ -1397,7 +1402,7 @@ export const Landing = () => (
           <SectionHead
             index="07"
             eyebrow="Who benefits"
-            title="A compliance model that is inclusive by design."
+            title={t('A compliance model that is inclusive by design.')}
             lead="Halal certification in Malaysia is open to Muslim and non-Muslim operators who meet the requirements. HALALNiaga is built on compliance, not identity."
           />
         </Reveal>
@@ -1407,10 +1412,10 @@ export const Landing = () => (
               <div className="flex h-full flex-col rounded-2xl border border-line bg-ivory p-5">
                 <item.icon className="h-5 w-5 text-forest-700" />
                 <h3 className="mt-4 text-[13px] font-semibold text-ink">
-                  {item.who}
+                  {t(item.who)}
                 </h3>
                 <p className="mt-1.5 text-[11.5px] leading-relaxed text-ink-3">
-                  {item.benefit}
+                  {t(item.benefit)}
                 </p>
               </div>
             </Reveal>
@@ -1426,11 +1431,10 @@ export const Landing = () => (
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <SectionHead
               eyebrow="Voices from the pilot design"
-              title="What the model has to earn."
+              title={t('What the model has to earn.')}
             />
             <p className="max-w-xs text-[11px] leading-relaxed text-ink-3">
-              These are design personas used to test the service, not customer
-              testimonials.
+              {t('These are design personas used to test the service, not customer testimonials.')}
             </p>
           </div>
         </Reveal>
@@ -1440,7 +1444,7 @@ export const Landing = () => (
               <Card className="flex h-full flex-col p-6">
                 <MessageSquareQuote className="h-5 w-5 text-gold-500" />
                 <blockquote className="mt-4 flex-1 font-display text-[19px] leading-snug tracking-[-0.02em] text-ink">
-                  “{persona.quote}”
+                  “{t(persona.quote)}”
                 </blockquote>
                 <div className="mt-6 flex items-center gap-3 border-t border-line-soft pt-4">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-forest-800 font-display text-[11px] text-gold-300">
@@ -1450,7 +1454,7 @@ export const Landing = () => (
                     <p className="text-[12px] font-semibold text-ink">
                       {persona.name}
                     </p>
-                    <p className="text-[10.5px] text-ink-3">{persona.role}</p>
+                    <p className="text-[10.5px] text-ink-3">{t(persona.role)}</p>
                   </div>
                 </div>
               </Card>
@@ -1493,26 +1497,24 @@ export const Landing = () => (
             </svg>
             <div className="relative max-w-2xl">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold-300">
-                The invitation
+                {t('The invitation')}
               </p>
               <h2 className="mt-4 font-display text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.03] tracking-[-0.04em]">
-                Make halal compliance visible — one stall at a time.
+                {t('Make halal compliance visible — one stall at a time.')}
               </h2>
               <p className="mt-5 max-w-xl text-[14.5px] leading-relaxed text-ivory/65">
-                Explore the working prototype with a seeded Sabah vendor. Every
-                module is interactive: complete training, record a purchase, run
-                an assessment, publish a QR record.
+                {t('Explore the working prototype with a seeded Sabah vendor. Every module is interactive: complete training, record a purchase, run an assessment, publish a QR record.')}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link to="/app" className={buttonClass('gold', 'lg')}>
-                  Open the demo workspace
+                  {t('Open the demo workspace')}
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
                 <Link
                   to="/vendor/dapur-kak-nur"
                   className={buttonClass('secondary', 'lg', 'border-ivory/20 bg-transparent text-ivory hover:border-gold-300/50 hover:bg-ivory/5')}
                 >
-                  View a customer QR record
+                  {t('View a customer QR record')}
                   <QrCode className="h-4 w-4" />
                 </Link>
               </div>
@@ -1529,86 +1531,81 @@ export const Landing = () => (
           <div>
             <Wordmark />
             <p className="mt-4 max-w-xs text-[12.5px] leading-relaxed text-ink-3">
-              A digital halal ecosystem for small food vendors. Source with
-              confidence, serve with certainty.
+              {t('A digital halal ecosystem for small food vendors. Source with confidence, serve with certainty.')}
             </p>
             <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-ivory px-3 py-1.5">
               <Sparkles className="h-3.5 w-3.5 text-gold-600" />
               <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink-2">
-                UMS student innovation · Sabah pilot
+                {t('UMS student innovation · Sabah pilot')}
               </span>
             </div>
           </div>
 
           <div>
             <p className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-ink-3">
-              Product
+              {t('Product')}
             </p>
             <ul className="mt-3 space-y-2 text-[12.5px] text-ink-2">
-              <li><a href="#modules" className="hover:text-forest-800">Modules</a></li>
-              <li><a href="#how" className="hover:text-forest-800">How it works</a></li>
-              <li><a href="#trust" className="hover:text-forest-800">Trust model</a></li>
-              <li><a href="#wet" className="hover:text-forest-800">Wet-ingredient sourcing</a></li>
-              <li><a href="#pwa" className="hover:text-forest-800">PWA prototype</a></li>
+              <li><a href="#modules" className="hover:text-forest-800">{t('Modules')}</a></li>
+              <li><a href="#how" className="hover:text-forest-800">{t('How it works')}</a></li>
+              <li><a href="#trust" className="hover:text-forest-800">{t('Trust model')}</a></li>
+              <li><a href="#wet" className="hover:text-forest-800">{t('Wet-ingredient sourcing')}</a></li>
+              <li><a href="#pwa" className="hover:text-forest-800">{t('PWA prototype')}</a></li>
             </ul>
           </div>
 
           <div>
             <p className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-ink-3">
-              Programme
+              {t('Programme')}
             </p>
             <ul className="mt-3 space-y-2 text-[12.5px] text-ink-2">
-              <li><a href="#pilot" className="hover:text-forest-800">Sabah pilot</a></li>
-              <li><Link to="/app/academy" className="hover:text-forest-800">Halal academy</Link></li>
-              <li><Link to="/app/monitoring" className="hover:text-forest-800">Monitoring</Link></li>
-              <li><Link to="/vendor/dapur-kak-nur" className="hover:text-forest-800">Vendor QR profile</Link></li>
+              <li><a href="#pilot" className="hover:text-forest-800">{t('Sabah pilot')}</a></li>
+              <li><Link to="/app/academy" className="hover:text-forest-800">{t('Halal academy')}</Link></li>
+              <li><Link to="/app/monitoring" className="hover:text-forest-800">{t('Monitoring')}</Link></li>
+              <li><Link to="/vendor/dapur-kak-nur" className="hover:text-forest-800">{t('Vendor QR profile')}</Link></li>
             </ul>
           </div>
 
           <div>
             <p className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-ink-3">
-              Demo
+              {t('Demo')}
             </p>
             <ul className="mt-3 space-y-2 text-[12.5px] text-ink-2">
-              <li><Link to="/signin" className="hover:text-forest-800">Vendor sign in</Link></li>
-              <li><Link to="/app" className="hover:text-forest-800">Open workspace</Link></li>
-              <li><Link to="/app/assessment" className="hover:text-forest-800">Run an assessment</Link></li>
-              <li><Link to="/app/mentor" className="hover:text-forest-800">Ask the mentor</Link></li>
-              <li><Link to="/app/starter-kit" className="hover:text-forest-800">Starter kit</Link></li>
-              <li><a href="/HALALNiaga-system-brief-en.pdf" target="_blank" rel="noreferrer" className="hover:text-forest-800">Client brief (EN)</a></li>
-              <li><a href="/HALALNiaga-system-brief.pdf" target="_blank" rel="noreferrer" className="hover:text-forest-800">Client brief (BM)</a></li>
-              <li><Link to="/admin" className="hover:text-forest-800">Content editor</Link></li>
+              <li><Link to="/signin" className="hover:text-forest-800">{t('Vendor sign in')}</Link></li>
+              <li><Link to="/app" className="hover:text-forest-800">{t('Open workspace')}</Link></li>
+              <li><Link to="/app/assessment" className="hover:text-forest-800">{t('Run an assessment')}</Link></li>
+              <li><Link to="/app/mentor" className="hover:text-forest-800">{t('Ask the mentor')}</Link></li>
+              <li><Link to="/app/starter-kit" className="hover:text-forest-800">{t('Starter kit')}</Link></li>
+              <li><a href="/HALALNiaga-system-brief-en.pdf" target="_blank" rel="noreferrer" className="hover:text-forest-800">{t('Client brief (EN)')}</a></li>
+              <li><a href="/HALALNiaga-system-brief.pdf" target="_blank" rel="noreferrer" className="hover:text-forest-800">{t('Client brief (BM)')}</a></li>
+              <li><Link to="/admin" className="hover:text-forest-800">{t('Content editor')}</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="mt-10 rounded-xl border border-line bg-ivory p-4">
           <p className="text-[10.5px] leading-relaxed text-ink-3">
-            <strong className="font-medium text-ink-2">Important:</strong>{' '}
-            HALALNiaga is an academic innovation prototype. It does not issue
-            halal certification and is not affiliated with JAKIM, MAIN/JAIN, KKM
-            or any named retailer. Malaysian Halal Certification (SPHM) is issued
-            by JAKIM or a recognised state Islamic authority. Food-handler
-            training requirements are set by the Ministry of Health Malaysia.
+            <strong className="font-medium text-ink-2">{t('Important:')}</strong>{' '}
+            {t('HALALNiaga is an academic innovation prototype. It does not issue halal certification and is not affiliated with JAKIM, MAIN/JAIN, KKM or any named retailer. Malaysian Halal Certification (SPHM) is issued by JAKIM or a recognised state Islamic authority. Food-handler training requirements are set by the Ministry of Health Malaysia.')}
           </p>
         </div>
 
         <div className="mt-6 flex flex-col justify-between gap-3 border-t border-line pt-6 text-[11px] text-ink-3 sm:flex-row sm:items-center">
           <p>
-            © 2026 HALALNiaga · A student innovation project, Universiti Malaysia
-            Sabah.
+            {t('© 2026 HALALNiaga · A student innovation project, Universiti Malaysia Sabah.')}
           </p>
           <div className="flex flex-wrap items-center gap-4">
             <Link to="/credits" className="hover:text-forest-700">
-              Image credits
+              {t('Image credits')}
             </Link>
             <p className="inline-flex items-center gap-1.5">
               <FileCheck2 className="h-3.5 w-3.5" />
-              Designed and built as a working prototype
+              {t('Designed and built as a working prototype')}
             </p>
           </div>
         </div>
       </div>
     </footer>
   </div>
-);
+  );
+};

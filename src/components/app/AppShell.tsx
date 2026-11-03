@@ -26,6 +26,8 @@ import { openInstallHelp } from '@/components/pwa/PwaExperience';
 import { ASSESSMENT_QUESTIONS } from '@/domain/seed';
 import { deriveAlerts, getCompliance } from '@/domain/compliance';
 import { useApp } from '@/domain/store';
+import { LanguageToggle } from '@/i18n/LanguageToggle';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 interface NavItem {
@@ -78,52 +80,56 @@ const titles: Record<string, string> = {
   '/app/starter-kit': 'Starter kit',
 };
 
-const NavList = ({ onNavigate }: { onNavigate?: () => void }) => (
-  <nav className="space-y-6" aria-label="Application">
-    {groups.map((group) => (
-      <div key={group.label}>
-        <p className="mb-2 px-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-3/70">
-          {group.label}
-        </p>
-        <ul className="space-y-0.5">
-          {group.items.map((item) => (
-            <li key={item.to}>
-              <NavLink
-                to={item.to}
-                end={item.end}
-                onClick={onNavigate}
-                className={({ isActive }) =>
-                  cn(
-                    'group flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13.5px] transition-colors',
-                    isActive
-                      ? 'bg-forest-800 text-ivory shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]'
-                      : 'text-ink-2 hover:bg-sand/70 hover:text-ink',
-                  )
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <item.icon
-                      className={cn(
-                        'h-4 w-4 shrink-0',
-                        isActive ? 'text-gold-300' : 'text-ink-3 group-hover:text-forest-700',
-                      )}
-                      aria-hidden="true"
-                    />
-                    <span className="truncate">{item.label}</span>
-                  </>
-                )}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </div>
-    ))}
-  </nav>
-);
+const NavList = ({ onNavigate }: { onNavigate?: () => void }) => {
+  const t = useT();
+  return (
+    <nav className="space-y-6" aria-label={t('Application')}>
+      {groups.map((group) => (
+        <div key={group.label}>
+          <p className="mb-2 px-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-3/70">
+            {t(group.label)}
+          </p>
+          <ul className="space-y-0.5">
+            {group.items.map((item) => (
+              <li key={item.to}>
+                <NavLink
+                  to={item.to}
+                  end={item.end}
+                  onClick={onNavigate}
+                  className={({ isActive }) =>
+                    cn(
+                      'group flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13.5px] transition-colors',
+                      isActive
+                        ? 'bg-forest-800 text-ivory shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]'
+                        : 'text-ink-2 hover:bg-sand/70 hover:text-ink',
+                    )
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      <item.icon
+                        className={cn(
+                          'h-4 w-4 shrink-0',
+                          isActive ? 'text-gold-300' : 'text-ink-3 group-hover:text-forest-700',
+                        )}
+                        aria-hidden="true"
+                      />
+                      <span className="truncate">{t(item.label)}</span>
+                    </>
+                  )}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </nav>
+  );
+};
 
 const VendorCard = () => {
   const { state } = useApp();
+  const t = useT();
   const snapshot = getCompliance(state, ASSESSMENT_QUESTIONS);
   return (
     <div className="rounded-2xl border border-line bg-paper p-4">
@@ -149,12 +155,15 @@ const VendorCard = () => {
         </span>
       </div>
       <div className="mt-3">
-        <Progress value={snapshot.score} tone={snapshot.tier === 'monitored' ? 'gold' : 'forest'} label="Compliance score" />
+        <Progress value={snapshot.score} tone={snapshot.tier === 'monitored' ? 'gold' : 'forest'} label={t('Compliance score')} />
       </div>
       <p className="mt-2 text-[10.5px] leading-relaxed text-ink-3">
         {snapshot.nextTier
-          ? `${snapshot.tierProgress}% toward ${snapshot.nextTier === 'monitored' ? 'Monitored' : 'Verified'}`
-          : 'Fully monitored participant'}
+          ? t('{progress}% toward {tier}', {
+              progress: snapshot.tierProgress,
+              tier: t(snapshot.nextTier === 'monitored' ? 'Monitored' : 'Verified'),
+            })
+          : t('Fully monitored participant')}
       </p>
     </div>
   );
@@ -162,10 +171,11 @@ const VendorCard = () => {
 
 export const AppShell = ({ children }: { children: ReactNode }) => {
   const { state, resetDemo } = useApp();
+  const t = useT();
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const alerts = deriveAlerts(state);
-  const title = titles[location.pathname] ?? 'Workspace';
+  const title = t(titles[location.pathname] ?? 'Workspace');
 
   useEffect(() => {
     setDrawerOpen(false);
@@ -185,7 +195,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
       {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[272px] flex-col border-r border-line bg-ivory lg:flex print:hidden">
         <div className="flex h-[68px] items-center border-b border-line-soft px-5">
-          <Link to="/" aria-label="HALALNiaga home">
+          <Link to="/" aria-label={t('HALALNiaga home')}>
             <Wordmark />
           </Link>
         </div>
@@ -199,21 +209,21 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
             onClick={openInstallHelp}
             className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-line bg-paper px-3 py-2 text-[11.5px] text-ink-2 transition-colors hover:border-forest-200 hover:bg-forest-50 hover:text-forest-800"
           >
-            <Download className="h-3.5 w-3.5" /> Install app
+            <Download className="h-3.5 w-3.5" /> {t('Install app')}
           </button>
-          <div className="flex items-center justify-between gap-2 px-1">
+          <div className="flex flex-col gap-1.5 px-1">
             <Link
               to="/"
               className="inline-flex items-center gap-1 text-[11.5px] text-ink-3 transition-colors hover:text-forest-700"
             >
-              Back to website <ArrowUpRight className="h-3 w-3" />
+              {t('Back to website')} <ArrowUpRight className="h-3 w-3" />
             </Link>
             <button
               type="button"
               onClick={resetDemo}
-              className="inline-flex cursor-pointer items-center gap-1 text-[11.5px] text-ink-3 transition-colors hover:text-clay"
+              className="inline-flex w-fit cursor-pointer items-center gap-1 text-[11.5px] text-ink-3 transition-colors hover:text-clay"
             >
-              <RotateCcw className="h-3 w-3" /> Reset demo
+              <RotateCcw className="h-3 w-3" /> {t('Reset demo')}
             </button>
           </div>
         </div>
@@ -230,7 +240,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
           <div
             role="dialog"
             aria-modal="true"
-            aria-label="Navigation"
+            aria-label={t('Navigation')}
             className="absolute inset-y-0 left-0 flex w-[86%] max-w-[320px] animate-rise flex-col border-r border-line bg-ivory"
           >
             <div className="flex h-[68px] items-center justify-between border-b border-line-soft px-5">
@@ -239,7 +249,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
                 type="button"
                 onClick={() => setDrawerOpen(false)}
                 className="cursor-pointer rounded-full p-2 text-ink-3 hover:bg-sand"
-                aria-label="Close navigation"
+                aria-label={t('Close navigation')}
               >
                 <X className="h-4 w-4" />
               </button>
@@ -254,15 +264,18 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
                 onClick={openInstallHelp}
                 className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-line bg-paper px-3 py-2 text-[11.5px] text-ink-2 transition-colors hover:border-forest-200 hover:bg-forest-50 hover:text-forest-800"
               >
-                <Download className="h-3.5 w-3.5" /> Install app
+                <Download className="h-3.5 w-3.5" /> {t('Install app')}
               </button>
-              <button
-                type="button"
-                onClick={resetDemo}
-                className="inline-flex cursor-pointer items-center gap-1 px-1 text-[11.5px] text-ink-3 hover:text-clay"
-              >
-                <RotateCcw className="h-3 w-3" /> Reset demo data
-              </button>
+              <div className="flex items-center justify-between gap-2">
+                <button
+                  type="button"
+                  onClick={resetDemo}
+                  className="inline-flex cursor-pointer items-center gap-1 px-1 text-[11.5px] text-ink-3 hover:text-clay"
+                >
+                  <RotateCcw className="h-3 w-3" /> {t('Reset demo data')}
+                </button>
+                <LanguageToggle />
+              </div>
             </div>
           </div>
         </div>
@@ -276,13 +289,13 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
               type="button"
               onClick={() => setDrawerOpen(true)}
               className="cursor-pointer rounded-full p-2 text-ink-2 transition-colors hover:bg-sand lg:hidden"
-              aria-label="Open navigation"
+              aria-label={t('Open navigation')}
             >
               <Menu className="h-5 w-5" />
             </button>
             <div className="min-w-0">
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-3">
-                Demo workspace · Sabah pilot
+                {t('Demo workspace · Sabah pilot')}
               </p>
               <h1 className="truncate text-[15px] font-semibold tracking-[-0.01em] text-ink">
                 {title}
@@ -290,13 +303,14 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
-            <Badge tone="gold" className="hidden sm:inline-flex">
-              Programme recognition — not a JAKIM certificate
+            <LanguageToggle showIcon={false} />
+            <Badge tone="gold" className="hidden xl:inline-flex">
+              {t('Programme recognition — not a JAKIM certificate')}
             </Badge>
             <Link
               to="/app#alerts"
               className="relative hidden cursor-pointer rounded-full border border-line bg-paper p-2.5 text-ink-2 transition-colors hover:border-forest-200 hover:text-forest-800 sm:inline-flex"
-              aria-label={`${alerts.length} open alerts`}
+              aria-label={t('{count} open alerts', { count: alerts.length })}
             >
               <Bell className="h-4 w-4" />
               {alerts.length > 0 && (

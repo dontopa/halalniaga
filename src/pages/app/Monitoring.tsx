@@ -39,6 +39,7 @@ import {
 import { ASSESSMENT_QUESTIONS } from '@/domain/seed';
 import { useApp } from '@/domain/store';
 import { TIER_META, type Tier } from '@/domain/types';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 const tierOrder: Tier[] = ['learner', 'verified', 'monitored'];
@@ -64,6 +65,7 @@ const tierRequirements: Record<Tier, string[]> = {
 export const Monitoring = () => {
   const { state, dismissAlert, recordInspection } = useApp();
   const { toast, show, clear } = useToast();
+  const t = useT();
   const [bookOpen, setBookOpen] = useState(false);
   const snapshot = getCompliance(state, ASSESSMENT_QUESTIONS);
   const alerts = useMemo(() => deriveAlerts(state), [state]);
@@ -91,19 +93,23 @@ export const Monitoring = () => {
     recordInspection();
     setBookOpen(false);
     show(
-      'Programme inspection recorded. Your monitoring score and recognition tier have been recalculated.',
+      t(
+        'Programme inspection recorded. Your monitoring score and recognition tier have been recalculated.',
+      ),
     );
   };
 
   return (
     <>
       <PageHeader
-        eyebrow="Module 06 · Monitoring & recognition"
-        title="Recognition that has to be maintained."
-        description="Tiers are not permanent labels. Monitoring, assessment and certificate validity all expire — and the record shows exactly when."
+        eyebrow={t('Module 06 · Monitoring & recognition')}
+        title={t('Recognition that has to be maintained.')}
+        description={t(
+          'Tiers are not permanent labels. Monitoring, assessment and certificate validity all expire — and the record shows exactly when.',
+        )}
         actions={
           <Button size="sm" onClick={() => setBookOpen(true)}>
-            <CalendarPlus className="h-3.5 w-3.5" /> Book inspection
+            <CalendarPlus className="h-3.5 w-3.5" /> {t('Book inspection')}
           </Button>
         }
       />
@@ -111,53 +117,64 @@ export const Monitoring = () => {
       <div className="grid gap-3 sm:grid-cols-3">
         <Card className="p-5">
           <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-            Current tier
+            {t('Current tier')}
           </p>
           <div className="mt-2">
             <TierBadge tier={snapshot.tier} />
           </div>
           <p className="mt-2 text-[11px] leading-relaxed text-ink-3">
-            {TIER_META[snapshot.tier].blurb}
+            {t(TIER_META[snapshot.tier].blurb)}
           </p>
         </Card>
         <Card className="p-5">
           <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-            Inspection validity
+            {t('Inspection validity')}
           </p>
           <p className="mt-2 font-display text-2xl tracking-[-0.03em] text-ink">
             {latestInspection
-              ? `${Math.max(
-                  INSPECTION_VALID_DAYS -
-                    daysBetween(new Date(latestInspection.inspectedAt), new Date()),
-                  0,
-                )} days`
-              : 'None'}
+              ? t('{count} days', {
+                  count: Math.max(
+                    INSPECTION_VALID_DAYS -
+                      daysBetween(
+                        new Date(latestInspection.inspectedAt),
+                        new Date(),
+                      ),
+                    0,
+                  ),
+                })
+              : t('None')}
           </p>
           <p className="mt-1 text-[10.5px] text-ink-3">
             {latestInspection
-              ? `Last inspected ${formatDate(latestInspection.inspectedAt)}`
-              : 'No programme inspection recorded'}
+              ? t('Last inspected {date}', {
+                  date: formatDate(latestInspection.inspectedAt),
+                })
+              : t('No programme inspection recorded')}
           </p>
         </Card>
         <Card className="p-5">
           <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-            Assessment renewal
+            {t('Assessment renewal')}
           </p>
           <p className="mt-2 font-display text-2xl tracking-[-0.03em] text-ink">
             {assessmentAge === null
-              ? 'Not started'
-              : `${Math.max(ASSESSMENT_VALID_DAYS - assessmentAge, 0)} days`}
+              ? t('Not started')
+              : t('{count} days', {
+                  count: Math.max(ASSESSMENT_VALID_DAYS - assessmentAge, 0),
+                })}
           </p>
           <p className="mt-1 text-[10.5px] text-ink-3">
             {latest
-              ? `Completed ${formatDate(latest.completedAt)}`
-              : 'Complete the first assessment'}
+              ? t('Completed {date}', {
+                  date: formatDate(latest.completedAt),
+                })
+              : t('Complete the first assessment')}
           </p>
           <Link
             to="/app/assessment"
             className="mt-2 inline-flex items-center gap-1 text-[10.5px] font-medium text-forest-700 hover:underline"
           >
-            <ClipboardCheck className="h-3 w-3" /> Open assessment
+            <ClipboardCheck className="h-3 w-3" /> {t('Open assessment')}
           </Link>
         </Card>
       </div>
@@ -166,9 +183,17 @@ export const Monitoring = () => {
         <div className="min-w-0 space-y-4 xl:col-span-2">
           <Card>
             <CardHeader
-              title="Recognition ladder"
-              description="Each tier builds on the last. The programme does not skip a step."
-              action={<Badge tone="gold">{snapshot.tierProgress}% to next tier</Badge>}
+              title={t('Recognition ladder')}
+              description={t(
+                'Each tier builds on the last. The programme does not skip a step.',
+              )}
+              action={
+                <Badge tone="gold">
+                  {t('{percent}% to next tier', {
+                    percent: snapshot.tierProgress,
+                  })}
+                </Badge>
+              }
             />
             <div className="space-y-3 p-5">
               {tierOrder.map((tier, index) => {
@@ -207,23 +232,23 @@ export const Monitoring = () => {
                         </span>
                         <div>
                           <p className="text-[13px] font-semibold text-ink">
-                            {TIER_META[tier].label}
+                            {t(TIER_META[tier].label)}
                           </p>
                           <p className="text-[10.5px] text-ink-3">
-                            {TIER_META[tier].blurb}
+                            {t(TIER_META[tier].blurb)}
                           </p>
                         </div>
                       </div>
                       {isCurrent ? (
                         <Badge tone="forest" dot>
-                          Current
+                          {t('Current')}
                         </Badge>
                       ) : achieved ? (
-                        <Badge tone="success">Achieved</Badge>
+                        <Badge tone="success">{t('Achieved')}</Badge>
                       ) : isNext ? (
-                        <Badge tone="gold">Next</Badge>
+                        <Badge tone="gold">{t('Next')}</Badge>
                       ) : (
-                        <Badge tone="neutral">Locked</Badge>
+                        <Badge tone="neutral">{t('Locked')}</Badge>
                       )}
                     </div>
                     <ul className="mt-3 grid gap-1.5 sm:grid-cols-3">
@@ -237,7 +262,7 @@ export const Monitoring = () => {
                           ) : (
                             <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-ink-3/40" />
                           )}
-                          {requirement}
+                          {t(requirement)}
                         </li>
                       ))}
                     </ul>
@@ -249,11 +274,13 @@ export const Monitoring = () => {
 
           <Card>
             <CardHeader
-              title="Inspection history"
-              description="Visits by programme officers, including findings and corrective actions."
+              title={t('Inspection history')}
+              description={t(
+                'Visits by programme officers, including findings and corrective actions.',
+              )}
               action={
                 <Button variant="secondary" size="sm" onClick={() => setBookOpen(true)}>
-                  <CalendarPlus className="h-3.5 w-3.5" /> Record a visit
+                  <CalendarPlus className="h-3.5 w-3.5" /> {t('Record a visit')}
                 </Button>
               }
             />
@@ -265,15 +292,19 @@ export const Monitoring = () => {
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div>
                         <p className="text-[12.5px] font-semibold text-ink">
-                          {inspection.officer}
+                          {t(inspection.officer)}
                         </p>
                         <p className="text-[10px] text-ink-3">
-                          {formatDate(inspection.inspectedAt)} · Programme visit
+                          {t('{date} · Programme visit', {
+                            date: formatDate(inspection.inspectedAt),
+                          })}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge tone={inspection.passed ? 'success' : 'danger'}>
-                          {inspection.passed ? 'Passed' : 'Follow-up required'}
+                          {inspection.passed
+                            ? t('Passed')
+                            : t('Follow-up required')}
                         </Badge>
                         <span className="inline-flex items-center gap-1 rounded-full border border-line bg-paper px-2 py-0.5 font-mono text-[9.5px] text-ink">
                           <Star className="h-3 w-3 fill-gold-400 text-gold-400" />
@@ -289,20 +320,20 @@ export const Monitoring = () => {
                             className="flex items-start gap-1.5 text-[10.5px] leading-relaxed text-ink-2"
                           >
                             <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gold-500" />
-                            {finding}
+                            {t(finding)}
                           </li>
                         ))}
                       </ul>
                     ) : (
                       <p className="mt-2 text-[10.5px] text-forest-700">
-                        No findings recorded.
+                        {t('No findings recorded.')}
                       </p>
                     )}
                   </li>
                 ))}
                 {inspections.length === 0 && (
                   <li className="text-[12px] text-ink-3">
-                    No inspections recorded yet.
+                    {t('No inspections recorded yet.')}
                   </li>
                 )}
               </ol>
@@ -311,18 +342,31 @@ export const Monitoring = () => {
 
           <Card className="overflow-hidden">
             <CardHeader
-              title="Certificate watchlist"
-              description="Certificate status is checked continuously, not only at purchase."
-              action={<Badge tone="warning">{certificateRows.filter((row) => row.days <= 30).length} due</Badge>}
+              title={t('Certificate watchlist')}
+              description={t(
+                'Certificate status is checked continuously, not only at purchase.',
+              )}
+              action={
+                <Badge tone="warning">
+                  {t('{count} due', {
+                    count: certificateRows.filter((row) => row.days <= 30)
+                      .length,
+                  })}
+                </Badge>
+              }
             />
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] text-left">
                 <thead>
                   <tr className="border-b border-line-soft text-[9px] uppercase tracking-[0.12em] text-ink-3">
-                    <th className="px-5 py-2.5 font-medium">Supplier</th>
-                    <th className="px-3 py-2.5 font-medium">Status</th>
-                    <th className="px-3 py-2.5 font-medium">Valid until</th>
-                    <th className="px-5 py-2.5 text-right font-medium">Window</th>
+                    <th className="px-5 py-2.5 font-medium">{t('Supplier')}</th>
+                    <th className="px-3 py-2.5 font-medium">{t('Status')}</th>
+                    <th className="px-3 py-2.5 font-medium">
+                      {t('Valid until')}
+                    </th>
+                    <th className="px-5 py-2.5 text-right font-medium">
+                      {t('Window')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -333,7 +377,7 @@ export const Monitoring = () => {
                           {supplier.shortName}
                         </p>
                         <p className="font-mono text-[9px] text-ink-3">
-                          {supplier.certificateNo ?? 'No certificate'}
+                          {supplier.certificateNo ?? t('No certificate')}
                         </p>
                       </td>
                       <td className="px-3 py-3">
@@ -344,7 +388,9 @@ export const Monitoring = () => {
                       </td>
                       <td className="px-5 py-3 text-right">
                         <Badge tone={days < 0 ? 'danger' : days <= 30 ? 'warning' : 'success'}>
-                          {days < 0 ? `${Math.abs(days)}d overdue` : `${days}d left`}
+                          {days < 0
+                            ? t('{count}d overdue', { count: Math.abs(days) })
+                            : t('{count}d left', { count: days })}
                         </Badge>
                       </td>
                     </tr>
@@ -357,9 +403,17 @@ export const Monitoring = () => {
 
         <div className="min-w-0 space-y-4">
           <Card>
-            <CardHeader title="Open alerts" action={<Badge tone={alerts.length ? 'warning' : 'success'}>{alerts.length}</Badge>} />
+            <CardHeader title={t('Open alerts')} action={<Badge tone={alerts.length ? 'warning' : 'success'}>{alerts.length}</Badge>} />
             <div className="p-4">
-              <AlertList alerts={alerts} onDismiss={dismissAlert} compact />
+              <AlertList
+                alerts={alerts.map((alert) => ({
+                  ...alert,
+                  title: t(alert.title),
+                  detail: t(alert.detail),
+                }))}
+                onDismiss={dismissAlert}
+                compact
+              />
             </div>
           </Card>
 
@@ -367,14 +421,14 @@ export const Monitoring = () => {
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-forest-700" />
               <p className="text-[12px] font-semibold text-ink">
-                Monitoring cycle
+                {t('Monitoring cycle')}
               </p>
             </div>
             <div className="mt-4 space-y-3">
               {[
-                { label: 'Self-assessment', value: `${ASSESSMENT_VALID_DAYS} days`, icon: ClipboardCheck },
-                { label: 'Programme inspection', value: `${INSPECTION_VALID_DAYS} days`, icon: Activity },
-                { label: 'Certificate check', value: 'Continuous', icon: BadgeCheck },
+                { label: t('Self-assessment'), value: t('{count} days', { count: ASSESSMENT_VALID_DAYS }), icon: ClipboardCheck },
+                { label: t('Programme inspection'), value: t('{count} days', { count: INSPECTION_VALID_DAYS }), icon: Activity },
+                { label: t('Certificate check'), value: t('Continuous'), icon: BadgeCheck },
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between gap-3">
                   <span className="flex items-center gap-2 text-[11px] text-ink-2">
@@ -387,14 +441,16 @@ export const Monitoring = () => {
             </div>
             <div className="mt-4 border-t border-line-soft pt-3">
               <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-ink-3">
-                Overall monitoring score
+                {t('Overall monitoring score')}
               </p>
               <div className="mt-2 flex items-end justify-between">
                 <span className="font-display text-2xl text-ink">
                   {snapshot.monitoringPct}%
                 </span>
                 <span className="text-[9.5px] text-ink-3">
-                  {snapshot.monitoringPct === 0 ? 'Inspection expired' : 'Current'}
+                  {snapshot.monitoringPct === 0
+                    ? t('Inspection expired')
+                    : t('Current')}
                 </span>
               </div>
               <Progress value={snapshot.monitoringPct} tone="gold" className="mt-2 h-1.5" />
@@ -405,31 +461,32 @@ export const Monitoring = () => {
             <div className="flex items-center gap-2">
               <CalendarClock className="h-4 w-4 text-gold-600" />
               <p className="text-[12px] font-semibold text-ink">
-                What moves you to Monitored
+                {t('What moves you to Monitored')}
               </p>
             </div>
             <ul className="mt-3 space-y-2">
               {snapshot.gaps.slice(0, 3).map((gap) => (
                 <li key={gap} className="flex items-start gap-2 text-[10.5px] leading-relaxed text-ink-2">
                   <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gold-500" />
-                  {gap}
+                  {t(gap)}
                 </li>
               ))}
               {snapshot.gaps.length === 0 && (
                 <li className="flex items-center gap-2 text-[11px] text-forest-700">
-                  <Check className="h-3.5 w-3.5" /> All tier requirements met.
+                  <Check className="h-3.5 w-3.5" /> {t('All tier requirements met.')}
                 </li>
               )}
             </ul>
             <Button className="mt-4 w-full" size="sm" onClick={() => setBookOpen(true)}>
-              <CalendarPlus className="h-3.5 w-3.5" /> Record a programme visit
+              <CalendarPlus className="h-3.5 w-3.5" /> {t('Record a programme visit')}
             </Button>
           </Card>
 
           <div className="flex items-start gap-2 rounded-xl border border-line bg-sand/40 p-3.5 text-[10px] leading-relaxed text-ink-3">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warn" />
-            Inspections in this prototype are simulated. In a real programme they
-            would be carried out by a trained officer and recorded with evidence.
+            {t(
+              'Inspections in this prototype are simulated. In a real programme they would be carried out by a trained officer and recorded with evidence.',
+            )}
           </div>
         </div>
       </div>
@@ -437,15 +494,17 @@ export const Monitoring = () => {
       <Modal
         open={bookOpen}
         onClose={() => setBookOpen(false)}
-        title="Record a programme inspection"
-        description="For the prototype, this simulates a completed officer visit and recalculates your tier."
+        title={t('Record a programme inspection')}
+        description={t(
+          'For the prototype, this simulates a completed officer visit and recalculates your tier.',
+        )}
         footer={
           <>
             <Button variant="secondary" onClick={() => setBookOpen(false)}>
-              Cancel
+              {t('Cancel')}
             </Button>
             <Button onClick={handleInspection}>
-              <CalendarPlus className="h-4 w-4" /> Record visit
+              <CalendarPlus className="h-4 w-4" /> {t('Record visit')}
             </Button>
           </>
         }
@@ -454,7 +513,7 @@ export const Monitoring = () => {
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="rounded-xl border border-line bg-paper p-3">
               <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-ink-3">
-                Officer
+                {t('Officer')}
               </p>
               <p className="mt-1 text-[11.5px] text-ink">
                 Hafiz Roslan, Programme Officer
@@ -462,13 +521,15 @@ export const Monitoring = () => {
             </div>
             <div className="rounded-xl border border-line bg-paper p-3">
               <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-ink-3">
-                Visit type
+                {t('Visit type')}
               </p>
-              <p className="mt-1 text-[11.5px] text-ink">Scheduled compliance visit</p>
+              <p className="mt-1 text-[11.5px] text-ink">
+                {t('Scheduled compliance visit')}
+              </p>
             </div>
           </div>
           <div className="rounded-xl border border-line bg-sand/40 p-3.5">
-            <p className="text-[11.5px] font-medium text-ink">Checklist</p>
+            <p className="text-[11.5px] font-medium text-ink">{t('Checklist')}</p>
             <ul className="mt-2 space-y-1.5">
               {[
                 'Purchase records and receipts for the last 30 days',
@@ -479,14 +540,15 @@ export const Monitoring = () => {
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2 text-[10.5px] text-ink-2">
                   <Check className="mt-0.5 h-3 w-3 shrink-0 text-forest-600" />
-                  {item}
+                  {t(item)}
                 </li>
               ))}
             </ul>
           </div>
           <p className="text-[10px] leading-relaxed text-ink-3">
-            Recorded visits are stored in the demo workspace only. A real
-            inspection would require an officer sign-off and supporting evidence.
+            {t(
+              'Recorded visits are stored in the demo workspace only. A real inspection would require an officer sign-off and supporting evidence.',
+            )}
           </p>
         </div>
       </Modal>

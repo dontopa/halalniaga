@@ -26,8 +26,10 @@ import { PurchaseModal } from '@/components/app/PurchaseModal';
 import { formatDate } from '@/domain/compliance';
 import { useApp } from '@/domain/store';
 import { cn } from '@/lib/cn';
+import { useT } from '@/i18n';
 
 export const Purchases = () => {
+  const t = useT();
   const { state } = useApp();
   const { toast, show, clear } = useToast();
   const [query, setQuery] = useState('');
@@ -97,14 +99,14 @@ export const Purchases = () => {
 
   const exportCsv = () => {
     const header = [
-      'Date',
-      'Supplier',
-      'Product',
-      'Quantity',
-      'Unit',
-      'Receipt',
-      'Verified source',
-      'Amount (MYR)',
+      t('Date'),
+      t('Supplier'),
+      t('Product'),
+      t('Quantity'),
+      t('Unit'),
+      t('Receipt'),
+      t('Verified source'),
+      t('Amount (MYR)'),
     ];
     const rows = [...state.purchases]
       .sort(
@@ -115,11 +117,11 @@ export const Purchases = () => {
       .map((purchase) => [
         new Date(purchase.purchasedAt).toISOString().slice(0, 10),
         supplierName(purchase.supplierId),
-        productName(purchase.productId),
+        t(productName(purchase.productId)),
         purchase.quantity,
-        purchase.unit,
+        t(purchase.unit),
         purchase.receiptNo,
-        purchase.verifiedSource ? 'Yes' : 'No',
+        purchase.verifiedSource ? t('Yes') : t('No'),
         purchase.amount.toFixed(2),
       ]);
     const csv = [header, ...rows]
@@ -132,22 +134,24 @@ export const Purchases = () => {
     anchor.download = 'halalniaga-purchases.csv';
     anchor.click();
     URL.revokeObjectURL(url);
-    show('Purchase log exported as CSV.');
+    show(t('Purchase log exported as CSV.'));
   };
 
   return (
     <>
       <PageHeader
-        eyebrow="Module 03 · Purchase tracking"
-        title="Every ingredient, with a source."
-        description="A purchase record is only useful if it answers four questions: who supplied it, what it was, how much, and when. This log captures all four."
+        eyebrow={t('Module 03 · Purchase tracking')}
+        title={t('Every ingredient, with a source.')}
+        description={t(
+          'A purchase record is only useful if it answers four questions: who supplied it, what it was, how much, and when. This log captures all four.',
+        )}
         actions={
           <>
             <Button variant="secondary" size="sm" onClick={exportCsv}>
-              <ArrowDownToLine className="h-3.5 w-3.5" /> Export CSV
+              <ArrowDownToLine className="h-3.5 w-3.5" /> {t('Export CSV')}
             </Button>
             <Button size="sm" onClick={() => setModalOpen(true)}>
-              <PackagePlus className="h-3.5 w-3.5" /> Record purchase
+              <PackagePlus className="h-3.5 w-3.5" /> {t('Record purchase')}
             </Button>
           </>
         }
@@ -158,32 +162,36 @@ export const Purchases = () => {
           {
             label: 'Total recorded spend',
             value: `RM ${totalSpend.toFixed(0)}`,
-            hint: `${state.purchases.length} records`,
+            hint: t('{count} records', { count: state.purchases.length }),
             icon: ReceiptText,
           },
           {
             label: 'Verified-source spend',
             value: `RM ${verifiedSpend.toFixed(0)}`,
-            hint: `${Math.round((verifiedSpend / Math.max(totalSpend, 1)) * 100)}% of total spend`,
+            hint: t('{percent}% of total spend', {
+              percent: Math.round((verifiedSpend / Math.max(totalSpend, 1)) * 100),
+            }),
             icon: ShieldCheck,
           },
           {
             label: 'Traceable purchases',
             value: `${verifiedCount}/${state.purchases.length}`,
-            hint: `${Math.round((verifiedCount / Math.max(state.purchases.length, 1)) * 100)}% of records`,
+            hint: t('{percent}% of records', {
+              percent: Math.round((verifiedCount / Math.max(state.purchases.length, 1)) * 100),
+            }),
             icon: TrendingUp,
           },
           {
             label: 'Suppliers used',
             value: `${uniqueSuppliers}`,
-            hint: 'Across the current menu cycle',
+            hint: t('Across the current menu cycle'),
             icon: Store,
           },
         ].map((item) => (
           <Card key={item.label} className="p-5">
             <div className="flex items-start justify-between">
               <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-                {item.label}
+                {t(item.label)}
               </p>
               <item.icon className="h-4 w-4 text-forest-700" />
             </div>
@@ -203,18 +211,18 @@ export const Purchases = () => {
               <Input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search product, supplier or receipt…"
+                placeholder={t('Search product, supplier or receipt…')}
                 className="pl-10"
-                aria-label="Search purchases"
+                aria-label={t('Search purchases')}
               />
             </div>
             <Select
               value={supplierFilter}
               onChange={(event) => setSupplierFilter(event.target.value)}
               className="sm:max-w-[220px]"
-              aria-label="Filter by supplier"
+              aria-label={t('Filter by supplier')}
             >
-              <option value="all">All suppliers</option>
+              <option value="all">{t('All suppliers')}</option>
               {state.suppliers.map((supplier) => (
                 <option key={supplier.id} value={supplier.id}>
                   {supplier.shortName}
@@ -222,18 +230,20 @@ export const Purchases = () => {
               ))}
             </Select>
           </div>
-          <Badge tone="neutral">{purchases.length} records</Badge>
+          <Badge tone="neutral">
+            {t('{count} records', { count: purchases.length })}
+          </Badge>
         </div>
 
         {purchases.length === 0 ? (
           <div className="p-4">
             <EmptyState
               icon={<ReceiptText className="h-5 w-5" />}
-              title="No purchases match this filter"
-              description="Try clearing the search or choosing another supplier."
+              title={t('No purchases match this filter')}
+              description={t('Try clearing the search or choosing another supplier.')}
               action={
                 <Button size="sm" onClick={() => { setQuery(''); setSupplierFilter('all'); }}>
-                  Clear filters
+                  {t('Clear filters')}
                 </Button>
               }
             />
@@ -243,12 +253,12 @@ export const Purchases = () => {
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-line-soft bg-sand/30 text-[9px] uppercase tracking-[0.13em] text-ink-3">
-                  <th className="px-5 py-3 font-medium">Product</th>
-                  <th className="px-3 py-3 font-medium">Supplier</th>
-                  <th className="px-3 py-3 font-medium">Receipt</th>
-                  <th className="px-3 py-3 font-medium">Source</th>
-                  <th className="px-3 py-3 text-right font-medium">Amount</th>
-                  <th className="px-5 py-3 text-right font-medium">Date</th>
+                  <th className="px-5 py-3 font-medium">{t('Product')}</th>
+                  <th className="px-3 py-3 font-medium">{t('Supplier')}</th>
+                  <th className="px-3 py-3 font-medium">{t('Receipt')}</th>
+                  <th className="px-3 py-3 font-medium">{t('Source')}</th>
+                  <th className="px-3 py-3 text-right font-medium">{t('Amount')}</th>
+                  <th className="px-5 py-3 text-right font-medium">{t('Date')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -259,10 +269,10 @@ export const Purchases = () => {
                   >
                     <td className="px-5 py-3.5">
                       <p className="text-[12px] font-medium text-ink">
-                        {productName(purchase.productId)}
+                        {t(productName(purchase.productId))}
                       </p>
                       <p className="font-mono text-[9.5px] text-ink-3">
-                        {purchase.quantity} {purchase.unit}
+                        {purchase.quantity} {t(purchase.unit)}
                       </p>
                     </td>
                     <td className="px-3 py-3.5 text-[11.5px] text-ink-2">
@@ -274,11 +284,11 @@ export const Purchases = () => {
                     <td className="px-3 py-3.5">
                       {purchase.verifiedSource ? (
                         <span className="inline-flex items-center gap-1 rounded-full border border-ok/15 bg-ok-soft px-2 py-0.5 text-[9.5px] text-ok">
-                          <CheckCircle2 className="h-3 w-3" /> Verified
+                          <CheckCircle2 className="h-3 w-3" /> {t('Verified')}
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1 rounded-full border border-warn/20 bg-warn-soft px-2 py-0.5 text-[9.5px] text-warn">
-                          <CircleDashed className="h-3 w-3" /> Unverified
+                          <CircleDashed className="h-3 w-3" /> {t('Unverified')}
                         </span>
                       )}
                     </td>
@@ -299,8 +309,10 @@ export const Purchases = () => {
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader
-            title="Source mix"
-            description="Where your recorded spend goes, and whether the source is verified."
+            title={t('Source mix')}
+            description={t(
+              'Where your recorded spend goes, and whether the source is verified.',
+            )}
           />
           <div className="p-5">
             <div className="space-y-3">
@@ -332,8 +344,10 @@ export const Purchases = () => {
 
         <Card>
           <CardHeader
-            title="Record integrity"
-            description="The checks a programme officer will make during a visit."
+            title={t('Record integrity')}
+            description={t(
+              'The checks a programme officer will make during a visit.',
+            )}
           />
           <div className="space-y-2.5 p-5">
             {[
@@ -368,7 +382,7 @@ export const Purchases = () => {
                   ) : (
                     <CircleDashed className="h-3.5 w-3.5 text-warn" />
                   )}
-                  <span className="text-[11px] text-ink-2">{item.label}</span>
+                  <span className="text-[11px] text-ink-2">{t(item.label)}</span>
                 </div>
                 <span
                   className={cn(
@@ -382,8 +396,9 @@ export const Purchases = () => {
             ))}
             <p className="flex items-start gap-1.5 pt-1 text-[10px] leading-relaxed text-ink-3">
               <FileText className="mt-0.5 h-3 w-3 shrink-0" />
-              A missing receipt does not make food non-halal, but it weakens the
-              evidence trail. The log flags gaps before an inspection does.
+              {t(
+                'A missing receipt does not make food non-halal, but it weakens the evidence trail. The log flags gaps before an inspection does.',
+              )}
             </p>
           </div>
         </Card>

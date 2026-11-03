@@ -33,6 +33,7 @@ import { useApp } from '@/domain/store';
 import type { HalalStatus, Supplier, SupplierCategory } from '@/domain/types';
 import { cn } from '@/lib/cn';
 import { supplierImage } from '@/lib/images';
+import { useT } from '@/i18n';
 
 const categories: Array<SupplierCategory | 'All categories'> = [
   'All categories',
@@ -71,6 +72,7 @@ const expiryTone = (supplier: Supplier) => {
 };
 
 export const Suppliers = () => {
+  const t = useT();
   const { state, toggleSavedSupplier } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState('');
@@ -152,12 +154,14 @@ export const Suppliers = () => {
   return (
     <>
       <PageHeader
-        eyebrow="Module 01 · Supplier finder"
-        title="Find a source you can stand behind."
-        description="Search nearby suppliers of fresh wet ingredients — poultry, meat, seafood, produce, dairy and eggs — or broaden to dry goods. Certification status is shown at product level, because a company certificate does not automatically cover every item it sells."
+        eyebrow={t('Module 01 · Supplier finder')}
+        title={t('Find a source you can stand behind.')}
+        description={t(
+          'Search nearby suppliers of fresh wet ingredients — poultry, meat, seafood, produce, dairy and eggs — or broaden to dry goods. Certification status is shown at product level, because a company certificate does not automatically cover every item it sells.',
+        )}
         actions={
           <Button size="sm" onClick={() => { setPurchaseSupplier(undefined); setPurchaseOpen(true); }}>
-            <PackagePlus className="h-3.5 w-3.5" /> Record purchase
+            <PackagePlus className="h-3.5 w-3.5" /> {t('Record purchase')}
           </Button>
         }
       />
@@ -171,7 +175,7 @@ export const Suppliers = () => {
         ].map((item) => (
           <Card key={item.label} className="px-4 py-3.5">
             <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-3">
-              {item.label}
+              {t(item.label)}
             </p>
             <p className={cn('mt-1 font-display text-2xl tracking-[-0.03em]', item.tone)}>
               {item.value}
@@ -187,30 +191,30 @@ export const Suppliers = () => {
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search supplier, product or tag…"
+              placeholder={t('Search supplier, product or tag…')}
               className="pl-10"
-              aria-label="Search suppliers"
+              aria-label={t('Search suppliers')}
             />
           </div>
-          <Field label="Area" htmlFor="filter-area" className="[&>label]:sr-only">
+          <Field label={t('Area')} htmlFor="filter-area" className="[&>label]:sr-only">
             <Select id="filter-area" value={area} onChange={(event) => setArea(event.target.value)}>
               {areas.map((option) => (
-                <option key={option}>{option}</option>
+                <option key={option}>{option === 'All areas' ? t(option) : option}</option>
               ))}
             </Select>
           </Field>
-          <Field label="Category" htmlFor="filter-category" className="[&>label]:sr-only">
+          <Field label={t('Category')} htmlFor="filter-category" className="[&>label]:sr-only">
             <Select
               id="filter-category"
               value={category}
               onChange={(event) => setCategory(event.target.value as SupplierCategory | 'All categories')}
             >
               {categories.map((option) => (
-                <option key={option}>{option}</option>
+                <option key={option}>{t(option)}</option>
               ))}
             </Select>
           </Field>
-          <Field label="Sort" htmlFor="filter-sort" className="[&>label]:sr-only">
+          <Field label={t('Sort')} htmlFor="filter-sort" className="[&>label]:sr-only">
             <Select
               id="filter-sort"
               value={sortBy}
@@ -218,9 +222,9 @@ export const Suppliers = () => {
                 setSortBy(event.target.value as 'nearest' | 'rating' | 'name')
               }
             >
-              <option value="nearest">Nearest first</option>
-              <option value="rating">Highest rated</option>
-              <option value="name">Name A–Z</option>
+              <option value="nearest">{t('Nearest first')}</option>
+              <option value="rating">{t('Highest rated')}</option>
+              <option value="name">{t('Name A–Z')}</option>
             </Select>
           </Field>
         </div>
@@ -238,10 +242,10 @@ export const Suppliers = () => {
               )}
             >
               <Droplets className="h-3 w-3" />
-              Wet ingredients
+              {t('Wet ingredients')}
               <span
                 className={cn(
-                  'rounded-full px-1.5 py-0.5 font-mono text-[9px]',
+                  'min-w-4 rounded-full px-1.5 py-0.5 text-center font-mono text-[10px] font-semibold leading-none',
                   wetOnly ? 'bg-ivory/15' : 'bg-paper',
                 )}
               >
@@ -260,13 +264,13 @@ export const Suppliers = () => {
                     : 'border-line bg-paper text-ink-2 hover:border-forest-200',
                 )}
               >
-                {option.label}
+                {t(option.label)}
               </button>
             ))}
           </div>
           <p className="text-[11px] text-ink-3">
-            <span className="font-medium text-ink">{sorted.length}</span> of{' '}
-            {state.suppliers.length} suppliers
+            <span className="font-medium text-ink">{sorted.length}</span>{' '}
+            {t('of {total} suppliers', { total: state.suppliers.length })}
           </p>
         </div>
       </Card>
@@ -274,8 +278,10 @@ export const Suppliers = () => {
       {sorted.length === 0 ? (
         <EmptyState
           icon={<Store className="h-5 w-5" />}
-          title="No suppliers match this search"
-          description="Try a different area, category or status. New suppliers are added to the pilot network as certificates are verified."
+          title={t('No suppliers match this search')}
+          description={t(
+            'Try a different area, category or status. New suppliers are added to the pilot network as certificates are verified.',
+          )}
         />
       ) : (
         <div className="grid gap-3 md:grid-cols-2">
@@ -309,7 +315,11 @@ export const Suppliers = () => {
                         type="button"
                         onClick={() => toggleSavedSupplier(supplier.id)}
                         className="cursor-pointer rounded-full p-1 text-ink-3 transition-colors hover:bg-sand hover:text-forest-700"
-                        aria-label={isSaved ? `Remove ${supplier.name} from saved suppliers` : `Save ${supplier.name}`}
+                        aria-label={
+                          isSaved
+                            ? t('Remove {name} from saved suppliers', { name: supplier.name })
+                            : t('Save {name}', { name: supplier.name })
+                        }
                       >
                         {isSaved ? (
                           <BookmarkCheck className="h-4 w-4 text-forest-700" />
@@ -322,7 +332,7 @@ export const Suppliers = () => {
                       <MapPin className="h-3 w-3" /> {supplier.area} · {supplier.distanceKm} km
                       {supplier.distanceKm <= 5 && (
                         <span className="rounded-full border border-forest-200 bg-forest-50 px-1.5 py-0.5 text-[8.5px] text-forest-700">
-                          Nearby
+                          {t('Nearby')}
                         </span>
                       )}
                     </p>
@@ -338,7 +348,7 @@ export const Suppliers = () => {
                       key={item}
                       className="rounded-full border border-line bg-ivory px-2 py-0.5 text-[9.5px] text-ink-2"
                     >
-                      {item}
+                      {t(item)}
                     </span>
                   ))}
                   {supplier.tags.slice(0, 2).map((tag) => (
@@ -346,20 +356,20 @@ export const Suppliers = () => {
                       key={tag}
                       className="rounded-full border border-forest-200 bg-forest-50 px-2 py-0.5 text-[9.5px] text-forest-800"
                     >
-                      {tag}
+                      {t(tag)}
                     </span>
                   ))}
                 </div>
 
                 <div className="mt-4 grid grid-cols-2 gap-3 border-t border-line-soft pt-3 text-[10.5px]">
                   <div>
-                    <p className="text-ink-3">Certificate</p>
+                    <p className="text-ink-3">{t('Certificate')}</p>
                     <p className="mt-0.5 truncate font-mono text-[9.5px] text-ink-2">
-                      {supplier.certificateNo ?? 'Not on file'}
+                      {supplier.certificateNo ?? t('Not on file')}
                     </p>
                   </div>
                   <div>
-                    <p className="text-ink-3">Valid until</p>
+                    <p className="text-ink-3">{t('Valid until')}</p>
                     <p className={cn('mt-0.5 font-medium', expiryTone(supplier))}>
                       {supplier.validUntil ? formatDate(supplier.validUntil) : '—'}
                     </p>
@@ -374,15 +384,16 @@ export const Suppliers = () => {
                     </span>
                     <span>·</span>
                     <span className="inline-flex items-center gap-1">
-                      <Package className="h-3 w-3" /> {productCount} products
+                      <Package className="h-3 w-3" />{' '}
+                      {t('{count} products', { count: productCount })}
                     </span>
                   </div>
                   <div className="flex gap-1.5">
                     <Button variant="secondary" size="sm" onClick={() => setSelected(supplier)}>
-                      Details
+                      {t('Details')}
                     </Button>
                     <Button size="sm" onClick={() => openPurchase(supplier.id)}>
-                      Record purchase
+                      {t('Record purchase')}
                     </Button>
                   </div>
                 </div>
@@ -395,9 +406,9 @@ export const Suppliers = () => {
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <Card>
           <div className="border-b border-line-soft px-5 py-4">
-            <h3 className="text-[14px] font-semibold text-ink">Saved suppliers</h3>
+            <h3 className="text-[14px] font-semibold text-ink">{t('Saved suppliers')}</h3>
             <p className="mt-0.5 text-[11.5px] text-ink-3">
-              Your shortlist for the current menu cycle.
+              {t('Your shortlist for the current menu cycle.')}
             </p>
           </div>
           <div className="divide-y divide-line-soft">
@@ -408,7 +419,7 @@ export const Suppliers = () => {
                     {supplier.shortName}
                   </p>
                   <p className="text-[10px] text-ink-3">
-                    {supplier.categories.join(' · ')}
+                    {supplier.categories.map((item) => t(item)).join(' · ')}
                   </p>
                 </div>
                 <StatusBadge status={supplier.status} />
@@ -416,7 +427,7 @@ export const Suppliers = () => {
             ))}
             {saved.length === 0 && (
               <p className="px-5 py-6 text-[12px] text-ink-3">
-                No saved suppliers yet. Use the bookmark on any supplier card.
+                {t('No saved suppliers yet. Use the bookmark on any supplier card.')}
               </p>
             )}
           </div>
@@ -427,12 +438,13 @@ export const Suppliers = () => {
             <div className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-warn" />
               <h3 className="text-[13px] font-semibold text-ink">
-                Certificate watchlist
+                {t('Certificate watchlist')}
               </h3>
             </div>
             <p className="mt-1 text-[11.5px] leading-relaxed text-ink-2">
-              Never let a certificate lapse silently. These suppliers need a
-              renewal check before the date shown.
+              {t(
+                'Never let a certificate lapse silently. These suppliers need a renewal check before the date shown.',
+              )}
             </p>
             <div className="mt-4 space-y-2.5">
               {state.suppliers
@@ -455,13 +467,15 @@ export const Suppliers = () => {
                           {supplier.shortName}
                         </p>
                         <p className="text-[9.5px] text-ink-3">
-                          {supplier.certificateNo ?? 'No certificate'}
+                          {supplier.certificateNo ?? t('No certificate')}
                         </p>
                       </div>
                       <Badge
                         tone={days < 0 ? 'danger' : days <= 30 ? 'warning' : 'success'}
                       >
-                        {days < 0 ? `${Math.abs(days)}d overdue` : `${days}d left`}
+                        {days < 0
+                          ? t('{days}d overdue', { days: Math.abs(days) })
+                          : t('{days}d left', { days })}
                       </Badge>
                     </div>
                   );
@@ -474,17 +488,21 @@ export const Suppliers = () => {
       <Modal
         open={Boolean(selected)}
         onClose={() => setSelected(null)}
-        title={selected?.name ?? 'Supplier'}
-        description={selected ? `${selected.address} · ${selected.distanceKm} km away` : undefined}
+        title={selected?.name ?? t('Supplier')}
+        description={
+          selected
+            ? `${selected.address} · ${t('{distance} km away', { distance: selected.distanceKm })}`
+            : undefined
+        }
         size="lg"
         footer={
           selected ? (
             <>
               <Button variant="secondary" onClick={() => setSelected(null)}>
-                Close
+                {t('Close')}
               </Button>
               <Button onClick={() => openPurchase(selected.id)}>
-                <PackagePlus className="h-4 w-4" /> Record a purchase
+                <PackagePlus className="h-4 w-4" /> {t('Record a purchase')}
               </Button>
             </>
           ) : null
@@ -496,23 +514,26 @@ export const Suppliers = () => {
               <StatusBadge status={selected.status} />
               <Badge tone="neutral">
                 <Star className="h-3 w-3 fill-gold-400 text-gold-400" />
-                {selected.rating.toFixed(1)} · {selected.reviewCount} reviews
+                {selected.rating.toFixed(1)} ·{' '}
+                {t('{count} reviews', { count: selected.reviewCount })}
               </Badge>
-              <Badge tone="neutral">{selected.categories.join(' · ')}</Badge>
+              <Badge tone="neutral">
+                {selected.categories.map((item) => t(item)).join(' · ')}
+              </Badge>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="rounded-xl border border-line bg-paper p-3">
                 <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-ink-3">
-                  Certificate
+                  {t('Certificate')}
                 </p>
                 <p className="mt-1 break-all font-mono text-[10px] text-ink">
-                  {selected.certificateNo ?? 'Not on file'}
+                  {selected.certificateNo ?? t('Not on file')}
                 </p>
               </div>
               <div className="rounded-xl border border-line bg-paper p-3">
                 <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-ink-3">
-                  Issued
+                  {t('Issued')}
                 </p>
                 <p className="mt-1 text-[11px] text-ink">
                   {formatDate(selected.issuedOn)}
@@ -520,7 +541,7 @@ export const Suppliers = () => {
               </div>
               <div className="rounded-xl border border-line bg-paper p-3">
                 <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-ink-3">
-                  Valid until
+                  {t('Valid until')}
                 </p>
                 <p className={cn('mt-1 text-[11px] font-medium', expiryTone(selected))}>
                   {formatDate(selected.validUntil)}
@@ -531,20 +552,20 @@ export const Suppliers = () => {
             <div>
               <div className="mb-2 flex items-center justify-between">
                 <h4 className="text-[12px] font-semibold text-ink">
-                  Product-level status
+                  {t('Product-level status')}
                 </h4>
                 <span className="text-[10px] text-ink-3">
-                  A company certificate does not automatically cover every product.
+                  {t('A company certificate does not automatically cover every product.')}
                 </span>
               </div>
               <div className="overflow-hidden rounded-xl border border-line">
                 <table className="w-full text-left">
                   <thead className="bg-sand/50 text-[9px] uppercase tracking-[0.12em] text-ink-3">
                     <tr>
-                      <th className="px-3 py-2 font-medium">Product</th>
-                      <th className="px-3 py-2 font-medium">Unit</th>
-                      <th className="px-3 py-2 font-medium">Price</th>
-                      <th className="px-3 py-2 font-medium">Status</th>
+                      <th className="px-3 py-2 font-medium">{t('Product')}</th>
+                      <th className="px-3 py-2 font-medium">{t('Unit')}</th>
+                      <th className="px-3 py-2 font-medium">{t('Price')}</th>
+                      <th className="px-3 py-2 font-medium">{t('Status')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -552,8 +573,8 @@ export const Suppliers = () => {
                       .filter((product) => product.supplierId === selected.id)
                       .map((product) => (
                         <tr key={product.id} className="border-t border-line-soft bg-paper">
-                          <td className="px-3 py-2 text-[11.5px] text-ink">{product.name}</td>
-                          <td className="px-3 py-2 text-[10.5px] text-ink-3">{product.unit}</td>
+                          <td className="px-3 py-2 text-[11.5px] text-ink">{t(product.name)}</td>
+                          <td className="px-3 py-2 text-[10.5px] text-ink-3">{t(product.unit)}</td>
                           <td className="px-3 py-2 font-mono text-[10.5px] text-ink">
                             RM {product.price.toFixed(2)}
                           </td>
@@ -570,16 +591,17 @@ export const Suppliers = () => {
             {selected.status === 'expired' && (
               <div className="flex items-start gap-2 rounded-xl border border-danger/20 bg-danger-soft/60 p-3 text-[11.5px] leading-relaxed text-ink-2">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-danger" />
-                This supplier’s certificate has lapsed. Purchases will be recorded
-                but will not count toward your verified sourcing score.
+                {t(
+                  'This supplier’s certificate has lapsed. Purchases will be recorded but will not count toward your verified sourcing score.',
+                )}
               </div>
             )}
 
             <div className="flex items-start gap-2 rounded-xl border border-line bg-sand/40 p-3 text-[10.5px] leading-relaxed text-ink-3">
               <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-700" />
-              Certificate details are illustrative demo data. In production this
-              panel would query JAKIM’s public halal directory and the supplier’s
-              own certificate record.
+              {t(
+                'Certificate details are illustrative demo data. In production this panel would query JAKIM’s public halal directory and the supplier’s own certificate record.',
+              )}
             </div>
           </div>
         )}
@@ -593,8 +615,10 @@ export const Suppliers = () => {
 
       <div className="mt-6 flex items-center justify-center gap-2 text-[10.5px] text-ink-3">
         <Check className="h-3.5 w-3.5" />
-        {state.suppliers.length} suppliers in the pilot network · status reviewed
-        at every purchase
+        {t(
+          '{count} suppliers in the pilot network · status reviewed at every purchase',
+          { count: state.suppliers.length },
+        )}
         <ArrowUpRight className="h-3 w-3" />
       </div>
     </>

@@ -1,3 +1,4 @@
+import { dateLocale, getActiveLang } from '@/i18n/lang';
 import type {
   AppState,
   AssessmentQuestion,
@@ -9,6 +10,10 @@ import type {
 } from './types';
 
 const DAY = 86_400_000;
+
+/** Inline bilingual copy for generated strings that carry live values. */
+const l = (en: string, ms: string): string =>
+  getActiveLang() === 'ms' ? ms : en;
 
 export const daysBetween = (from: Date, to: Date): number =>
   Math.floor((to.getTime() - from.getTime()) / DAY);
@@ -146,28 +151,53 @@ export const getCompliance = (
   const gaps: string[] = [];
   if (!learnerDone)
     gaps.push(
-      `Complete ${modulesTotal - modulesCompleted} remaining training module${modulesTotal - modulesCompleted === 1 ? '' : 's'} with a score of ${PASSING_QUIZ_SCORE}% or higher.`,
+      l(
+        `Complete ${modulesTotal - modulesCompleted} remaining training module${modulesTotal - modulesCompleted === 1 ? '' : 's'} with a score of ${PASSING_QUIZ_SCORE}% or higher.`,
+        `Selesaikan ${modulesTotal - modulesCompleted} modul latihan lagi dengan skor ${PASSING_QUIZ_SCORE}% atau lebih tinggi.`,
+      ),
     );
   if (sourcingPct < VERIFIED_PURCHASE_SHARE)
     gaps.push(
-      `Record more purchases from certified or verified suppliers — ${sourcingPct}% of recent purchases are traceable (target ${VERIFIED_PURCHASE_SHARE}%).`,
+      l(
+        `Record more purchases from certified or verified suppliers — ${sourcingPct}% of recent purchases are traceable (target ${VERIFIED_PURCHASE_SHARE}%).`,
+        `Rekod lebih banyak pembelian daripada pembekal yang diperakui atau disahkan — ${sourcingPct}% pembelian terkini boleh dijejak (sasaran ${VERIFIED_PURCHASE_SHARE}%).`,
+      ),
     );
   if (!assessment)
-    gaps.push('Complete your first halal self-assessment.');
+    gaps.push(
+      l(
+        'Complete your first halal self-assessment.',
+        'Lengkapkan penilaian kendiri halal pertama anda.',
+      ),
+    );
   else if (!assessmentFresh)
     gaps.push(
-      `Your self-assessment is more than ${ASSESSMENT_VALID_DAYS} days old. Re-run it to keep the record current.`,
+      l(
+        `Your self-assessment is more than ${ASSESSMENT_VALID_DAYS} days old. Re-run it to keep the record current.`,
+        `Penilaian kendiri anda sudah lebih ${ASSESSMENT_VALID_DAYS} hari. Jalankan semula supaya rekod kekal terkini.`,
+      ),
     );
   else if (assessmentPct < PASSING_ASSESSMENT)
     gaps.push(
-      `Raise your self-assessment score to ${PASSING_ASSESSMENT}% (currently ${assessmentPct}%).`,
+      l(
+        `Raise your self-assessment score to ${PASSING_ASSESSMENT}% (currently ${assessmentPct}%).`,
+        `Tingkatkan skor penilaian kendiri anda kepada ${PASSING_ASSESSMENT}% (kini ${assessmentPct}%).`,
+      ),
     );
   if (!inspectionFresh)
     gaps.push(
-      `Schedule a programme inspection — ${inspection ? 'the last inspection has expired' : 'no inspection has been recorded yet'}.`,
+      l(
+        `Schedule a programme inspection — ${inspection ? 'the last inspection has expired' : 'no inspection has been recorded yet'}.`,
+        `Jadualkan pemeriksaan program — ${inspection ? 'pemeriksaan terakhir sudah tamat tempoh' : 'belum ada pemeriksaan direkodkan'}.`,
+      ),
     );
   else if (inspection && !inspection.passed)
-    gaps.push('Address the findings from your last inspection.');
+    gaps.push(
+      l(
+        'Address the findings from your last inspection.',
+        'Selesaikan penemuan daripada pemeriksaan terakhir anda.',
+      ),
+    );
 
   const tierProgress = monitoredDone
     ? 100
@@ -213,8 +243,14 @@ export const deriveAlerts = (
         id: `cert-expired-${supplier.id}`,
         severity: 'critical',
         kind: 'certificate',
-        title: `${supplier.shortName} certificate has lapsed`,
-        detail: `The halal certificate for ${supplier.name} expired ${Math.abs(remaining)} days ago. Suspend purchases until a renewed certificate is recorded.`,
+        title: l(
+          `${supplier.shortName} certificate has lapsed`,
+          `Sijil ${supplier.shortName} telah tamat tempoh`,
+        ),
+        detail: l(
+          `The halal certificate for ${supplier.name} expired ${Math.abs(remaining)} days ago. Suspend purchases until a renewed certificate is recorded.`,
+          `Sijil halal ${supplier.name} tamat tempoh ${Math.abs(remaining)} hari lalu. Hentikan pembelian sehingga sijil baharu direkodkan.`,
+        ),
         dueAt: supplier.validUntil,
         resolvedAt: null,
       });
@@ -223,8 +259,14 @@ export const deriveAlerts = (
         id: `cert-soon-${supplier.id}`,
         severity: 'warning',
         kind: 'certificate',
-        title: `${supplier.shortName} certificate expires in ${remaining} days`,
-        detail: `Ask ${supplier.name} for the renewed certificate before ${new Date(supplier.validUntil).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}.`,
+        title: l(
+          `${supplier.shortName} certificate expires in ${remaining} days`,
+          `Sijil ${supplier.shortName} tamat tempoh dalam ${remaining} hari`,
+        ),
+        detail: l(
+          `Ask ${supplier.name} for the renewed certificate before ${new Date(supplier.validUntil).toLocaleDateString(dateLocale(), { day: '2-digit', month: 'short', year: 'numeric' })}.`,
+          `Minta sijil baharu daripada ${supplier.name} sebelum ${new Date(supplier.validUntil).toLocaleDateString(dateLocale(), { day: '2-digit', month: 'short', year: 'numeric' })}.`,
+        ),
         dueAt: supplier.validUntil,
         resolvedAt: null,
       });
@@ -237,9 +279,14 @@ export const deriveAlerts = (
       id: 'assessment-missing',
       severity: 'warning',
       kind: 'assessment',
-      title: 'Self-assessment not completed',
-      detail:
+      title: l(
+        'Self-assessment not completed',
+        'Penilaian kendiri belum diselesaikan',
+      ),
+      detail: l(
         'Complete the halal self-assessment to give customers a current picture of your practice.',
+        'Lengkapkan penilaian kendiri halal supaya pelanggan mendapat gambaran terkini amalan anda.',
+      ),
       dueAt: null,
       resolvedAt: null,
     });
@@ -250,8 +297,14 @@ export const deriveAlerts = (
         id: 'assessment-overdue',
         severity: 'warning',
         kind: 'assessment',
-        title: 'Self-assessment is due for renewal',
-        detail: `Last completed ${age} days ago. A fresh assessment is required every ${ASSESSMENT_VALID_DAYS} days.`,
+        title: l(
+          'Self-assessment is due for renewal',
+          'Penilaian kendiri perlu diperbaharui',
+        ),
+        detail: l(
+          `Last completed ${age} days ago. A fresh assessment is required every ${ASSESSMENT_VALID_DAYS} days.`,
+          `Kali terakhir diselesaikan ${age} hari lalu. Penilaian baharu diperlukan setiap ${ASSESSMENT_VALID_DAYS} hari.`,
+        ),
         dueAt: new Date(
           new Date(assessment.completedAt).getTime() +
             ASSESSMENT_VALID_DAYS * DAY,
@@ -273,9 +326,14 @@ export const deriveAlerts = (
       id: 'inspection-missing',
       severity: 'info',
       kind: 'supplier',
-      title: 'Programme inspection not yet booked',
-      detail:
+      title: l(
+        'Programme inspection not yet booked',
+        'Pemeriksaan program belum dijadualkan',
+      ),
+      detail: l(
         'Book a visit with a programme officer to qualify for the Monitored tier.',
+        'Jadualkan lawatan dengan pegawai program untuk layak ke tahap Dipantau.',
+      ),
       dueAt: null,
       resolvedAt: null,
     });
@@ -286,8 +344,14 @@ export const deriveAlerts = (
         id: 'inspection-overdue',
         severity: 'warning',
         kind: 'supplier',
-        title: 'Programme inspection has expired',
-        detail: `Your last inspection was ${age} days ago. Inspections are valid for ${INSPECTION_VALID_DAYS} days.`,
+        title: l(
+          'Programme inspection has expired',
+          'Pemeriksaan program telah tamat tempoh',
+        ),
+        detail: l(
+          `Your last inspection was ${age} days ago. Inspections are valid for ${INSPECTION_VALID_DAYS} days.`,
+          `Pemeriksaan terakhir anda ${age} hari lalu. Pemeriksaan sah selama ${INSPECTION_VALID_DAYS} hari.`,
+        ),
         dueAt: new Date(
           new Date(inspection.inspectedAt).getTime() +
             INSPECTION_VALID_DAYS * DAY,
@@ -307,9 +371,14 @@ export const deriveAlerts = (
       id: 'untraceable-purchases',
       severity: 'warning',
       kind: 'supplier',
-      title: `${untraceable.length} purchase${untraceable.length === 1 ? '' : 's'} need a source record`,
-      detail:
+      title: l(
+        `${untraceable.length} purchase${untraceable.length === 1 ? '' : 's'} need a source record`,
+        `${untraceable.length} pembelian memerlukan rekod sumber`,
+      ),
+      detail: l(
         'Add a receipt or supplier reference so these purchases count toward your sourcing score.',
+        'Tambah resit atau rujukan pembekal supaya pembelian ini dikira dalam skor perolehan anda.',
+      ),
       dueAt: null,
       resolvedAt: null,
     });
@@ -325,7 +394,7 @@ const weight = (severity: HalalAlert['severity']): number =>
 
 export const formatDate = (iso: string | null): string => {
   if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('en-GB', {
+  return new Date(iso).toLocaleDateString(dateLocale(), {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -334,9 +403,11 @@ export const formatDate = (iso: string | null): string => {
 
 export const relativeDate = (iso: string, today: Date = new Date()): string => {
   const diff = daysBetween(new Date(iso), today);
-  if (diff === 0) return 'Today';
-  if (diff === 1) return 'Yesterday';
-  if (diff < 7) return `${diff} days ago`;
-  if (diff < 30) return `${Math.floor(diff / 7)} weeks ago`;
+  const ms = getActiveLang() === 'ms';
+  if (diff === 0) return ms ? 'Hari ini' : 'Today';
+  if (diff === 1) return ms ? 'Semalam' : 'Yesterday';
+  if (diff < 7) return ms ? `${diff} hari lalu` : `${diff} days ago`;
+  if (diff < 30)
+    return ms ? `${Math.floor(diff / 7)} minggu lalu` : `${Math.floor(diff / 7)} weeks ago`;
   return formatDate(iso);
 };

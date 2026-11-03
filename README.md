@@ -108,6 +108,24 @@ deployment and prints a notice. The CMS form is configured in `.pages.yml`.
 
 ![Content editor handover page](docs/screenshots/cms-admin.png)
 
+## Languages
+
+The interface opens in **Bahasa Melayu** by default. A **BM / EN** switch sits in
+every header — landing page, vendor workspace, public QR record, sign-in and the
+admin editor — and the choice is remembered in the browser
+(`halalniaga.lang`).
+
+- UI copy lives in English in the components; Malay translations are keyed by
+  the exact English source string in `src/i18n/dictionaries/*.ts`.
+- Landing, vendor, supplier and product copy from `src/content/*.json` is
+  translated the same way through `src/i18n/dictionaries/data.ts`. When CMS
+  content is edited, add a matching entry there; otherwise the edited copy falls
+  back to the language of the JSON.
+- Dates and relative times follow the selected locale (`ms-MY` / `en-GB`).
+- Checks: `node scripts/check-i18n.mjs` for missing or mistyped keys,
+  `node scripts/audit-i18n-render.mjs` and `node scripts/scan-english.mjs` for
+  English leftovers in the rendered pages (the last two need `npm run preview`).
+
 ## What it demonstrates
 
 | Module | What a visitor can do |

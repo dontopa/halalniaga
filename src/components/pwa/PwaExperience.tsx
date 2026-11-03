@@ -11,6 +11,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { LogoMark } from '@/components/Logo';
 import { Button, Modal } from '@/components/ui';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -59,6 +60,7 @@ const steps = [
 ];
 
 export const PwaExperience = () => {
+  const t = useT();
   const location = useLocation();
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [banner, setBanner] = useState(false);
@@ -145,7 +147,7 @@ export const PwaExperience = () => {
           className="fixed inset-x-0 top-0 z-[70] flex items-center justify-center gap-2 bg-ink px-4 py-2 text-[11px] font-medium text-ivory print:hidden"
         >
           <WifiOff className="h-3.5 w-3.5 text-gold-300" />
-          Offline mode — your records are saved on this device.
+          {t('Offline mode — your records are saved on this device.')}
         </div>
       )}
 
@@ -155,7 +157,7 @@ export const PwaExperience = () => {
           className="fixed left-1/2 top-[80px] z-[70] flex -translate-x-1/2 items-center gap-2 rounded-full border border-forest-200 bg-paper px-3.5 py-2 text-[10.5px] font-medium text-ink shadow-soft print:hidden"
         >
           <CheckCircle2 className="h-3.5 w-3.5 text-forest-600" />
-          Offline ready — the app is cached on this device.
+          {t('Offline ready — the app is cached on this device.')}
         </div>
       )}
 
@@ -165,14 +167,17 @@ export const PwaExperience = () => {
             <div className="flex items-start gap-3">
               <LogoMark className="h-9 w-9 shrink-0 text-gold-300" />
               <div className="min-w-0 flex-1">
-                <p className="text-[12.5px] font-semibold">Install HALALNiaga</p>
+                <p className="text-[12.5px] font-semibold">
+                  {t('Install HALALNiaga')}
+                </p>
                 <p className="mt-1 text-[10.5px] leading-relaxed text-ivory/65">
-                  Keep the supplier list and your records on the phone. It keeps
-                  working when the signal drops at the market.
+                  {t(
+                    'Keep the supplier list and your records on the phone. It keeps working when the signal drops at the market.',
+                  )}
                 </p>
                 <div className="mt-3 flex items-center gap-2">
                   <Button variant="gold" size="sm" onClick={install}>
-                    <Download className="h-3.5 w-3.5" /> Install app
+                    <Download className="h-3.5 w-3.5" /> {t('Install app')}
                   </Button>
                   <button
                     type="button"
@@ -182,14 +187,14 @@ export const PwaExperience = () => {
                     }}
                     className="cursor-pointer rounded-full px-2.5 py-1.5 text-[10.5px] text-ivory/55 transition-colors hover:bg-ivory/10 hover:text-ivory"
                   >
-                    How?
+                    {t('How?')}
                   </button>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={dismiss}
-                aria-label="Dismiss install prompt"
+                aria-label={t('Dismiss install prompt')}
                 className="cursor-pointer rounded-full p-1 text-ivory/40 transition-colors hover:bg-ivory/10 hover:text-ivory"
               >
                 <X className="h-3.5 w-3.5" />
@@ -202,16 +207,18 @@ export const PwaExperience = () => {
       <Modal
         open={helpOpen}
         onClose={() => setHelpOpen(false)}
-        title="Install HALALNiaga"
-        description="Add it to your home screen. It opens like an app, keeps the workspace local, and works offline after the first visit."
+        title={t('Install HALALNiaga')}
+        description={t(
+          'Add it to your home screen. It opens like an app, keeps the workspace local, and works offline after the first visit.',
+        )}
         footer={
           <>
             <Button variant="secondary" onClick={() => setHelpOpen(false)}>
-              Close
+              {t('Close')}
             </Button>
             {deferred && (
               <Button onClick={install}>
-                <Download className="h-4 w-4" /> Install now
+                <Download className="h-4 w-4" /> {t('Install now')}
               </Button>
             )}
           </>
@@ -227,9 +234,11 @@ export const PwaExperience = () => {
                 <step.icon className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-[12px] font-semibold text-ink">{step.label}</p>
+                <p className="text-[12px] font-semibold text-ink">
+                  {t(step.label)}
+                </p>
                 <p className="mt-1 text-[11px] leading-relaxed text-ink-3">
-                  {step.body}
+                  {t(step.body)}
                 </p>
               </div>
             </div>
@@ -241,9 +250,9 @@ export const PwaExperience = () => {
             )}
           >
             <WifiOff className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-700" />
-            After the first load, the app shell is cached. Supplier browsing,
-            training and records continue to work offline; demo data stays in this
-            browser.
+            {t(
+              'After the first load, the app shell is cached. Supplier browsing, training and records continue to work offline; demo data stays in this browser.',
+            )}
           </div>
         </div>
       </Modal>

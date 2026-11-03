@@ -14,6 +14,7 @@ import { Badge, Button, Card, CardHeader, Textarea } from '@/components/ui';
 import { PageHeader, Toast, useToast } from '@/components/app/shared';
 import { relativeDate } from '@/domain/compliance';
 import { useApp } from '@/domain/store';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 const guidelines = [
@@ -24,6 +25,7 @@ const guidelines = [
 ];
 
 export const Community = () => {
+  const t = useT();
   const { state, addPost } = useApp();
   const { toast, show, clear } = useToast();
   const [draft, setDraft] = useState('');
@@ -37,18 +39,20 @@ export const Community = () => {
     if (!draft.trim()) return;
     addPost(draft);
     setDraft('');
-    show('Posted to the pilot community.');
+    show(t('Posted to the pilot community.'));
   };
 
   return (
     <>
       <PageHeader
-        eyebrow="Support · Halal community"
-        title="The practical knowledge lives with the vendors."
-        description="A space for small vendors to compare notes on suppliers, equipment, inspections and the small decisions that make compliance stick."
+        eyebrow={t('Support · Halal community')}
+        title={t('The practical knowledge lives with the vendors.')}
+        description={t(
+          'A space for small vendors to compare notes on suppliers, equipment, inspections and the small decisions that make compliance stick.',
+        )}
         actions={
           <Badge tone="forest" dot>
-            {state.vendor.area} chapter
+            {t('{area} chapter', { area: state.vendor.area })}
           </Badge>
         }
       />
@@ -70,17 +74,21 @@ export const Community = () => {
                 <Textarea
                   value={draft}
                   onChange={(event) => setDraft(event.target.value)}
-                  placeholder="Ask a question, share a supplier experience, or describe how you solved a handling problem…"
+                  placeholder={t(
+                    'Ask a question, share a supplier experience, or describe how you solved a handling problem…',
+                  )}
                   className="mt-3 min-h-[96px]"
                   maxLength={600}
-                  aria-label="Write a community post"
+                  aria-label={t('Write a community post')}
                 />
                 <div className="mt-2 flex items-center justify-between gap-3">
                   <p className="text-[10px] text-ink-3">
-                    {draft.length}/600 · visible to the pilot community
+                    {t('{count}/600 · visible to the pilot community', {
+                      count: draft.length,
+                    })}
                   </p>
                   <Button size="sm" onClick={submit} disabled={!draft.trim()}>
-                    <Send className="h-3.5 w-3.5" /> Post
+                    <Send className="h-3.5 w-3.5" /> {t('Post')}
                   </Button>
                 </div>
               </div>
@@ -103,7 +111,7 @@ export const Community = () => {
                       <p className="text-[12.5px] font-semibold text-ink">
                         {post.author}
                       </p>
-                      <p className="text-[10px] text-ink-3">{post.role}</p>
+                      <p className="text-[10px] text-ink-3">{t(post.role)}</p>
                     </div>
                     <div className="flex items-center gap-2 text-[9.5px] text-ink-3">
                       <span className="inline-flex items-center gap-1">
@@ -114,7 +122,7 @@ export const Community = () => {
                     </div>
                   </div>
                   <p className="mt-2.5 text-[12.5px] leading-relaxed text-ink-2">
-                    {post.body}
+                    {t(post.body)}
                   </p>
                   <div className="mt-3 flex items-center gap-4 border-t border-line-soft pt-2.5">
                     <button
@@ -139,10 +147,12 @@ export const Community = () => {
                       {post.likes + (liked[post.id] ? 1 : 0)}
                     </button>
                     <span className="inline-flex items-center gap-1.5 text-[10.5px] text-ink-3">
-                      <MessageSquare className="h-3.5 w-3.5" /> Reply
+                      <MessageSquare className="h-3.5 w-3.5" /> {t('Reply')}
                     </span>
                     <span className="ml-auto font-mono text-[9px] text-ink-3/60">
-                      {post.area === 'Kota Kinabalu' ? 'Local chapter' : 'Pilot network'}
+                      {post.area === 'Kota Kinabalu'
+                        ? t('Local chapter')
+                        : t('Pilot network')}
                     </span>
                   </div>
                 </div>
@@ -155,7 +165,7 @@ export const Community = () => {
           <Card className="p-5">
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4 text-forest-700" />
-              <p className="text-[12px] font-semibold text-ink">Pilot community</p>
+              <p className="text-[12px] font-semibold text-ink">{t('Pilot community')}</p>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-2">
               {[
@@ -165,22 +175,22 @@ export const Community = () => {
               ].map(([value, label]) => (
                 <div key={label} className="rounded-xl border border-line bg-ivory px-2 py-2.5 text-center">
                   <p className="font-display text-lg text-ink">{value}</p>
-                  <p className="text-[8.5px] text-ink-3">{label}</p>
+                  <p className="text-[8.5px] text-ink-3">{t(label)}</p>
                 </div>
               ))}
             </div>
             <p className="mt-3 text-[9.5px] leading-relaxed text-ink-3">
-              Demo community data. Posts are stored locally in this browser.
+              {t('Demo community data. Posts are stored locally in this browser.')}
             </p>
           </Card>
 
           <Card>
-            <CardHeader title="Community guidelines" />
+            <CardHeader title={t('Community guidelines')} />
             <ul className="space-y-2.5 p-4">
               {guidelines.map((guideline) => (
                 <li key={guideline} className="flex items-start gap-2 text-[10.5px] leading-relaxed text-ink-2">
                   <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-600" />
-                  {guideline}
+                  {t(guideline)}
                 </li>
               ))}
             </ul>
@@ -190,18 +200,19 @@ export const Community = () => {
             <div className="flex items-center gap-2">
               <LifeBuoy className="h-4 w-4 text-gold-700" />
               <p className="text-[12px] font-semibold text-ink">
-                Need a private answer?
+                {t('Need a private answer?')}
               </p>
             </div>
             <p className="mt-1.5 text-[10.5px] leading-relaxed text-ink-2">
-              Some questions are better asked one-to-one — especially about a
-              supplier relationship or an inspection finding.
+              {t(
+                'Some questions are better asked one-to-one — especially about a supplier relationship or an inspection finding.',
+              )}
             </p>
             <Link
               to="/app/mentor"
               className="mt-3 inline-flex items-center gap-1 text-[10.5px] font-medium text-forest-700 hover:underline"
             >
-              Message the halal mentor <MessagesSquare className="h-3 w-3" />
+              {t('Message the halal mentor')} <MessagesSquare className="h-3 w-3" />
             </Link>
           </Card>
         </div>

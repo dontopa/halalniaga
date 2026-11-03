@@ -50,6 +50,8 @@ import {
 } from '@/domain/compliance';
 import { ASSESSMENT_QUESTIONS, TRAINING_MODULES } from '@/domain/seed';
 import { useApp } from '@/domain/store';
+import { useT, useLang } from '@/i18n';
+import { dateLocale } from '@/i18n/lang';
 import { images } from '@/lib/images';
 
 const StatCard = ({
@@ -66,31 +68,36 @@ const StatCard = ({
   progress?: number;
   icon: typeof ShieldCheck;
   tone?: 'forest' | 'gold' | 'clay' | 'info';
-}) => (
-  <Card className="p-5">
-    <div className="flex items-start justify-between">
-      <div>
-        <p className="font-mono text-[9.5px] uppercase tracking-[0.15em] text-ink-3">
-          {label}
-        </p>
-        <p className="mt-2 font-display text-[1.9rem] leading-none tracking-[-0.04em] text-ink">
-          {value}
-        </p>
+}) => {
+  const t = useT();
+  return (
+    <Card className="p-5">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="font-mono text-[9.5px] uppercase tracking-[0.15em] text-ink-3">
+            {t(label)}
+          </p>
+          <p className="mt-2 font-display text-[1.9rem] leading-none tracking-[-0.04em] text-ink">
+            {value}
+          </p>
+        </div>
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-ivory text-forest-700">
+          <Icon className="h-4 w-4" />
+        </span>
       </div>
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-ivory text-forest-700">
-        <Icon className="h-4 w-4" />
-      </span>
-    </div>
-    {typeof progress === 'number' && (
-      <Progress value={progress} tone={tone} className="mt-3 h-1" />
-    )}
-    <p className="mt-2.5 text-[10.5px] leading-snug text-ink-3">{hint}</p>
-  </Card>
-);
+      {typeof progress === 'number' && (
+        <Progress value={progress} tone={tone} className="mt-3 h-1" />
+      )}
+      <p className="mt-2.5 text-[10.5px] leading-snug text-ink-3">{t(hint)}</p>
+    </Card>
+  );
+};
 
 export const Dashboard = () => {
   const { state, dismissAlert } = useApp();
   const { toast, show, clear } = useToast();
+  const t = useT();
+  const { lang } = useLang();
   const [purchaseOpen, setPurchaseOpen] = useState(false);
 
   const snapshot = useMemo(
@@ -128,12 +135,12 @@ export const Dashboard = () => {
         })
         .reduce((sum, purchase) => sum + purchase.amount, 0);
       return {
-        month: start.toLocaleString('en-GB', { month: 'short' }),
+        month: start.toLocaleString(dateLocale(), { month: 'short' }),
         spend: Math.round(spend),
         verified: Math.round(verified),
       };
     });
-  }, [state.purchases]);
+  }, [state.purchases, lang]);
 
   const profileUrl = `${window.location.origin}/vendor/${state.vendor.qrSlug}`;
   const totalSpend = state.purchases.reduce(
@@ -150,17 +157,23 @@ export const Dashboard = () => {
   const copyProfileLink = async () => {
     try {
       await navigator.clipboard.writeText(profileUrl);
-      show('Vendor verification link copied.');
+      show(t('Vendor verification link copied.'));
     } catch {
-      show('Could not access the clipboard. Copy the link from the address bar.', 'warning');
+      show(
+        t(
+          'Could not access the clipboard. Copy the link from the address bar.',
+        ),
+        'warning',
+      );
     }
   };
 
   const exportRecord = () => {
     const record = {
-      programme: 'HALALNiaga — academic innovation prototype',
-      disclaimer:
+      programme: t('HALALNiaga — academic innovation prototype'),
+      disclaimer: t(
         'This is a programme participation record, not a Malaysian halal certificate (SPHM).',
+      ),
       exportedAt: new Date().toISOString(),
       vendor: state.vendor,
       compliance: snapshot,
@@ -178,7 +191,7 @@ export const Dashboard = () => {
     anchor.download = `halalniaga-record-${state.vendor.qrSlug}.json`;
     anchor.click();
     URL.revokeObjectURL(url);
-    show('Record exported as JSON.');
+    show(t('Record exported as JSON.'));
   };
 
   const trainingAverage = Math.round(
@@ -190,17 +203,21 @@ export const Dashboard = () => {
     <>
       <PageHeader
         eyebrow="Tanjung Aru · Kota Kinabalu"
-        title={`Good morning, ${state.vendor.owner.split(' ')[0]}.`}
-        description="Here is the current state of your halal programme record — what is verified, what is due, and what moves you to the next tier."
+        title={t('Good morning, {name}.', {
+          name: state.vendor.owner.split(' ')[0],
+        })}
+        description={t(
+          'Here is the current state of your halal programme record — what is verified, what is due, and what moves you to the next tier.',
+        )}
         actions={
           <>
             <Button variant="secondary" size="sm" onClick={exportRecord}>
               <ArrowDownToLine className="h-3.5 w-3.5" />
-              Export record
+              {t('Export record')}
             </Button>
             <Button size="sm" onClick={() => setPurchaseOpen(true)}>
               <PackagePlus className="h-3.5 w-3.5" />
-              Record purchase
+              {t('Record purchase')}
             </Button>
           </>
         }
@@ -212,11 +229,12 @@ export const Dashboard = () => {
             <BellRing className="mt-0.5 h-4 w-4 shrink-0 text-danger" />
             <div>
               <p className="text-[13px] font-semibold text-ink">
-                A supplier certificate needs attention
+                {t('A supplier certificate needs attention')}
               </p>
               <p className="mt-0.5 text-[11.5px] text-ink-2">
-                Purchases from a lapsed supplier do not count as verified
-                sourcing until the certificate is renewed.
+                {t(
+                  'Purchases from a lapsed supplier do not count as verified sourcing until the certificate is renewed.',
+                )}
               </p>
             </div>
           </div>
@@ -224,45 +242,65 @@ export const Dashboard = () => {
             to="/app/suppliers"
             className="inline-flex shrink-0 items-center gap-1 text-[12px] font-medium text-danger hover:underline"
           >
-            Review suppliers <ArrowRight className="h-3.5 w-3.5" />
+            {t('Review suppliers')} <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
       )}
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          label="Compliance score"
+          label={t('Compliance score')}
           value={`${snapshot.score}`}
-          hint="Weighted across training, sourcing, assessment and monitoring."
+          hint={t(
+            'Weighted across training, sourcing, assessment and monitoring.',
+          )}
           progress={snapshot.score}
           icon={ShieldCheck}
         />
         <StatCard
-          label="Recognition tier"
-          value={snapshot.tier === 'monitored' ? 'Monitored' : snapshot.tier === 'verified' ? 'Verified' : 'Learner'}
+          label={t('Recognition tier')}
+          value={
+            snapshot.tier === 'monitored'
+              ? t('Monitored')
+              : snapshot.tier === 'verified'
+                ? t('Verified')
+                : t('Learner')
+          }
           hint={
             snapshot.nextTier
-              ? `${snapshot.tierProgress}% toward ${snapshot.nextTier === 'monitored' ? 'Monitored' : 'Verified'}`
-              : 'Highest programme tier achieved.'
+              ? t('{percent}% toward {tier}', {
+                  percent: snapshot.tierProgress,
+                  tier:
+                    snapshot.nextTier === 'monitored'
+                      ? t('Monitored')
+                      : t('Verified'),
+                })
+              : t('Highest programme tier achieved.')
           }
           progress={snapshot.tierProgress}
           icon={BadgeCheck}
           tone="gold"
         />
         <StatCard
-          label="Verified sourcing"
+          label={t('Verified sourcing')}
           value={`${snapshot.sourcingPct}%`}
-          hint={`${state.purchases.filter((purchase) => purchase.verifiedSource).length} of ${state.purchases.length} recorded purchases are traceable.`}
+          hint={t('{verified} of {total} recorded purchases are traceable.', {
+            verified: state.purchases.filter((purchase) => purchase.verifiedSource)
+              .length,
+            total: state.purchases.length,
+          })}
           progress={snapshot.sourcingPct}
           icon={TrendingUp}
         />
         <StatCard
-          label="Open alerts"
+          label={t('Open alerts')}
           value={`${alerts.length}`}
           hint={
             alerts.length
-              ? 'Certificates, assessments and inspections that need action.'
-              : 'Nothing needs action right now.'
+              ? t(
+                  'Certificates, assessments and inspections that need action.',
+                )
+              : t('Nothing needs action right now.')
           }
           icon={BellRing}
           tone={alerts.length > 0 ? 'clay' : 'forest'}
@@ -278,10 +316,13 @@ export const Dashboard = () => {
             className="h-12 w-12 shrink-0 rounded-xl object-cover"
           />
           <div>
-            <p className="text-[12px] font-semibold text-ink">Wet-market focus</p>
+            <p className="text-[12px] font-semibold text-ink">
+              {t('Wet-market focus')}
+            </p>
             <p className="mt-0.5 text-[10.5px] leading-relaxed text-ink-3">
-              5 nearby suppliers for poultry, meat, seafood, produce, dairy and
-              eggs.
+              {t(
+                '5 nearby suppliers for poultry, meat, seafood, produce, dairy and eggs.',
+              )}
             </p>
           </div>
         </div>
@@ -289,7 +330,7 @@ export const Dashboard = () => {
           to="/app/suppliers?wet=1"
           className="inline-flex shrink-0 items-center gap-1 text-[11.5px] font-medium text-forest-800 hover:underline"
         >
-          Browse wet ingredients <ArrowRight className="h-3.5 w-3.5" />
+          {t('Browse wet ingredients')} <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
 
@@ -297,14 +338,16 @@ export const Dashboard = () => {
         <div className="min-w-0 space-y-4 xl:col-span-2">
           <Card>
             <CardHeader
-              title="Compliance breakdown"
-              description="Four weighted controls feed the score. Monitoring only counts while an inspection is current."
+              title={t('Compliance breakdown')}
+              description={t(
+                'Four weighted controls feed the score. Monitoring only counts while an inspection is current.',
+              )}
               action={
                 <Link
                   to="/app/monitoring"
                   className="inline-flex items-center gap-1 text-[11.5px] font-medium text-forest-700 hover:underline"
                 >
-                  View monitoring <ArrowUpRight className="h-3 w-3" />
+                  {t('View monitoring')} <ArrowUpRight className="h-3 w-3" />
                 </Link>
               }
             />
@@ -319,19 +362,23 @@ export const Dashboard = () => {
                   <TierBadge tier={snapshot.tier} />
                   <p className="mt-2 max-w-[170px] text-[11.5px] leading-relaxed text-ink-3">
                     {snapshot.tier === 'monitored'
-                      ? 'Your record is independently inspected and current.'
+                      ? t(
+                          'Your record is independently inspected and current.',
+                        )
                       : snapshot.tier === 'verified'
-                        ? 'Sourcing and training are in place. Monitoring is the next step.'
-                        : 'Keep building the training and record base.'}
+                        ? t(
+                            'Sourcing and training are in place. Monitoring is the next step.',
+                          )
+                        : t('Keep building the training and record base.')}
                   </p>
                 </div>
               </div>
               <div className="flex-1 space-y-3.5">
                 {[
-                  { label: 'Halal training', value: snapshot.trainingPct, detail: `${snapshot.modulesCompleted} of ${snapshot.modulesTotal} modules`, tone: 'forest' as const },
-                  { label: 'Verified sourcing', value: snapshot.sourcingPct, detail: `${snapshot.verifiedPurchaseShare}% recent purchases`, tone: 'forest' as const },
-                  { label: 'Self-assessment', value: snapshot.assessmentPct, detail: snapshot.latestAssessment ? `Last ${relativeDate(snapshot.latestAssessment.completedAt)}` : 'Not completed', tone: 'gold' as const },
-                  { label: 'Monitoring', value: snapshot.monitoringPct, detail: snapshot.latestInspection ? `Inspected ${relativeDate(snapshot.latestInspection.inspectedAt)}` : 'No inspection yet', tone: 'clay' as const },
+                  { label: t('Halal training'), value: snapshot.trainingPct, detail: t('{completed} of {total} modules', { completed: snapshot.modulesCompleted, total: snapshot.modulesTotal }), tone: 'forest' as const },
+                  { label: t('Verified sourcing'), value: snapshot.sourcingPct, detail: t('{percent}% recent purchases', { percent: snapshot.verifiedPurchaseShare }), tone: 'forest' as const },
+                  { label: t('Self-assessment'), value: snapshot.assessmentPct, detail: snapshot.latestAssessment ? t('Last {date}', { date: relativeDate(snapshot.latestAssessment.completedAt) }) : t('Not completed'), tone: 'gold' as const },
+                  { label: t('Monitoring'), value: snapshot.monitoringPct, detail: snapshot.latestInspection ? t('Inspected {date}', { date: relativeDate(snapshot.latestInspection.inspectedAt) }) : t('No inspection yet'), tone: 'clay' as const },
                 ].map((row) => (
                   <div key={row.label}>
                     <div className="mb-1 flex items-center justify-between gap-3">
@@ -350,9 +397,15 @@ export const Dashboard = () => {
 
           <Card>
             <CardHeader
-              title="Sourcing activity"
-              description="Recorded spend and the share backed by a verified source, last six months."
-              action={<Badge tone="forest">RM {totalSpend.toFixed(0)} total</Badge>}
+              title={t('Sourcing activity')}
+              description={t(
+                'Recorded spend and the share backed by a verified source, last six months.',
+              )}
+              action={
+                <Badge tone="forest">
+                  {t('RM {amount} total', { amount: totalSpend.toFixed(0) })}
+                </Badge>
+              }
             />
             <div className="h-[230px] min-w-0 px-2 py-4 sm:px-4">
               <ResponsiveContainer width="100%" height="100%">
@@ -386,7 +439,7 @@ export const Dashboard = () => {
                     }}
                     formatter={(value, name) => [
                       `RM ${Number(value).toFixed(0)}`,
-                      name === 'verified' ? 'Verified source' : 'All spend',
+                      name === 'verified' ? t('Verified source') : t('All spend'),
                     ]}
                   />
                   <Area
@@ -409,24 +462,26 @@ export const Dashboard = () => {
             </div>
             <div className="flex items-center gap-5 border-t border-line-soft px-5 py-3 text-[10.5px] text-ink-3">
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-1.5 w-4 rounded-full bg-forest-600" /> All spend
+                <span className="h-1.5 w-4 rounded-full bg-forest-600" />{' '}
+                {t('All spend')}
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <span className="h-1.5 w-4 rounded-full bg-gold-500" /> Verified source
+                <span className="h-1.5 w-4 rounded-full bg-gold-500" />{' '}
+                {t('Verified source')}
               </span>
             </div>
           </Card>
 
           <Card className="overflow-hidden">
             <CardHeader
-              title="Recent purchases"
-              description="The newest records from your stall."
+              title={t('Recent purchases')}
+              description={t('The newest records from your stall.')}
               action={
                 <Link
                   to="/app/purchases"
                   className="inline-flex items-center gap-1 text-[11.5px] font-medium text-forest-700 hover:underline"
                 >
-                  Open purchase log <ArrowUpRight className="h-3 w-3" />
+                  {t('Open purchase log')} <ArrowUpRight className="h-3 w-3" />
                 </Link>
               }
             />
@@ -434,11 +489,15 @@ export const Dashboard = () => {
               <table className="w-full min-w-[540px] text-left">
                 <thead>
                   <tr className="border-b border-line-soft text-[9.5px] uppercase tracking-[0.13em] text-ink-3">
-                    <th className="px-5 py-2.5 font-medium">Product</th>
-                    <th className="px-3 py-2.5 font-medium">Supplier</th>
-                    <th className="px-3 py-2.5 font-medium">Source</th>
-                    <th className="px-3 py-2.5 text-right font-medium">Amount</th>
-                    <th className="px-5 py-2.5 text-right font-medium">Date</th>
+                    <th className="px-5 py-2.5 font-medium">{t('Product')}</th>
+                    <th className="px-3 py-2.5 font-medium">{t('Supplier')}</th>
+                    <th className="px-3 py-2.5 font-medium">{t('Source')}</th>
+                    <th className="px-3 py-2.5 text-right font-medium">
+                      {t('Amount')}
+                    </th>
+                    <th className="px-5 py-2.5 text-right font-medium">
+                      {t('Date')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -446,7 +505,7 @@ export const Dashboard = () => {
                     <tr key={purchase.id} className="border-b border-line-soft last:border-0">
                       <td className="px-5 py-3">
                         <p className="text-[12px] font-medium text-ink">
-                          {productName(purchase.productId)}
+                          {t(productName(purchase.productId))}
                         </p>
                         <p className="font-mono text-[9px] text-ink-3">
                           {purchase.quantity} {purchase.unit}
@@ -458,10 +517,12 @@ export const Dashboard = () => {
                       <td className="px-3 py-3">
                         {purchase.verifiedSource ? (
                           <span className="inline-flex items-center gap-1 text-[10.5px] text-forest-700">
-                            <Check className="h-3 w-3" /> Verified
+                            <Check className="h-3 w-3" /> {t('Verified')}
                           </span>
                         ) : (
-                          <span className="text-[10.5px] text-warn">Unverified</span>
+                          <span className="text-[10.5px] text-warn">
+                            {t('Unverified')}
+                          </span>
                         )}
                       </td>
                       <td className="px-3 py-3 text-right font-mono text-[11px] text-ink">
@@ -485,10 +546,10 @@ export const Dashboard = () => {
                 <div className="flex items-center gap-2">
                   <QrCode className="h-4 w-4 text-gold-300" />
                   <p className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-gold-300">
-                    Stall verification
+                    {t('Stall verification')}
                   </p>
                 </div>
-                <Badge tone="gold">Live</Badge>
+                <Badge tone="gold">{t('Live')}</Badge>
               </div>
               <div className="mt-4 flex items-center gap-4">
                 <div className="rounded-xl bg-ivory p-2">
@@ -498,16 +559,18 @@ export const Dashboard = () => {
                     bgColor="#FAF7F0"
                     fgColor="#0B4F3C"
                     level="M"
-                    aria-label="Vendor verification QR code"
+                    aria-label={t('Vendor verification QR code')}
                   />
                 </div>
                 <div className="min-w-0">
                   <p className="text-[13px] font-semibold">{state.vendor.name}</p>
                   <p className="mt-0.5 text-[10.5px] text-ivory/60">
-                    {state.vendor.stall}
+                    {t(state.vendor.stall)}
                   </p>
                   <p className="mt-2 text-[10px] leading-relaxed text-ivory/60">
-                    Customers can scan this to see your current programme record.
+                    {t(
+                      'Customers can scan this to see your current programme record.',
+                    )}
                   </p>
                 </div>
               </div>
@@ -519,25 +582,25 @@ export const Dashboard = () => {
                 className="w-full"
                 onClick={copyProfileLink}
               >
-                <Copy className="h-3.5 w-3.5" /> Copy verification link
+                <Copy className="h-3.5 w-3.5" /> {t('Copy verification link')}
               </Button>
               <Link
                 to="/app/verification"
                 className="flex w-full items-center justify-center gap-1.5 rounded-full border border-line px-4 py-2 text-[11.5px] text-ink-2 transition-colors hover:border-forest-200 hover:bg-forest-50"
               >
-                Open QR kit <ArrowRight className="h-3.5 w-3.5" />
+                {t('Open QR kit')} <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           </Card>
 
           <Card>
-            <CardHeader title="Next best action" />
+            <CardHeader title={t('Next best action')} />
             <div className="p-5">
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gold-100 text-gold-700">
                 <ArrowRight className="h-4 w-4" />
               </div>
               <p className="mt-3 text-[13px] font-semibold leading-snug text-ink">
-                {nextAction ?? 'Your record is fully current.'}
+                {nextAction ? t(nextAction) : t('Your record is fully current.')}
               </p>
               <div className="mt-3">
                 <Link
@@ -550,16 +613,17 @@ export const Dashboard = () => {
                   }
                   className="inline-flex items-center gap-1 text-[11.5px] font-medium text-forest-700 hover:underline"
                 >
-                  Take the next step <ArrowUpRight className="h-3 w-3" />
+                  {t('Take the next step')}{' '}
+                  <ArrowUpRight className="h-3 w-3" />
                 </Link>
               </div>
               <div className="mt-4 border-t border-line-soft pt-3">
                 <div className="flex items-center justify-between text-[10.5px] text-ink-3">
-                  <span>Training average</span>
+                  <span>{t('Training average')}</span>
                   <span className="font-mono">{trainingAverage}%</span>
                 </div>
                 <div className="mt-1.5 flex items-center justify-between text-[10.5px] text-ink-3">
-                  <span>Assessment</span>
+                  <span>{t('Assessment')}</span>
                   <span className="font-mono">
                     {snapshot.latestAssessment
                       ? `${snapshot.latestAssessment.score}%`
@@ -572,24 +636,34 @@ export const Dashboard = () => {
 
           <Card id="alerts" className="scroll-mt-24">
             <CardHeader
-              title="Open alerts"
-              description="Derived from certificate dates, records and inspections."
+              title={t('Open alerts')}
+              description={t(
+                'Derived from certificate dates, records and inspections.',
+              )}
               action={<Badge tone={alerts.length ? 'warning' : 'success'}>{alerts.length}</Badge>}
             />
             <div className="p-4">
-              <AlertList alerts={alerts} onDismiss={dismissAlert} compact />
+              <AlertList
+                alerts={alerts.map((alert) => ({
+                  ...alert,
+                  title: t(alert.title),
+                  detail: t(alert.detail),
+                }))}
+                onDismiss={dismissAlert}
+                compact
+              />
             </div>
           </Card>
 
           <Card>
             <CardHeader
-              title="Training progress"
+              title={t('Training progress')}
               action={
                 <Link
                   to="/app/academy"
                   className="text-[11.5px] font-medium text-forest-700 hover:underline"
                 >
-                  Open
+                  {t('Open')}
                 </Link>
               }
             />
@@ -605,7 +679,7 @@ export const Dashboard = () => {
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[11.5px] font-medium text-ink">
-                        {trainingModule?.title ?? progress.moduleId}
+                        {trainingModule ? t(trainingModule.title) : progress.moduleId}
                       </p>
                       <Progress
                         value={progress.bestScore ?? 0}
@@ -619,7 +693,7 @@ export const Dashboard = () => {
                 );
               })}
               <p className="text-[9.5px] text-ink-3">
-                {state.vendor.name} · {state.vendor.category}
+                {state.vendor.name} · {t(state.vendor.category)}
               </p>
             </div>
           </Card>
@@ -629,11 +703,12 @@ export const Dashboard = () => {
               <GraduationCap className="mt-0.5 h-4 w-4 shrink-0 text-forest-700" />
               <div>
                 <p className="text-[12px] font-semibold text-ink">
-                  Programme recognition
+                  {t('Programme recognition')}
                 </p>
                 <p className="mt-1 text-[10.5px] leading-relaxed text-ink-3">
-                  HALALNiaga recognition records participation and evidence. It
-                  is not a JAKIM halal certificate or a substitute for SPHM.
+                  {t(
+                    'HALALNiaga recognition records participation and evidence. It is not a JAKIM halal certificate or a substitute for SPHM.',
+                  )}
                 </p>
                 <div className="mt-2 flex items-center gap-2">
                   <StatusBadge status="verified" />
@@ -648,23 +723,30 @@ export const Dashboard = () => {
           <Card className="p-5">
             <div className="flex items-center gap-2">
               <PackageOpen className="h-4 w-4 text-gold-600" />
-              <p className="text-[12px] font-semibold text-ink">Starter kit</p>
+              <p className="text-[12px] font-semibold text-ink">
+                {t('Starter kit')}
+              </p>
             </div>
             <p className="mt-1.5 text-[10.5px] leading-relaxed text-ink-3">
-              Print storage labels, the equipment colour guide, the hygiene
-              checklist and a QR sticker for the stall.
+              {t(
+                'Print storage labels, the equipment colour guide, the hygiene checklist and a QR sticker for the stall.',
+              )}
             </p>
             <Link
               to="/app/starter-kit"
               className="mt-3 inline-flex items-center gap-1 text-[10.5px] font-medium text-forest-700 hover:underline"
             >
-              Open the starter kit <ArrowUpRight className="h-3 w-3" />
+              {t('Open the starter kit')} <ArrowUpRight className="h-3 w-3" />
             </Link>
           </Card>
 
           <div className="flex items-center gap-2 px-1 text-[10px] text-ink-3">
             <ReceiptText className="h-3.5 w-3.5" />
-            <span>{state.purchases.length} source records · local demo data</span>
+            <span>
+              {t('{count} source records · local demo data', {
+                count: state.purchases.length,
+              })}
+            </span>
           </div>
         </div>
       </div>

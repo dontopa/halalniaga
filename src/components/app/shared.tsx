@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { AlertTriangle, BellRing, CheckCircle2, Info, X } from 'lucide-react';
 import type { HalalAlert } from '@/domain/types';
 import { formatDate } from '@/domain/compliance';
+import { useT } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 /* -------------------------------------------------------------------------- */
@@ -18,26 +19,29 @@ export const PageHeader = ({
   title: string;
   description?: string;
   actions?: ReactNode;
-}) => (
-  <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-    <div>
-      {eyebrow && (
-        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold-700">
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="mt-1.5 font-display text-[clamp(1.7rem,3vw,2.3rem)] leading-[1.05] tracking-[-0.035em] text-ink">
-        {title}
-      </h2>
-      {description && (
-        <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-ink-3">
-          {description}
-        </p>
-      )}
+}) => {
+  const t = useT();
+  return (
+    <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+      <div>
+        {eyebrow && (
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold-700">
+            {t(eyebrow)}
+          </p>
+        )}
+        <h2 className="mt-1.5 font-display text-[clamp(1.7rem,3vw,2.3rem)] leading-[1.05] tracking-[-0.035em] text-ink">
+          {t(title)}
+        </h2>
+        {description && (
+          <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-ink-3">
+            {t(description)}
+          </p>
+        )}
+      </div>
+      {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </div>
-    {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
-  </div>
-);
+  );
+};
 
 /* -------------------------------------------------------------------------- */
 /* Score ring                                                                  */
@@ -54,6 +58,7 @@ export const ScoreRing = ({
   label?: string;
   tone?: 'forest' | 'gold' | 'clay';
 }) => {
+  const t = useT();
   const radius = 42;
   const circumference = 2 * Math.PI * radius;
   const colors = {
@@ -66,7 +71,7 @@ export const ScoreRing = ({
       className="relative shrink-0"
       style={{ width: size, height: size }}
       role="img"
-      aria-label={`${label}: ${score} out of 100`}
+      aria-label={t('{label}: {score} out of 100', { label: t(label), score })}
     >
       <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
         <circle cx="50" cy="50" r={radius} fill="none" stroke="#EAE4D8" strokeWidth="7" />
@@ -87,7 +92,7 @@ export const ScoreRing = ({
           {score}
         </span>
         <span className="mt-0.5 font-mono text-[8.5px] uppercase tracking-[0.14em] text-ink-3">
-          {label}
+          {t(label)}
         </span>
       </div>
     </div>
@@ -119,12 +124,13 @@ export const AlertList = ({
   onDismiss?: (id: string) => void;
   compact?: boolean;
 }) => {
+  const t = useT();
   if (alerts.length === 0) {
     return (
       <div className="flex items-center gap-3 rounded-xl border border-ok/15 bg-ok-soft/60 px-4 py-3.5">
         <CheckCircle2 className="h-4 w-4 shrink-0 text-ok" />
         <p className="text-[12.5px] text-ink-2">
-          No open alerts. Your records are current.
+          {t('No open alerts. Your records are current.')}
         </p>
       </div>
     );
@@ -146,14 +152,14 @@ export const AlertList = ({
               <Icon className="mt-0.5 h-4 w-4 shrink-0" />
               <div className="min-w-0">
                 <p className="text-[12.5px] font-semibold leading-snug text-ink">
-                  {alert.title}
+                  {t(alert.title)}
                 </p>
                 <p className="mt-1 text-[11.5px] leading-relaxed text-ink-2/90">
-                  {alert.detail}
+                  {t(alert.detail)}
                 </p>
                 {alert.dueAt && (
                   <p className="mt-1.5 font-mono text-[9.5px] uppercase tracking-[0.1em] text-ink-3">
-                    Due {formatDate(alert.dueAt)}
+                    {t('Due {date}', { date: formatDate(alert.dueAt) })}
                   </p>
                 )}
               </div>
@@ -162,7 +168,7 @@ export const AlertList = ({
               <button
                 type="button"
                 onClick={() => onDismiss(alert.id)}
-                aria-label={`Dismiss alert: ${alert.title}`}
+                aria-label={t('Dismiss alert: {title}', { title: t(alert.title) })}
                 className="absolute right-2 top-2 cursor-pointer rounded-full p-1 text-ink-3 transition-colors hover:bg-paper hover:text-ink"
               >
                 <X className="h-3.5 w-3.5" />
@@ -213,6 +219,7 @@ export const Toast = ({
   toast: ToastState | null;
   onClose: () => void;
 }) => {
+  const t = useT();
   if (!toast) return null;
   return (
     <div
@@ -229,7 +236,7 @@ export const Toast = ({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Dismiss notification"
+          aria-label={t('Dismiss notification')}
           className="cursor-pointer rounded-full p-0.5 opacity-60 hover:opacity-100"
         >
           <X className="h-3.5 w-3.5" />

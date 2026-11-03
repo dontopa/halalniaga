@@ -24,11 +24,11 @@ export default defineConfig({
       ],
       manifest: {
         id: '/',
-        name: 'HALALNiaga — Halal sourcing for small vendors',
+        name: 'HALALNiaga — Sumber halal untuk peniaga kecil',
         short_name: 'HALALNiaga',
         description:
-          'Find nearby halal suppliers for wet ingredients, record purchases, complete halal training and publish a customer-scannable programme record.',
-        lang: 'en',
+          'Cari pembekal halal berhampiran untuk bahan basah, rekod pembelian, selesaikan latihan halal dan terbitkan rekod program yang boleh diimbas pelanggan.',
+        lang: 'ms',
         start_url: '/app',
         scope: '/',
         display: 'standalone',
@@ -58,20 +58,20 @@ export default defineConfig({
         ],
         shortcuts: [
           {
-            name: 'Find wet ingredients',
-            short_name: 'Wet ingredients',
+            name: 'Cari bahan basah',
+            short_name: 'Bahan basah',
             url: '/app/suppliers?wet=1',
             icons: [{ src: '/icons/icon-192.png', sizes: '192x192' }],
           },
           {
-            name: 'Record a purchase',
-            short_name: 'Purchase',
+            name: 'Rekod pembelian',
+            short_name: 'Pembelian',
             url: '/app/purchases',
             icons: [{ src: '/icons/icon-192.png', sizes: '192x192' }],
           },
           {
-            name: 'Open the QR record',
-            short_name: 'QR record',
+            name: 'Buka rekod QR',
+            short_name: 'Rekod QR',
             url: '/vendor/dapur-kak-nur',
             icons: [{ src: '/icons/icon-192.png', sizes: '192x192' }],
           },

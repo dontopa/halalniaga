@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import { scoreAssessment } from './compliance';
+import { getActiveLang } from '@/i18n/lang';
 import {
   ASSESSMENT_QUESTIONS,
   createInitialState,
@@ -197,7 +198,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         {
           id: `post-${Date.now()}`,
           author: current.vendor.owner,
-          role: `Vendor · ${current.vendor.stall}`,
+          role: `${getActiveLang() === 'ms' ? 'Peniaga' : 'Vendor'} · ${current.vendor.stall}`,
           area: current.vendor.area,
           body: text,
           createdAt: new Date().toISOString(),
@@ -295,16 +296,40 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
 const mentorReply = (message: string): string => {
   const text = message.toLowerCase();
-  if (text.includes('certificate') || text.includes('expired')) {
+  if (
+    text.includes('certificate') ||
+    text.includes('expired') ||
+    text.includes('sijil') ||
+    text.includes('tamat tempoh')
+  ) {
     return 'Check the certificate scope, not just the company name. If it has lapsed, pause that product line and ask the supplier for a renewed certificate naming the product. Record the date you paused — an inspector will want to see the decision trail.';
   }
-  if (text.includes('chiller') || text.includes('storage') || text.includes('cold')) {
+  if (
+    text.includes('chiller') ||
+    text.includes('storage') ||
+    text.includes('cold') ||
+    text.includes('peti sejuk') ||
+    text.includes('sejuk') ||
+    text.includes('simpan')
+  ) {
     return 'Use the bottom shelf for raw meat, the middle for cooked food, and a separate basket for drinks. Label every container with the date it was opened. Keep a simple thermometer log twice a day — a photo on your phone is enough.';
   }
-  if (text.includes('board') || text.includes('knife') || text.includes('contamination')) {
+  if (
+    text.includes('board') ||
+    text.includes('knife') ||
+    text.includes('contamination') ||
+    text.includes('papan') ||
+    text.includes('pisau') ||
+    text.includes('cemar')
+  ) {
     return 'Colour-code the basics: red for raw meat, green for produce, white for cooked food. At a busy stall, the board colour is faster than thinking about it. Clean and sanitise between tasks, not just at the end of service.';
   }
-  if (text.includes('inspection') || text.includes('visit')) {
+  if (
+    text.includes('inspection') ||
+    text.includes('visit') ||
+    text.includes('pemeriksaan') ||
+    text.includes('lawatan')
+  ) {
     return 'Before a visit: file the last 30 days of receipts, label open containers, and put your training certificates where they can be seen. The officer is checking consistency, not perfection — show them how you correct an issue.';
   }
   return 'That is a good question. For your stall, the practical first step is to write down what you currently do for source, storage and separation, then fix the weakest link. I can review a short checklist with you — send me a photo of your prep area and chiller layout.';
