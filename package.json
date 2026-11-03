@@ -11,8 +11,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc -b --pretty",
-    "deploy": "npm run build && wrangler deploy",
-    "screenshots": "node scripts/screenshots.mjs"
+    "deploy": "npm run deploy:pages",
+    "screenshots": "node scripts/screenshots.mjs",
+    "deploy:pages": "npm run build && node scripts/prepare-pages.mjs && wrangler pages deploy dist --project-name halalniaga --branch main",
+    "deploy:workers": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.2.6",

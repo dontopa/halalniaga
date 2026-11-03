@@ -161,21 +161,32 @@ The domain suite covers:
 
 ## Deployment
 
-The project ships with [`wrangler.jsonc`](wrangler.jsonc) for a Worker serving
-static assets with SPA fallback:
+### Cloudflare Pages (short `pages.dev` URL)
+
+This is the primary target and yields `https://halalniaga.pages.dev`.
 
 ```bash
 npx wrangler login
+npx wrangler pages project create halalniaga --production-branch main
 npm run deploy
 ```
 
-`wrangler.jsonc` sets `not_found_handling: "single-page-application"`, so deep
+`npm run deploy` builds the app, writes the Pages SPA fallback to
+`dist/_redirects`, and uploads `dist/` to the `halalniaga` Pages project. Deep
 links such as `/app/suppliers` and `/vendor/dapur-kak-nur` resolve correctly.
 
-For Cloudflare Pages, build with `npm run build` and deploy the `dist/` folder.
-If Pages is used instead of Workers, add a `_redirects` file containing
-`/* /index.html 200` to the build output (Workers static assets must not include
-that file — it is treated as an infinite redirect).
+### Cloudflare Workers (fallback)
+
+```bash
+npx wrangler login
+npm run deploy:workers
+```
+
+[`wrangler.jsonc`](wrangler.jsonc) uses
+`not_found_handling: "single-page-application"` for SPA routing. Workers static
+assets reject a `_redirects` file with an SPA catch-all (it is treated as an
+infinite redirect), which is why the Pages redirect is generated only in the
+Pages deploy path.
 
 ## Limitations
 
