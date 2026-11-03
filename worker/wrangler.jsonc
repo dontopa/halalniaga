@@ -1,0 +1,9 @@
+{
+  "name": "halalniaga-admin",
+  "main": "src/index.js",
+  "account_id": "42e6d6fbb5199a87cbf2d8c077395d6e",
+  "compatibility_date": "2026-01-01",
+  "observability": {
+    "enabled": true
+  }
+}

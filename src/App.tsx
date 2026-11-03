@@ -12,6 +12,7 @@ import { LogoMark } from '@/components/Logo';
 import { PwaExperience } from '@/components/pwa/PwaExperience';
 import { AppProvider } from '@/domain/store';
 import { Admin } from '@/pages/Admin';
+import { AdminEditor } from '@/pages/AdminEditor';
 import { Credits } from '@/pages/Credits';
 import { Landing } from '@/pages/Landing';
 import { PublicVendor } from '@/pages/PublicVendor';
@@ -115,7 +116,8 @@ const App = () => (
           <Route path="/signin" element={<SignIn />} />
           <Route path="/vendor/:slug" element={<PublicVendor />} />
           <Route path="/credits" element={<Credits />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<AdminEditor />} />
+          <Route path="/admin/guide" element={<Admin />} />
 
           <Route path="/app" element={<AppLayout />}>
             <Route index element={<Dashboard />} />
