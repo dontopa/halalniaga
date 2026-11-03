@@ -1,0 +1,17 @@
+{
+  "name": "HALALNiaga",
+  "short_name": "HALALNiaga",
+  "description": "A digital halal ecosystem for small food vendors.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF7F0",
+  "theme_color": "#0B4F3C",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, Cambria, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink: #10231d;
+  --color-ink-2: #33463e;
+  --color-ink-3: #64766d;
+  --color-ivory: #faf7f0;
+  --color-paper: #ffffff;
+  --color-sand: #f3ede1;
+
+  --color-forest-950: #052219;
+  --color-forest-900: #07362a;
+  --color-forest-800: #0b4f3c;
+  --color-forest-700: #0f6049;
+  --color-forest-600: #147457;
+  --color-forest-500: #1c8c6b;
+  --color-forest-200: #bcdccc;
+  --color-forest-100: #dceee6;
+  --color-forest-50: #eef7f2;
+
+  --color-gold-700: #8a6321;
+  --color-gold-600: #a87a2f;
+  --color-gold-500: #c99a4b;
+  --color-gold-400: #d8ae62;
+  --color-gold-300: #e4c48c;
+  --color-gold-100: #f4e8d2;
+
+  --color-clay: #a6543a;
+  --color-line: #e3ddd0;
+  --color-line-soft: #eee8dc;
+  --color-danger: #b3261e;
+  --color-danger-soft: #fbe9e7;
+  --color-warn: #a86300;
+  --color-warn-soft: #fdf1dc;
+  --color-ok: #147457;
+  --color-ok-soft: #e6f4ee;
+  --color-info: #2b5d8a;
+  --color-info-soft: #e8f0f8;
+
+  --shadow-soft: 0 1px 2px rgb(16 35 29 / 0.04), 0 10px 30px -18px rgb(16 35 29 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(16 35 29 / 0.05), 0 28px 60px -30px rgb(16 35 29 / 0.3);
+  --shadow-inset-line: inset 0 0 0 1px rgb(16 35 29 / 0.06);
+
+  --animate-rise: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade: fade 0.5s ease-out both;
+  --animate-pulse-soft: pulse-soft 3.2s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ivory font-sans text-ink antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  ::selection {
+    background: #d8ae6255;
+    color: #052219;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-forest-700);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 1180px;
+  padding-inline: 1.25rem;
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility pattern-geo {
+  background-image: url('/pattern.svg');
+  background-size: 96px 96px;
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-forest-700);
+}
+
+@utility hairline {
+  background: linear-gradient(90deg, transparent, var(--color-line), transparent);
+  height: 1px;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Reveal-on-scroll primitives. The observer is in components/Reveal.tsx. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal[data-visible='true'] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Thin, quiet scrollbars inside the app. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c9c2b4 transparent;
+}
+
+@keyframes scanner-sweep {
+  0% {
+    transform: translateY(-6px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(196px);
+    opacity: 0;
+  }
+}
+
+.scanner-line {
+  animation: scanner-sweep 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanner-line {
+    animation: none;
+  }
+}

@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.wrangler
+.dev.vars
+.env
+.env.*
+!.env.example
+npm-debug.log*
+yarn-error.log*
+
+# Source brief kept locally, not part of the published project
+cadangan.pdf

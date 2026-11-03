@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="HALALNiaga — a digital halal ecosystem for small food vendors">
+  <defs>
+    <pattern id="geo" width="96" height="96" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="#0B4F3C" stroke-opacity="0.07" stroke-width="1">
+        <rect x="24" y="24" width="48" height="48"/>
+        <rect x="24" y="24" width="48" height="48" transform="rotate(45 48 48)"/>
+      </g>
+    </pattern>
+    <mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="256" height="256">
+      <rect width="256" height="256" fill="#fff"/>
+      <path d="M 92 132 L 116 156 L 164 100" fill="none" stroke="#000" stroke-width="23" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+
+  <rect width="1200" height="630" fill="#FAF7F0"/>
+  <rect width="1200" height="630" fill="url(#geo)"/>
+  <rect x="0" y="0" width="14" height="630" fill="#0B4F3C"/>
+
+  <g transform="translate(80 70)">
+    <path transform="translate(0 0) scale(0.28)" d="M 128 24 L 154.02 65.18 L 201.54 54.46 L 190.82 101.98 L 232 128 L 190.82 154.02 L 201.54 201.54 L 154.02 190.82 L 128 232 L 101.98 190.82 L 54.46 201.54 L 65.18 154.02 L 24 128 L 65.18 101.98 L 54.46 54.46 L 101.98 65.18 Z" fill="#0B4F3C" mask="url(#cut)"/>
+    <text x="86" y="48" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="600" letter-spacing="-1" fill="#10231D">HALAL</text>
+    <text x="196" y="48" font-family="Georgia, 'Times New Roman', serif" font-size="36" font-style="italic" fill="#0B4F3C">Niaga</text>
+  </g>
+
+  <text x="80" y="250" font-family="Georgia, 'Times New Roman', serif" font-size="72" letter-spacing="-2" fill="#10231D">Source with confidence.</text>
+  <text x="80" y="338" font-family="Georgia, 'Times New Roman', serif" font-size="72" letter-spacing="-2" fill="#10231D">Serve with </text>
+  <text x="435" y="338" font-family="Georgia, 'Times New Roman', serif" font-size="72" font-style="italic" letter-spacing="-2" fill="#0F6049">certainty.</text>
+
+  <text x="82" y="412" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#33463E">A digital halal ecosystem for small food vendors.</text>
+  <text x="82" y="446" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#64766D">Verified suppliers · Practical training · Traceable purchases · QR verification</text>
+
+  <g font-family="'IBM Plex Mono', Consolas, monospace" font-size="13" letter-spacing="2">
+    <rect x="80" y="500" width="250" height="44" rx="22" fill="#0B4F3C"/>
+    <text x="112" y="528" fill="#E4C48C">SABAH PILOT · 2026</text>
+    <rect x="346" y="500" width="270" height="44" rx="22" fill="none" stroke="#C99A4B" stroke-opacity="0.5"/>
+    <text x="368" y="528" fill="#8A6321">PROGRAMME RECOGNITION</text>
+  </g>
+
+  <text x="82" y="590" font-family="Inter, Helvetica, Arial, sans-serif" font-size="13" fill="#64766D">Not a JAKIM halal certificate. Academic innovation prototype.</text>
+
+  <g transform="translate(880 160)" opacity="0.9">
+    <circle cx="130" cy="130" r="128" fill="none" stroke="#0B4F3C" stroke-opacity="0.12" stroke-width="1"/>
+    <circle cx="130" cy="130" r="104" fill="none" stroke="#C99A4B" stroke-opacity="0.35" stroke-width="1"/>
+    <path transform="translate(2 2) scale(1)" d="M 128 24 L 154.02 65.18 L 201.54 54.46 L 190.82 101.98 L 232 128 L 190.82 154.02 L 201.54 201.54 L 154.02 190.82 L 128 232 L 101.98 190.82 L 54.46 201.54 L 65.18 154.02 L 24 128 L 65.18 101.98 L 54.46 54.46 L 101.98 65.18 Z" fill="none" stroke="#0B4F3C" stroke-opacity="0.45" stroke-width="2"/>
+  </g>
+</svg>
