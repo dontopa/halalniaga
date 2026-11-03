@@ -14,9 +14,9 @@ programme record.
 
 ## Live demo
 
-- **Landing page:** _added after deployment_
-- **Vendor workspace:** _added after deployment_
-- **Public QR record:** _added after deployment_
+- **Landing page:** https://halalniaga.spectrum-girdle.workers.dev
+- **Vendor workspace:** https://halalniaga.spectrum-girdle.workers.dev/app
+- **Public QR record:** https://halalniaga.spectrum-girdle.workers.dev/vendor/dapur-kak-nur
 
 The demo opens with a seeded vendor, **Dapur Kak Nur** (Tanjung Aru, Kota
 Kinabalu), and is fully interactive. No sign-up is required.
@@ -169,8 +169,13 @@ npx wrangler login
 npm run deploy
 ```
 
-For Cloudflare Pages, build with `npm run build` and deploy the `dist/` folder;
-`public/_redirects` already provides the SPA fallback.
+`wrangler.jsonc` sets `not_found_handling: "single-page-application"`, so deep
+links such as `/app/suppliers` and `/vendor/dapur-kak-nur` resolve correctly.
+
+For Cloudflare Pages, build with `npm run build` and deploy the `dist/` folder.
+If Pages is used instead of Workers, add a `_redirects` file containing
+`/* /index.html 200` to the build output (Workers static assets must not include
+that file — it is treated as an infinite redirect).
 
 ## Limitations
 
