@@ -30,8 +30,8 @@ Build a **single-page React application** with:
 - **localStorage** as the demo repository, seeded with a realistic Sabah vendor,
   eight suppliers, eighteen purchases, six training modules, an assessment and
   two inspections,
-- static hosting on **Cloudflare Workers static assets** (or Pages), which
-  provides a free `*.workers.dev` / `*.pages.dev` domain.
+- static hosting on **Cloudflare Pages**, which provides a free
+  `*.pages.dev` domain.
 
 The domain layer is framework-free and unit-tested with Vitest, so the rules can
 be lifted into a server-backed version without rewriting the business logic.

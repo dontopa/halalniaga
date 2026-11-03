@@ -103,7 +103,7 @@ demo** in the sidebar to restore the seed.
 - **qrcode.react** for verification and sticker generation
 - **Lucide** icons
 - **Vitest** for domain unit tests
-- **Cloudflare Workers static assets** for hosting
+- **Cloudflare Pages** for hosting
 
 ## Getting started
 
@@ -161,35 +161,20 @@ The domain suite covers:
 
 ## Deployment
 
-### Cloudflare Pages (short `pages.dev` URL)
-
-This is the primary target and yields `https://halalniaga.pages.dev`.
+The live site is deployed to **Cloudflare Pages** at
+`https://halalniaga.pages.dev`.
 
 ```bash
 npx wrangler login
 npm run deploy
 ```
 
-The Pages project `halalniaga` is already created; the command above deploys
-the current build to production. To create it from scratch, run
-`npx wrangler pages project create halalniaga --production-branch main` first.
-
 `npm run deploy` builds the app, writes the Pages SPA fallback to
 `dist/_redirects`, and uploads `dist/` to the `halalniaga` Pages project. Deep
 links such as `/app/suppliers` and `/vendor/dapur-kak-nur` resolve correctly.
 
-### Cloudflare Workers (fallback)
-
-```bash
-npx wrangler login
-npm run deploy:workers
-```
-
-[`wrangler.jsonc`](wrangler.jsonc) uses
-`not_found_handling: "single-page-application"` for SPA routing. Workers static
-assets reject a `_redirects` file with an SPA catch-all (it is treated as an
-infinite redirect), which is why the Pages redirect is generated only in the
-Pages deploy path.
+The Pages project is already created. To create it from scratch, run
+`npx wrangler pages project create halalniaga --production-branch main` first.
 
 ## Limitations
 

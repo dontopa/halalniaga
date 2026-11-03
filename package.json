@@ -13,8 +13,7 @@
     "typecheck": "tsc -b --pretty",
     "deploy": "npm run deploy:pages",
     "screenshots": "node scripts/screenshots.mjs",
-    "deploy:pages": "npm run build && node scripts/prepare-pages.mjs && node scripts/deploy-pages.mjs",
-    "deploy:workers": "npm run build && wrangler deploy"
+    "deploy:pages": "npm run build && node scripts/prepare-pages.mjs && node scripts/deploy-pages.mjs"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.2.6",
