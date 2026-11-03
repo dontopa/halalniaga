@@ -163,7 +163,7 @@ export const Monitoring = () => {
       </div>
 
       <div className="mt-4 grid gap-4 xl:grid-cols-3">
-        <div className="space-y-4 xl:col-span-2">
+        <div className="min-w-0 space-y-4 xl:col-span-2">
           <Card>
             <CardHeader
               title="Recognition ladder"
@@ -309,7 +309,7 @@ export const Monitoring = () => {
             </div>
           </Card>
 
-          <Card>
+          <Card className="overflow-hidden">
             <CardHeader
               title="Certificate watchlist"
               description="Certificate status is checked continuously, not only at purchase."
@@ -355,7 +355,7 @@ export const Monitoring = () => {
           </Card>
         </div>
 
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <Card>
             <CardHeader title="Open alerts" action={<Badge tone={alerts.length ? 'warning' : 'success'}>{alerts.length}</Badge>} />
             <div className="p-4">

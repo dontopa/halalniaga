@@ -181,7 +181,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
   }, [drawerOpen]);
 
   return (
-    <div className="min-h-screen bg-[#f7f4ec] print:bg-white">
+    <div className="min-h-screen overflow-x-clip bg-[#f7f4ec] print:bg-white">
       {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[272px] flex-col border-r border-line bg-ivory lg:flex print:hidden">
         <div className="flex h-[68px] items-center border-b border-line-soft px-5">

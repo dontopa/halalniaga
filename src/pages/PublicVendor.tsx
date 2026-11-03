@@ -90,7 +90,7 @@ export const PublicVendor = () => {
     : [];
 
   return (
-    <div className="min-h-screen bg-ivory">
+    <div className="min-h-screen overflow-x-clip bg-ivory">
       <header className="sticky top-0 z-20 border-b border-line/80 bg-ivory/90 backdrop-blur-xl print:hidden">
         <div className="mx-auto flex h-[68px] max-w-[1040px] items-center justify-between gap-4 px-5 sm:px-8">
           <Link to="/" aria-label="HALALNiaga home">
@@ -138,7 +138,7 @@ export const PublicVendor = () => {
           </div>
         </div>
 
-        <div className="mt-5 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+        <div className="mt-5 grid min-w-0 gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <TierBadge tier={snapshot.tier} />
@@ -207,8 +207,8 @@ export const PublicVendor = () => {
         </div>
 
         <div className="mt-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-4">
-            <section className="rounded-2xl border border-line bg-paper p-5">
+          <div className="min-w-0 space-y-4">
+            <section className="min-w-0 rounded-2xl border border-line bg-paper p-5">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h2 className="text-[13px] font-semibold text-ink">
@@ -409,8 +409,8 @@ export const PublicVendor = () => {
             </section>
           </div>
 
-          <div className="space-y-4">
-            <section className="rounded-2xl border border-forest-200 bg-forest-50 p-5">
+          <div className="min-w-0 space-y-4">
+            <section className="min-w-0 rounded-2xl border border-forest-200 bg-forest-50 p-5">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-forest-700" />
                 <p className="text-[12px] font-semibold text-ink">

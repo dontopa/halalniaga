@@ -161,6 +161,9 @@ npm run preview    # preview the built app
 
 Node 20+ is recommended (built on Node 24).
 
+Mobile layout is checked at 320, 360 and 390 px across every route — no
+horizontal page scroll. Wide tables scroll inside their cards instead.
+
 ## Project structure
 
 ```

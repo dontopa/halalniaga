@@ -294,7 +294,7 @@ export const Dashboard = () => {
       </div>
 
       <div className="mt-4 grid gap-4 xl:grid-cols-3">
-        <div className="space-y-4 xl:col-span-2">
+        <div className="min-w-0 space-y-4 xl:col-span-2">
           <Card>
             <CardHeader
               title="Compliance breakdown"
@@ -354,7 +354,7 @@ export const Dashboard = () => {
               description="Recorded spend and the share backed by a verified source, last six months."
               action={<Badge tone="forest">RM {totalSpend.toFixed(0)} total</Badge>}
             />
-            <div className="h-[230px] px-2 py-4 sm:px-4">
+            <div className="h-[230px] min-w-0 px-2 py-4 sm:px-4">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
                   <defs>
@@ -417,7 +417,7 @@ export const Dashboard = () => {
             </div>
           </Card>
 
-          <Card>
+          <Card className="overflow-hidden">
             <CardHeader
               title="Recent purchases"
               description="The newest records from your stall."
@@ -478,7 +478,7 @@ export const Dashboard = () => {
           </Card>
         </div>
 
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <Card className="overflow-hidden">
             <div className="bg-forest-800 p-5 text-ivory">
               <div className="flex items-center justify-between">

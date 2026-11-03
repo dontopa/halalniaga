@@ -74,6 +74,9 @@ await shot('credits', '/credits');
 
 await shot('mobile-landing', '/', { viewport: { width: 390, height: 844 } });
 await shot('mobile-dashboard', '/app', { viewport: { width: 390, height: 844 } });
+await shot('mobile-monitoring', '/app/monitoring', { viewport: { width: 390, height: 844 } });
+await shot('mobile-public-vendor', '/vendor/dapur-kak-nur', { viewport: { width: 390, height: 844 } });
+await shot('mobile-suppliers-wet', '/app/suppliers?wet=1', { viewport: { width: 390, height: 844 } });
 
 await browser.close();
 
