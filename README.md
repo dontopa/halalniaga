@@ -21,6 +21,16 @@ programme record.
 The demo opens with a seeded vendor, **Dapur Kak Nur** (Tanjung Aru, Kota
 Kinabalu), and is fully interactive. No sign-up is required.
 
+## Client documents
+
+- [System brief — 12 pages, Malay](docs/HALALNiaga-system-brief.pdf) ·
+  [live copy](https://halalniaga.pages.dev/HALALNiaga-system-brief.pdf) — the
+  system, modules, user flow, recognition model, PWA approach and demo script.
+- [Social preview image](public/og.png) ·
+  [live](https://halalniaga.pages.dev/og.png) — 1200 × 630 Open Graph card.
+- [Printable starter kit sample](docs/HALALNiaga-starter-kit-sample.pdf) —
+  labels, colour guide, checklist and QR sticker.
+
 ## Client brief
 
 This prototype was built for a UMS student team working to a limited budget:

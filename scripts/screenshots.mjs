@@ -11,6 +11,7 @@ const noMotion = `
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1 !important; transform: none !important; }
   html { scroll-behavior: auto !important; }
+  [role="status"] { display: none !important; }
 `;
 
 await mkdir(OUT, { recursive: true });
@@ -67,6 +68,7 @@ await shot('app-monitoring', '/app/monitoring');
 await shot('app-community', '/app/community');
 await shot('app-scanner', '/app/scanner');
 await shot('app-mentor', '/app/mentor');
+await shot('app-starter-kit', '/app/starter-kit');
 await shot('public-vendor', '/vendor/dapur-kak-nur');
 await shot('credits', '/credits');
 

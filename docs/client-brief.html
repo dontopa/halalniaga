@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HALALNiaga — Ringkasan sistem dan aliran pengguna</title>
+<meta name="author" content="HALALNiaga · Pasukan pelajar UMS" />
+<meta name="description" content="Dokumen ringkasan sistem HALALNiaga: ekosistem halal digital untuk peniaga makanan kecil. Prototaip PWA, pilot Sabah." />
+<link rel="stylesheet" href="fonts.css" />
+<style>
+  :root {
+    --forest-950: #052219;
+    --forest-900: #07362a;
+    --forest-800: #0b4f3c;
+    --forest-700: #0f6049;
+    --forest-100: #dceee6;
+    --forest-50: #eef7f2;
+    --gold-700: #8a6321;
+    --gold-500: #c99a4b;
+    --gold-300: #e4c48c;
+    --gold-100: #f4e8d2;
+    --ivory: #faf7f0;
+    --ink: #10231d;
+    --ink-2: #33463e;
+    --ink-3: #64766d;
+    --line: #e3ddd0;
+    --sand: #f3ede1;
+    --danger: #a6543a;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--forest-950);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: A4; margin: 0; }
+  @media screen {
+    body { padding: 24px; background: var(--forest-900); }
+    .page { margin: 0 auto 24px; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35); }
+  }
+  @media screen and (max-width: 860px) {
+    body { zoom: 0.52; }
+  }
+
+  .page {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    padding: 16mm 18mm 13mm;
+    background: var(--ivory);
+    display: flex;
+    flex-direction: column;
+    page-break-after: always;
+    break-after: page;
+  }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+  .page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 3mm;
+    border-bottom: 1px solid var(--line);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .page-body {
+    flex: 1;
+    padding-top: 8mm;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .page-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 3mm;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+  }
+
+  .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-700);
+  }
+  h1, h2, h3, p { margin: 0; }
+  h2 {
+    margin-top: 4mm;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 31px;
+    line-height: 1.05;
+    letter-spacing: -0.7px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  h2 em { font-style: italic; color: var(--forest-700); }
+  h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  p, li { font-size: 11px; line-height: 1.55; color: var(--ink-2); }
+  p + p { margin-top: 2.5mm; }
+  .lead { font-size: 12px; line-height: 1.55; color: var(--ink-2); }
+  .small { font-size: 9.5px; line-height: 1.45; color: var(--ink-3); }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  .muted { color: var(--ink-3); }
+  .gold { color: var(--gold-700); }
+  .forest { color: var(--forest-700); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4mm;
+    padding: 4mm;
+  }
+  .card-dark { background: var(--forest-800); border-color: var(--forest-800); color: var(--ivory); }
+  .card-dark h3, .card-dark p, .card-dark li { color: var(--ivory); }
+  .card-dark .muted { color: rgba(250, 247, 240, 0.6); }
+  .card-gold { background: var(--gold-100); border-color: var(--gold-300); }
+  .card-soft { background: var(--forest-50); border-color: var(--forest-100); }
+  .card-sand { background: var(--sand); border-color: var(--line); }
+  .card-pad-sm { padding: 3mm; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 1.5mm; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.2mm;
+    border: 1px solid var(--forest-100);
+    background: var(--forest-50);
+    color: var(--forest-800);
+    border-radius: 99px;
+    padding: 1.4mm 2.6mm;
+    font-size: 8px;
+    font-weight: 500;
+  }
+  .chip-gold { border-color: var(--gold-300); background: var(--gold-100); color: var(--gold-700); }
+
+  .brand { display: flex; align-items: center; gap: 2.6mm; }
+  .logo { width: 9mm; height: 9mm; color: var(--forest-800); }
+  .wordmark { font-size: 18px; letter-spacing: -0.6px; line-height: 1; color: var(--ink); }
+  .wordmark b { font-family: 'Inter', sans-serif; font-weight: 600; }
+  .wordmark i { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 500; }
+
+  .stat { font-family: 'Fraunces', Georgia, serif; font-size: 28px; line-height: 1; letter-spacing: -1px; color: var(--ink); }
+  .stat-label { margin-top: 1.5mm; font-size: 8.5px; line-height: 1.3; color: var(--ink-3); }
+
+  .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 7mm;
+    height: 7mm;
+    border-radius: 50%;
+    border: 1px solid var(--forest-100);
+    background: var(--forest-50);
+    color: var(--forest-700);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7.5px;
+    flex: 0 0 auto;
+  }
+  .num-gold { border-color: var(--gold-300); background: var(--gold-100); color: var(--gold-700); }
+
+  figure { margin: 0; }
+  figure img { width: 100%; height: auto; display: block; border-radius: 3mm; border: 1px solid var(--line); }
+  figcaption {
+    margin-top: 1.5mm;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+  }
+  .shot-wide { width: 100%; height: 47mm; object-fit: cover; object-position: top left; }
+  .shot-tall { width: 100%; height: 72mm; object-fit: cover; object-position: top; }
+
+  .list-clean { margin: 0; padding: 0; list-style: none; }
+  .list-clean li { display: flex; gap: 2mm; align-items: flex-start; padding: 1.4mm 0; border-bottom: 1px solid var(--line); }
+  .list-clean li:last-child { border-bottom: 0; }
+  .dot { width: 1.2mm; height: 1.2mm; border-radius: 50%; background: var(--gold-500); margin-top: 1.8mm; flex: 0 0 auto; }
+  .check { color: var(--forest-700); font-weight: 700; }
+
+  /* Cover */
+  .cover {
+    padding: 0;
+    background: var(--forest-950);
+    color: var(--ivory);
+    overflow: visible;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 16% 12%, rgba(201, 154, 75, 0.16), transparent 36%),
+      radial-gradient(circle at 90% 85%, rgba(15, 96, 73, 0.55), transparent 48%),
+      linear-gradient(135deg, rgba(250, 247, 240, 0.035) 1px, transparent 1px);
+    background-size: auto, auto, 8mm 8mm;
+    pointer-events: none;
+  }
+  .cover-star {
+    position: absolute;
+    right: 9mm;
+    top: 18mm;
+    width: 94mm;
+    height: 94mm;
+    color: var(--gold-300);
+    opacity: 0.13;
+    pointer-events: none;
+  }
+  .cover-inner {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    padding: 17mm 18mm 13mm;
+    display: flex;
+    flex-direction: column;
+  }
+  .cover-top { display: flex; align-items: center; justify-content: space-between; }
+  .cover .brand { color: var(--ivory); }
+  .cover .logo { color: var(--gold-300); width: 10mm; height: 10mm; }
+  .cover .wordmark { color: var(--ivory); font-size: 20px; }
+  .cover-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 240, 0.5);
+  }
+  .cover-kicker {
+    margin-top: 20mm;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+  }
+  .cover h1 {
+    margin-top: 4mm;
+    max-width: 126mm;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 43px;
+    line-height: 1.02;
+    letter-spacing: -1.4px;
+    font-weight: 500;
+    color: var(--ivory);
+  }
+  .cover h1 em { font-style: italic; color: var(--gold-300); }
+  .cover-lead {
+    margin-top: 4mm;
+    max-width: 120mm;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: rgba(250, 247, 240, 0.68);
+  }
+  .cover .chips { margin-top: 5mm; }
+  .cover .chip {
+    border-color: rgba(250, 247, 240, 0.18);
+    background: rgba(250, 247, 240, 0.06);
+    color: rgba(250, 247, 240, 0.8);
+  }
+  .cover-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 10mm;
+    align-items: center;
+    padding-top: 4mm;
+  }
+  .cover-visual { position: relative; }
+  .shot-card {
+    background: #fff;
+    border: 1px solid rgba(250, 247, 240, 0.18);
+    border-radius: 4mm;
+    padding: 2.2mm;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  }
+  .shot-card img {
+    width: 100%;
+    height: 88mm;
+    object-fit: cover;
+    object-position: top left;
+    display: block;
+    border-radius: 2.6mm;
+  }
+  .cover-qr {
+    margin-top: 4mm;
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    background: rgba(250, 247, 240, 0.06);
+    border: 1px solid rgba(250, 247, 240, 0.14);
+    border-radius: 3mm;
+    padding: 3mm;
+  }
+  .cover-qr img { width: 19mm; height: 19mm; background: var(--ivory); border-radius: 1.5mm; padding: 0.8mm; }
+  .cover-qr p { font-size: 8.5px; line-height: 1.4; color: rgba(250, 247, 240, 0.62); }
+  .cover-qr strong { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 400; color: var(--gold-300); margin-top: 1mm; }
+  .cover-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 8mm;
+    padding-top: 4mm;
+    border-top: 1px solid rgba(250, 247, 240, 0.14);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.06em;
+    color: rgba(250, 247, 240, 0.45);
+  }
+
+  /* Flow */
+  .flow { display: flex; flex-direction: column; }
+  .flow-row {
+    display: grid;
+    grid-template-columns: 8mm 1fr 30mm;
+    gap: 3mm;
+    align-items: start;
+    padding: 2.4mm 0;
+    border-top: 1px solid var(--line);
+  }
+  .flow-row:first-child { border-top: 0; }
+  .flow-title { font-size: 10.5px; font-weight: 600; color: var(--ink); }
+  .flow-desc { margin-top: 0.8mm; font-size: 9px; line-height: 1.45; color: var(--ink-3); }
+  .flow-tag {
+    align-self: center;
+    justify-self: end;
+    border: 1px solid var(--gold-300);
+    background: var(--gold-100);
+    color: var(--gold-700);
+    border-radius: 99px;
+    padding: 1.2mm 2mm;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 6.8px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .flow-h { display: flex; align-items: stretch; gap: 2mm; }
+  .flow-h .node { flex: 1; }
+  .flow-h .arrow { align-self: center; color: var(--gold-500); font-size: 15px; line-height: 1; }
+  .node {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 3mm;
+    padding: 3mm;
+    min-height: 23mm;
+  }
+  .node .n {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    color: var(--gold-700);
+  }
+  .node h3 { margin-top: 1.4mm; font-size: 10.5px; }
+  .node p { margin-top: 1mm; font-size: 8.5px; line-height: 1.4; color: var(--ink-3); }
+
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 2mm 2.5mm;
+    border-bottom: 1px solid var(--line);
+  }
+  td { padding: 2.4mm 2.5mm; border-bottom: 1px solid var(--line); font-size: 9px; line-height: 1.4; color: var(--ink-2); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+
+  .divider { height: 1px; background: var(--line); margin: 3mm 0; }
+  .quote {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.45;
+    letter-spacing: -0.2px;
+    color: var(--ink);
+  }
+  .quote em { color: var(--gold-700); }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 1.2mm; }
+  .pill {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 99px;
+    padding: 1mm 2mm;
+    font-size: 7.5px;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+
+  .tight { margin-top: 3mm; }
+  .mt-2 { margin-top: 2mm; }
+  .mt-3 { margin-top: 3mm; }
+  .mt-4 { margin-top: 4mm; }
+  .mt-5 { margin-top: 5mm; }
+  .mb-2 { margin-bottom: 2mm; }
+  .mb-3 { margin-bottom: 3mm; }
+  .row-between { display: flex; justify-content: space-between; align-items: center; gap: 3mm; }
+  .grow { flex: 1; }
+  .center { text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- Brand mark used throughout -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="brand-mark" viewBox="0 0 256 256">
+      <mask id="brand-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="256" height="256">
+        <rect width="256" height="256" fill="#fff" />
+        <path d="M 92 132 L 116 156 L 164 100" fill="none" stroke="#000" stroke-width="23" stroke-linecap="round" stroke-linejoin="round" />
+      </mask>
+      <path d="M 128 24 L 154.02 65.18 L 201.54 54.46 L 190.82 101.98 L 232 128 L 190.82 154.02 L 201.54 201.54 L 154.02 190.82 L 128 232 L 101.98 190.82 L 54.46 201.54 L 65.18 154.02 L 24 128 L 65.18 101.98 L 54.46 54.46 L 101.98 65.18 Z" fill="currentColor" mask="url(#brand-cut)" />
+    </symbol>
+  </defs>
+</svg>
+
+<!-- 01 · COVER -->
+<section class="page cover">
+  <div class="cover-star" aria-hidden="true">
+    <svg viewBox="0 0 256 256" width="100%" height="100%">
+      <path d="M 128 24 L 154.02 65.18 L 201.54 54.46 L 190.82 101.98 L 232 128 L 190.82 154.02 L 201.54 201.54 L 154.02 190.82 L 128 232 L 101.98 190.82 L 54.46 201.54 L 65.18 154.02 L 24 128 L 65.18 101.98 L 54.46 54.46 L 101.98 65.18 Z" fill="none" stroke="currentColor" stroke-width="2" />
+    </svg>
+  </div>
+  <div class="cover-inner">
+    <div class="cover-top">
+      <div class="brand">
+        <svg class="logo"><use href="#brand-mark" /></svg>
+        <span class="wordmark"><b>HALAL</b><i>Niaga</i></span>
+      </div>
+      <span class="cover-meta">Ringkasan sistem · 2026</span>
+    </div>
+
+    <div class="cover-grid">
+      <div>
+        <div class="cover-kicker">Prototaip PWA · Pilot Sabah</div>
+        <h1>Ekosistem halal digital untuk peniaga <em>makanan kecil.</em></h1>
+        <p class="cover-lead">
+          Membantu peniaga mendapatkan bekalan bahan basah yang disahkan
+          berdekatan, melengkapkan latihan halal, dan menerbitkan rekod yang
+          boleh diimbas pelanggan di gerai.
+        </p>
+        <div class="chips">
+          <span class="chip">Bahan basah diutamakan</span>
+          <span class="chip">PWA boleh dipasang</span>
+          <span class="chip">Berfungsi offline</span>
+        </div>
+      </div>
+
+      <div class="cover-visual">
+        <div class="shot-card">
+          <img src="screenshots/app-dashboard.png" alt="Papan pemuka HALALNiaga untuk Dapur Kak Nur" />
+        </div>
+        <div class="cover-qr">
+          <img src="qr-live.png" alt="Kod QR ke demo HALALNiaga" />
+          <p>
+            Imbas untuk membuka demo langsung
+            <strong>halalniaga.pages.dev</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-foot">
+      <span>Disediakan untuk pasukan pelajar UMS · Sabah pilot 2026</span>
+      <span>Pengiktirafan program · Bukan sijil halal JAKIM</span>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · RINGKASAN -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>02 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">01 · Ringkasan eksekutif</div>
+    <h2>Satu rekod yang menghubungkan gerai dengan <em>sumbernya.</em></h2>
+    <div class="grid-2 mt-4" style="align-items:start">
+      <div>
+        <p class="lead">
+          HALALNiaga ialah ekosistem digital untuk peniaga makanan kecil:
+          penjaja, gerai, food truck, katerer dan peniaga pasar malam. Ia
+          menggabungkan pencarian pembekal bahan basah yang disahkan, latihan
+          halal, rekod pembelian, penilaian kendiri dan pengiktirafan program.
+        </p>
+        <p>
+          Prototaip ini dibina sebagai PWA: boleh dipasang dari pelayar,
+          berfungsi offline selepas lawatan pertama, dan menggunakan data demo
+          setempat. Tiada backend, pembayaran atau akaun sebenar diperlukan.
+        </p>
+        <div class="card card-soft mt-3">
+          <h3>Brief client</h3>
+          <ul class="list-clean mt-2">
+            <li><span class="dot"></span><span><strong>Bahan basah dahulu.</strong> Ayam, ikan, sayur, telur dan susu — kategori yang paling sukar dijejaki.</span></li>
+            <li><span class="dot"></span><span><strong>PWA, bukan app store.</strong> Prototaip boleh dipasang dan digunakan pada telefon.</span></li>
+            <li><span class="dot"></span><span><strong>Bajet terhad.</strong> Static hosting, data setempat dan tiada bil server.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card card-dark">
+          <div class="stat" style="color:var(--gold-300)">06</div>
+          <div class="stat-label" style="color:rgba(250,247,240,.6)">Modul bersepadu</div>
+        </div>
+        <div class="card card-dark">
+          <div class="stat" style="color:var(--gold-300)">03</div>
+          <div class="stat-label" style="color:rgba(250,247,240,.6)">Tahap pengiktirafan</div>
+        </div>
+        <div class="card">
+          <div class="stat">05</div>
+          <div class="stat-label">Pembekal bahan basah</div>
+        </div>
+        <div class="card">
+          <div class="stat">01</div>
+          <div class="stat-label">Rekod QR untuk pelanggan</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mt-4"></div>
+    <div class="grid-3">
+      <div class="card card-pad-sm">
+        <h3>Cari</h3>
+        <p class="small mt-2">Pembekal berdekatan, status produk dan sijil pada satu skrin.</p>
+      </div>
+      <div class="card card-pad-sm">
+        <h3>Buktikan</h3>
+        <p class="small mt-2">Rekod belian, latihan dan penilaian menjadi satu jejak bukti.</p>
+      </div>
+      <div class="card card-pad-sm">
+        <h3>Terbitkan</h3>
+        <p class="small mt-2">QR gerai memaparkan rekod program yang boleh disemak pelanggan.</p>
+      </div>
+    </div>
+
+    <figure class="mt-4">
+      <img class="shot-wide" src="screenshots/landing-hero.png" alt="Landing page HALALNiaga" />
+      <figcaption>Landing page · mesej utama, batas pengiktirafan dan bukti PWA.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 03 · MASALAH -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>03 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">02 · Masalah</div>
+    <h2>Jurangnya bukan niat. Ia <em>bukti.</em></h2>
+    <p class="lead mt-3" style="max-width:150mm">
+      Peniaga kecil mahu melakukan perkara yang betul. Yang tiada ialah cara
+      praktikal untuk membuktikan apa yang sudah mereka lakukan — dan langkah
+      seterusnya apabila ada yang tertinggal.
+    </p>
+
+    <div class="grid-2 mt-4">
+      <div class="card card-pad-sm"><span class="num num-gold">01</span><h3 class="mt-2">Pembekal sukar disahkan</h3><p class="small mt-2">Sijil tersimpan dalam laci atau e-mel, jarang berada di tempat keputusan pembelian dibuat.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">02</span><h3 class="mt-2">Pengetahuan halal tidak sekata</h3><p class="small mt-2">Ramai masih menganggap halal hanya “tiada babi, tiada alkohol”, tanpa melihat penyembelihan, penyimpanan dan pengasingan.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">03</span><h3 class="mt-2">Pensijilan rasa jauh</h3><p class="small mt-2">Gerai kecil menganggap proses rasmi terlalu rumit atau mahal untuk diterokai.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">04</span><h3 class="mt-2">Tiada rekod pembelian</h3><p class="small mt-2">Tanpa resit atau rujukan pembekal, tiada siapa boleh membuktikan asal ayam, ikan atau sayur.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">05</span><h3 class="mt-2">Pencemaran silang tidak kelihatan</h3><p class="small mt-2">Papan, pisau dan minyak yang dikongsi jarang didokumenkan atau diperbetulkan.</p></div>
+      <div class="card card-pad-sm"><span class="num num-gold">06</span><h3 class="mt-2">Bahan basah bergerak lebih pantas</h3><p class="small mt-2">Ayam, ikan, sayur dan telur dibeli beberapa kali seminggu, kadangkala dari gerai berbeza. Rekod bulanan tidak mampu mengejar pasar basah.</p></div>
+    </div>
+
+    <div class="card card-dark mt-4" style="padding:5mm">
+      <div class="quote" style="color:var(--ivory);border-left:2px solid var(--gold-500);padding-left:4mm">
+        Jangan jadikan peniaga kecil sebagai <em style="color:var(--gold-300)">pentadbir</em>. Bina rekod daripada kerja yang mereka sudah lakukan — beli, masak, simpan, bersihkan, hidang.
+      </div>
+      <p class="small mt-2" style="color:rgba(250,247,240,.55)">Pendirian reka bentuk projek</p>
+    </div>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 04 · EKOSISTEM -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>04 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">03 · Ekosistem</div>
+    <h2>Tiga pihak. Satu rantaian yang boleh <em>disahkan.</em></h2>
+    <p class="lead mt-3" style="max-width:150mm">
+      HALALNiaga bukan direktori pembekal. Ia menghubungkan peniaga, pembekal
+      dan pihak bimbingan dalam satu rekod yang sama.
+    </p>
+
+    <div class="grid-3 mt-4">
+      <div class="card">
+        <span class="num">01</span>
+        <h3 class="mt-2">Peniaga kecil</h3>
+        <p class="small mt-2">Membeli bahan basah, memasak dan menghidang. Sistem merekod bukti di sepanjang kerja harian.</p>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h3 class="mt-2">Pembekal disahkan</h3>
+        <p class="small mt-2">Menerbitkan status halal pada peringkat produk dan sampai kepada gerai kecil berdekatan.</p>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h3 class="mt-2">Bimbingan & pemantauan</h3>
+        <p class="small mt-2">Melatih, menasihati, memeriksa dan mengiktiraf mengikut tangga yang jelas.</p>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <div class="flow-h">
+        <div class="node">
+          <div class="n">SUMBER</div>
+          <h3>Pembekal disahkan</h3>
+          <p>Sijil dan status produk direkodkan.</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node">
+          <div class="n">OPERASI</div>
+          <h3>Peniaga kecil</h3>
+          <p>Beli, rekod, masak dan simpan dengan betul.</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node">
+          <div class="n">KEYAKINAN</div>
+          <h3>Pelanggan</h3>
+          <p>Imbas QR dan lihat rekod program.</p>
+        </div>
+      </div>
+      <div class="card card-soft mt-3" style="padding:3mm">
+        <p class="small">
+          <strong>Pihak program</strong> menyokong rantaian ini melalui latihan,
+          penilaian kendiri, pemeriksaan dan pengiktirafan. HALALNiaga merekod
+          dan memantau — ia tidak mengeluarkan sijil halal.
+        </p>
+      </div>
+    </div>
+
+    <div class="card card-gold mt-4" style="padding:4mm">
+      <h3>Prinsip utama</h3>
+      <p class="small mt-2">
+        Pematuhan dinilai berdasarkan bukti, bukan identiti. Pensijilan halal
+        Malaysia terbuka kepada pengusaha Muslim dan bukan Muslim yang memenuhi
+        syarat. Rekod ini direka untuk menyokong pematuhan, bukan menggantikan
+        proses rasmi.
+      </p>
+    </div>
+
+    <figure class="mt-3">
+      <img src="images/market-kk-crop.webp" alt="Pasar basah di Kota Kinabalu" style="height:52mm;object-fit:cover;object-position:65% 55%" />
+      <figcaption>Pasar basah Kota Kinabalu · sumber harian peniaga kecil. Foto: Bahnfrend, CC BY-SA 4.0.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 05 · MODUL -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>05 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">04 · Enam modul</div>
+    <h2>Enam modul. Satu rekod <em>berterusan.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Latihan, sumber, penilaian dan pemeriksaan berhenti hidup dalam buku nota
+      berasingan. Setiap modul menyumbang kepada rekod yang sama.
+    </p>
+
+    <div class="grid-2 mt-4">
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">01</span><span class="mono small">CARIAN</span></div><h3 class="mt-2">Supplier Finder</h3><p class="small mt-1">Cari pembekal bahan basah berdekatan; tapis status sijil dan produk.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">02</span><span class="mono small">LATIHAN</span></div><h3 class="mt-2">Halal Academy</h3><p class="small mt-1">Enam modul pendek, kuiz 80% lulus, sijil tamat latihan program.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">03</span><span class="mono small">REKOD</span></div><h3 class="mt-2">Purchase Tracking</h3><p class="small mt-1">Setiap belian menjadi bukti: pembekal, produk, kuantiti dan resit.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">04</span><span class="mono small">SEMAK</span></div><h3 class="mt-2">Self-Assessment</h3><p class="small mt-1">Lapan soalan berwajaran, tindakan pembetulan, sah 90 hari.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">05</span><span class="mono small">KEYAKINAN</span></div><h3 class="mt-2">QR Verification</h3><p class="small mt-1">Profil awam untuk pelanggan: latihan, sumber, penilaian dan pemeriksaan.</p></div>
+      <div class="card card-pad-sm"><div class="row-between"><span class="num">06</span><span class="mono small">PENGLIBATAN</span></div><h3 class="mt-2">Monitoring & Recognition</h3><p class="small mt-1">Tiga tahap, pemeriksaan program dan penilaian semula berkala.</p></div>
+    </div>
+
+    <figure class="mt-4">
+      <img class="shot-wide" src="screenshots/app-suppliers-wet.png" alt="Supplier Finder dengan penapis bahan basah dan susunan jarak terdekat" style="height:76mm;object-position:50% 42%" />
+      <figcaption>Supplier Finder · 5 pembekal bahan basah, disusun mengikut jarak terdekat.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 06 · ALIRAN PENIAGA -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>06 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">05 · Aliran peniaga</div>
+    <h2>Daripada daftar sehingga <em>QR di gerai.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Enam langkah. Setiap langkah menambah bukti ke rekod yang sama — tanpa
+      menambah satu lagi ritual kertas.
+    </p>
+
+    <div class="flow mt-4">
+      <div class="flow-row">
+        <span class="num">01</span>
+        <div><div class="flow-title">Daftar gerai</div><div class="flow-desc">Nama, lokasi, menu dan bahan utama yang paling penting.</div></div>
+        <span class="flow-tag">Profil gerai</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">02</span>
+        <div><div class="flow-title">Latihan halal</div><div class="flow-desc">Enam modul pendek, kemudian kuiz bertanda untuk setiap modul.</div></div>
+        <span class="flow-tag">Skor kuiz</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">03</span>
+        <div><div class="flow-title">Cari pembekal bahan basah</div><div class="flow-desc">Tapis kategori basah, susun mengikut jarak, semak status produk.</div></div>
+        <span class="flow-tag">Sumber disahkan</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">04</span>
+        <div><div class="flow-title">Rekod pembelian</div><div class="flow-desc">Pembekal, produk, kuantiti, tarikh dan nombor resit.</div></div>
+        <span class="flow-tag">Jejak sumber</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">05</span>
+        <div><div class="flow-title">Penilaian kendiri</div><div class="flow-desc">Semak lapan kawalan; lihat kelemahan dan tindakan pembetulan.</div></div>
+        <span class="flow-tag">Skor penilaian</span>
+      </div>
+      <div class="flow-row">
+        <span class="num">06</span>
+        <div><div class="flow-title">Pengiktirafan & QR</div><div class="flow-desc">Naik tahap melalui pemeriksaan; terbitkan QR untuk pelanggan.</div></div>
+        <span class="flow-tag">QR gerai</span>
+      </div>
+    </div>
+
+    <div class="grid-2 mt-4">
+      <div class="card card-dark">
+        <h3 style="color:var(--gold-300)">Yang terhasil</h3>
+        <p class="small mt-2" style="color:rgba(250,247,240,.7)">
+          Satu rekod yang menjawab: siapa pembekalnya, apa yang dibeli, bila,
+          dan apa buktinya. Rekod ini boleh disemak semula semasa pemeriksaan.
+        </p>
+      </div>
+      <div class="card card-soft">
+        <h3>Starter kit</h3>
+        <p class="small mt-2">
+          Label storan, panduan warna peralatan, senarai semak kebersihan dan
+          pelekat QR — semuanya boleh dicetak dari dalam aplikasi.
+        </p>
+        <p class="mono small mt-2" style="color:var(--forest-700)">/app/starter-kit</p>
+      </div>
+    </div>
+
+    <figure class="mt-3">
+      <img class="shot-wide" src="screenshots/app-dashboard.png" alt="Dashboard HALALNiaga selepas rekod pembelian dan penilaian" style="height:44mm" />
+      <figcaption>Dashboard · skor, tier dan alert dalam satu pandangan.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 07 · ALIRAN PELANGGAN -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>07 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">06 · Aliran pelanggan</div>
+    <h2>Satu imbasan. Bukti di sebalik <em>makanan.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Pelanggan tidak perlu memasang aplikasi atau mencipta akaun. Pelekat QR
+      di gerai membuka rekod program dalam pelayar.
+    </p>
+
+    <div class="flow-h mt-4">
+      <div class="node"><div class="n">01</div><h3>Imbas</h3><p>Kamera telefon membuka pautan rekod.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">02</div><h3>Lihat rekod</h3><p>Tahap, latihan, sumber dan tarikh semakan.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">03</div><h3>Semak bukti</h3><p>Pembekal disahkan, penilaian dan pemeriksaan.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n">04</div><h3>Yakin</h3><p>Keputusan dibuat dengan maklumat, bukan logo semata-mata.</p></div>
+    </div>
+
+    <figure class="mt-4">
+      <img class="shot-tall" src="screenshots/public-vendor.png" alt="Halaman rekod awam Dapur Kak Nur dengan butiran program" style="height:94mm;object-fit:cover;object-position:top" />
+      <figcaption>Rekod awam · /vendor/dapur-kak-nur · boleh diimbas tanpa akaun.</figcaption>
+    </figure>
+
+    <div class="card card-gold mt-3" style="padding:3.5mm">
+      <div class="row-between">
+        <div>
+          <h3 style="color:var(--gold-700)">Bukan sijil halal JAKIM</h3>
+          <p class="small mt-1">Rekod ini menyatakan pengiktirafan program dan tarikh semakan. Sijil halal rasmi kekal dengan JAKIM atau pihak berkuasa agama negeri.</p>
+        </div>
+        <img src="qr-live.png" alt="Kod QR ke demo" style="width:17mm;height:17mm;border-radius:1.5mm;flex:0 0 auto" />
+      </div>
+    </div>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 08 · MODEL PENGLIBATAN -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>08 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">07 · Model pengiktirafan</div>
+    <h2>Pengiktirafan yang perlu <em>dikekalkan.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Tahap bukan label kekal. Bukti yang menyokongnya boleh luput — dan rekod
+      menunjukkan bila ia perlu diperbaharui.
+    </p>
+
+    <div class="grid-3 mt-4">
+      <div class="card">
+        <div class="row-between"><span class="num">01</span><span class="pill">Tahap 1</span></div>
+        <h3 class="mt-2">Learner</h3>
+        <p class="small mt-2">Semua enam modul lulus pada 80% atau lebih.</p>
+        <p class="mono small mt-2" style="color:var(--forest-700)">Sijil tamat latihan program</p>
+      </div>
+      <div class="card card-soft">
+        <div class="row-between"><span class="num">02</span><span class="pill">Tahap 2</span></div>
+        <h3 class="mt-2">Verified Participant</h3>
+        <p class="small mt-2">Learner + 80% pembelian terkini daripada sumber disahkan + penilaian kendiri 80% dalam 90 hari.</p>
+        <p class="mono small mt-2" style="color:var(--forest-700)">Lencana + QR gerai</p>
+      </div>
+      <div class="card card-gold">
+        <div class="row-between"><span class="num num-gold">03</span><span class="pill">Tahap 3</span></div>
+        <h3 class="mt-2">Monitored Participant</h3>
+        <p class="small mt-2">Verified + pemeriksaan program lulus dalam 180 hari + penilaian semula dalam kitaran semasa.</p>
+        <p class="mono small mt-2" style="color:var(--gold-700)">Lencana pemantauan + tarikh pemeriksaan</p>
+      </div>
+    </div>
+
+    <div class="card card-dark mt-4" style="padding:4.5mm">
+      <div class="grid-2" style="gap:6mm;align-items:center">
+        <div>
+          <h3 style="color:var(--gold-300)">Sempadan penting</h3>
+          <p class="small mt-2" style="color:rgba(250,247,240,.72)">
+            HALALNiaga tidak mengeluarkan sijil halal, tidak menggunakan logo
+            halal Malaysia, dan tidak menggantikan pemeriksaan JAKIM atau pihak
+            berkuasa agama negeri. Setiap rekod QR menyatakan perkara ini.
+          </p>
+        </div>
+        <div>
+          <div class="pill-row">
+            <span class="chip chip-gold">Program recognition</span>
+            <span class="chip chip-gold">Bukan SPHM</span>
+            <span class="chip chip-gold">Bukan logo JAKIM</span>
+          </div>
+          <p class="small mt-3" style="color:rgba(250,247,240,.5)">
+            Rujukan rasmi: JAKIM Halal Malaysia · halal.gov.my
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <table>
+        <thead><tr><th>Tahap</th><th>Syarat utama</th><th>Pengiktirafan</th></tr></thead>
+        <tbody>
+          <tr><td>Learner</td><td>6/6 modul lulus · kuiz ≥ 80%</td><td>Sijil tamat latihan</td></tr>
+          <tr><td>Verified</td><td>Learner + sumber ≥ 80% + penilaian ≥ 80%</td><td>Lencana + QR</td></tr>
+          <tr><td>Monitored</td><td>Verified + pemeriksaan lulus ≤ 180 hari</td><td>Lencana pemantauan</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-3 mt-3">
+      <div class="card card-pad-sm"><div class="mono small gold">PENILAIAN</div><h3 class="mt-1">90 hari</h3><p class="small mt-1">Kemas kini setiap kitaran.</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">PEMERIKSAAN</div><h3 class="mt-1">180 hari</h3><p class="small mt-1">Pemeriksaan program semasa.</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">SIJIL PEMBEKAL</div><h3 class="mt-1">Dipantau</h3><p class="small mt-1">Semak tarikh luput pada setiap belian.</p></div>
+    </div>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 09 · PWA & TEKNOLOGI -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>09 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">08 · PWA, teknologi & bajet</div>
+    <h2>PWA yang dipasang, bukan <em>app store.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Brief meminta prototaip PWA dengan bajet terhad. HALALNiaga dipasang dari
+      pelayar, menyimpan shell aplikasi dan kekal boleh digunakan apabila isyarat
+      lemah di pasar.
+    </p>
+
+    <div class="grid-3 mt-4">
+      <div class="card card-pad-sm"><h3>Pasang dari pelayar</h3><p class="small mt-2">Tiada app store, tiada proses semakan. Tambah ke skrin utama dalam beberapa saat.</p></div>
+      <div class="card card-pad-sm"><h3>Offline-ready</h3><p class="small mt-2">Shell aplikasi dan data demo kekal selepas lawatan pertama.</p></div>
+      <div class="card card-pad-sm"><h3>Tiada bil server</h3><p class="small mt-2">Static hosting di Cloudflare Pages, data setempat, tiada backend atau pembayaran.</p></div>
+    </div>
+
+    <figure class="mt-3">
+      <img class="shot-wide" src="screenshots/landing-pwa.png" alt="Bahagian PWA pada landing page HALALNiaga" />
+      <figcaption>Landing page · “Install it once. Use it at the stall.”</figcaption>
+    </figure>
+
+    <div class="card card-soft mt-3" style="padding:4mm">
+      <h3>Arkitektur prototaip</h3>
+      <div class="flow-h mt-2">
+        <div class="node" style="min-height:18mm"><div class="n">CLIENT</div><h3>PWA</h3><p>React · Vite</p></div>
+        <div class="arrow">→</div>
+        <div class="node" style="min-height:18mm"><div class="n">CACHE</div><h3>Service Worker</h3><p>Workbox precache</p></div>
+        <div class="arrow">→</div>
+        <div class="node" style="min-height:18mm"><div class="n">DATA</div><h3>localStorage</h3><p>Rekod demo setempat</p></div>
+      </div>
+      <div class="grid-2 mt-2">
+        <p class="small"><strong>Hosting:</strong> Cloudflare Pages · static assets · SPA fallback.</p>
+        <p class="small"><strong>Masa depan:</strong> D1/Workers, auth, supplier onboarding, integrasi direktori JAKIM.</p>
+      </div>
+    </div>
+
+    <div class="grid-3 mt-3">
+      <div class="card card-pad-sm"><h3>Android</h3><p class="small mt-1">Menu ⋮ → Install app / Add to Home screen.</p></div>
+      <div class="card card-pad-sm"><h3>iPhone</h3><p class="small mt-1">Share → Add to Home Screen.</p></div>
+      <div class="card card-pad-sm"><h3>Desktop</h3><p class="small mt-1">Ikon install di address bar.</p></div>
+    </div>
+
+    <p class="small mt-3">
+      <strong>Nota:</strong> Prototaip ini tiada backend, pembayaran, e-mel atau
+      integrasi pembekal sebenar. Data disimpan dalam pelayar peranti.
+    </p>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 10 · BAHAN BASAH -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>10 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">09 · Fokus bahan basah</div>
+    <h2>Bahan basah <em>diutamakan.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Ayam, ikan, sayur, telur dan susu dibeli beberapa kali seminggu dan
+      bertukar pembekal. Ia kategori paling sukar dijejaki — dan paling penting
+      untuk dipantau.
+    </p>
+
+    <div class="grid-4 mt-4">
+      <div class="card card-pad-sm"><div class="mono small gold">Poultry & meat</div><h3 class="mt-1">Ayam, daging, kambing</h3><p class="small mt-1">2 sumber</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">Seafood</div><h3 class="mt-1">Ikan, udang, kerang</h3><p class="small mt-1">1 sumber</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">Produce</div><h3 class="mt-1">Kangkung, tomato, bawang</h3><p class="small mt-1">1 sumber</p></div>
+      <div class="card card-pad-sm"><div class="mono small gold">Dairy & eggs</div><h3 class="mt-1">Telur, susu segar</h3><p class="small mt-1">1 sumber</p></div>
+    </div>
+
+    <div class="grid-2 mt-4" style="align-items:start">
+      <div>
+        <h3>Kenapa bahan basah?</h3>
+        <ul class="list-clean mt-2">
+          <li><span class="dot"></span><span>Kitaran belian pendek: stok berubah setiap hari, bukan bulanan.</span></li>
+          <li><span class="dot"></span><span>Risiko rantaian sejuk dan pencemaran silang lebih tinggi.</span></li>
+          <li><span class="dot"></span><span>Sijil pembekal lebih mudah luput atau berubah skop.</span></li>
+          <li><span class="dot"></span><span>Pelanggan lebih cenderung bertanya asal ayam, ikan dan sayur.</span></li>
+        </ul>
+      </div>
+      <div class="card card-soft">
+        <h3>Dalam aplikasi</h3>
+        <p class="small mt-2">
+          Butang <strong>Wet ingredients</strong> menapis lima pembekal bahan
+          basah. Senarai disusun <strong>nearest first</strong>, dengan jarak dan
+          tanda “Nearby” untuk sumber dalam 5 km.
+        </p>
+        <p class="mono small mt-2" style="color:var(--forest-700)">/app/suppliers?wet=1</p>
+      </div>
+    </div>
+
+    <figure class="mt-4">
+      <img class="shot-wide" src="screenshots/app-suppliers-wet.png" alt="Penapis bahan basah dan senarai pembekal berdekatan" style="height:72mm;object-position:50% 42%" />
+      <figcaption>Penapis bahan basah · 5 daripada 8 pembekal · susunan jarak terdekat.</figcaption>
+    </figure>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 11 · DEMO -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>11 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">10 · Demo</div>
+    <h2>Cuba dalam lima <em>minit.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Demo menggunakan vendor contoh Dapur Kak Nur dan data pilot. Tiada
+      pendaftaran sebenar diperlukan.
+    </p>
+
+    <div class="grid-2 mt-4" style="align-items:start">
+      <div>
+        <div class="card">
+          <h3>Pautan langsung</h3>
+          <table class="mt-2">
+            <tr><td><strong>Landing</strong></td><td class="mono">halalniaga.pages.dev</td></tr>
+            <tr><td><strong>Workspace</strong></td><td class="mono">/app</td></tr>
+            <tr><td><strong>Bahan basah</strong></td><td class="mono">/app/suppliers?wet=1</td></tr>
+            <tr><td><strong>Rekod awam</strong></td><td class="mono">/vendor/dapur-kak-nur</td></tr>
+            <tr><td><strong>Starter kit</strong></td><td class="mono">/app/starter-kit</td></tr>
+          </table>
+        </div>
+
+        <div class="card card-soft mt-3">
+          <h3>Akaun demo</h3>
+          <p class="mono small mt-2">nurul@dapurkaknur.my</p>
+          <p class="mono small">demo1234</p>
+          <p class="small mt-2">Mana-mana e-mel/kata laluan akan membuka workspace demo. Tiada kredensial dihantar ke server.</p>
+        </div>
+
+        <div class="card card-sand mt-3">
+          <h3>Reset</h3>
+          <p class="small mt-1">Sidebar → <strong>Reset demo</strong> untuk memulihkan data asal selepas pembentangan.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="card card-dark" style="text-align:center">
+          <img src="qr-live.png" alt="Kod QR ke laman HALALNiaga" style="width:38mm;height:38mm;background:var(--ivory);border-radius:2mm;padding:1.5mm;display:inline-block" />
+          <p class="small mt-2" style="color:rgba(250,247,240,.65)">Imbas untuk membuka demo</p>
+          <p class="mono small" style="color:var(--gold-300)">halalniaga.pages.dev</p>
+        </div>
+
+        <div class="card mt-3">
+          <h3>Aliran demo 5 minit</h3>
+          <ol style="margin:0;padding-left:5mm;font-size:9.5px;line-height:1.6;color:var(--ink-2)">
+            <li>Buka dashboard: skor 68/100, tier Verified, 5 alert.</li>
+            <li>Supplier Finder → Wet ingredients → Nearest first.</li>
+            <li>Academy → jawab satu kuiz pendek.</li>
+            <li>Assessment → tukar satu jawapan, lihat skor berubah.</li>
+            <li>Monitoring → rekod pemeriksaan → tier naik ke Monitored.</li>
+            <li>Verification → buka rekod awam / imbas QR.</li>
+            <li>Starter kit → tunjuk label, checklist dan QR sticker.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <figure class="mt-3">
+      <img class="shot-wide" src="screenshots/app-starter-kit.png" alt="Halaman starter kit printable" style="height:55mm" />
+      <figcaption>Starter kit · label, checklist dan QR sticker untuk dicetak.</figcaption>
+    </figure>
+
+    <div class="card card-gold mt-3" style="padding:3.5mm">
+      <p class="small">
+        <strong>Tip pembentangan:</strong> mulakan dengan rekod awam, kemudian
+        tunjukkan bagaimana setiap modul menyumbang kepada rekod yang sama.
+        Akhiri dengan starter kit — bukti fizikal yang boleh dibawa pulang.
+      </p>
+    </div>
+  </div>
+  <footer class="page-foot"><span>halalniaga.pages.dev</span><span>Pengiktirafan program · bukan sijil halal JAKIM</span></footer>
+</section>
+
+<!-- 12 · HAD & HALA TUJU -->
+<section class="page">
+  <header class="page-head"><span>HALALNiaga · Ringkasan sistem</span><span>12 / 12</span></header>
+  <div class="page-body">
+    <div class="kicker">11 · Had & hala tuju</div>
+    <h2>Prototaip yang jujur tentang <em>batasnya.</em></h2>
+    <p class="lead mt-2" style="max-width:150mm">
+      Prototaip ini menunjukkan model perkhidmatan dan aliran pengguna. Ia bukan
+      sistem pematuhan produksi, dan ia tidak membuat keputusan pensijilan.
+    </p>
+
+    <div class="grid-2 mt-4" style="align-items:start">
+      <div class="card">
+        <h3>Had prototaip</h3>
+        <ul class="list-clean mt-2">
+          <li><span class="dot"></span><span>Data disimpan dalam pelayar peranti; tidak disegerakkan antara peranti.</span></li>
+          <li><span class="dot"></span><span>Tiada backend, auth sebenar, pembayaran atau e-mel.</span></li>
+          <li><span class="dot"></span><span>Status sijil pembekal adalah ilustrasi, bukan carian langsung JAKIM.</span></li>
+          <li><span class="dot"></span><span>Scanner dan mentor adalah simulasi.</span></li>
+          <li><span class="dot"></span><span>Pemeriksaan program direkod secara simulasi.</span></li>
+        </ul>
+      </div>
+      <div class="card card-soft">
+        <h3>Langkah seterusnya</h3>
+        <ul class="list-clean mt-2">
+          <li><span class="dot"></span><span>Backend D1/Workers atau Supabase untuk akaun dan rekod kongsi.</span></li>
+          <li><span class="dot"></span><span>Onboarding pembekal dan aliran muat naik sijil.</span></li>
+          <li><span class="dot"></span><span>Integrasi direktori halal JAKIM jika ada akses sah.</span></li>
+          <li><span class="dot"></span><span>QR bertandatangan dan rekod audit yang tidak boleh diubah.</span></li>
+          <li><span class="dot"></span><span>Program fizikal: latihan, pemeriksaan dan pengiktirafan di lapangan.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-dark mt-4" style="padding:6mm;text-align:center">
+      <div style="width:24mm;height:1px;background:var(--gold-500);margin:0 auto 4mm"></div>
+      <div class="quote" style="color:var(--ivory);font-size:19px">
+        Pengiktirafan program, bukan <em style="color:var(--gold-300)">sijil halal.</em>
+      </div>
+      <p class="small mt-3" style="color:rgba(250,247,240,.6);max-width:140mm;margin-left:auto;margin-right:auto">
+        Sijil Halal Malaysia (SPHM) dikeluarkan oleh JAKIM atau pihak berkuasa
+        agama Islam negeri yang diiktiraf. HALALNiaga menyokong perjalanan ke
+        arah pematuhan — ia tidak menggantikan proses rasmi.
+      </p>
+    </div>
+
+    <div class="mt-4" style="display:flex;align-items:center;justify-content:space-between;gap:6mm">
+      <div class="brand">
+        <svg class="logo"><use href="#brand-mark" /></svg>
+        <span class="wordmark"><b>HALAL</b><i>Niaga</i></span>
+      </div>
+      <div style="text-align:right">
+        <p class="mono small">halalniaga.pages.dev</p>
+        <p class="small">Inovasi pelajar UMS · Sabah pilot 2026</p>
+      </div>
+    </div>
+
+    <div class="card card-soft mt-3" style="display:flex;align-items:center;gap:4mm">
+      <img src="qr-live.png" alt="QR demo HALALNiaga" style="width:19mm;height:19mm;border-radius:1.5mm;flex:0 0 auto" />
+      <div>
+        <h3>Buka demo</h3>
+        <p class="small mt-1">halalniaga.pages.dev · tiada akaun diperlukan.</p>
+      </div>
+    </div>
+
+    <p class="small mt-3" style="color:var(--ink-3);font-size:7.5px;line-height:1.5">
+      Imej pasar: Wikimedia Commons — Bahnfrend (CC BY-SA 4.0), CEphoto/Uwe
+      Aranas (CC BY-SA 3.0), Francisco Anzola (CC BY 3.0). Kredit penuh di
+      /credits. Tangkapan skrin: prototaip HALALNiaga. Logo dan antara muka
+      adalah asli untuk projek ini.
+    </p>
+  </div>
+  <footer class="page-foot"><span>HALALNiaga · Dokumen ringkasan sistem</span><span>Bukan sijil halal JAKIM · 2026</span></footer>
+</section>
+
+</body>
+</html>
