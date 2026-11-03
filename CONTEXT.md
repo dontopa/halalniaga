@@ -42,6 +42,12 @@ produce, and dairy & eggs. Dry goods and sauces are supported in the network but
 are not the pilot focus. Wet ingredients are a first-class supplier filter and
 the default supplier list is sorted nearest-first.
 
+### Starter kit
+
+A printable bundle for the stall: quick handling guide, storage labels,
+equipment colour guide, hygiene and halal checklist, and the customer QR
+sticker. It is a programme training tool, not a certificate.
+
 ### Verified source
 
 A supplier or product whose evidence the programme accepts:

@@ -64,6 +64,13 @@ or app-store costs are required.
 
 ![Wet-ingredient filter with nearest-first sorting](docs/screenshots/app-suppliers-wet.png)
 
+### Printable starter kit
+
+![Printable starter kit with labels, colour guide, checklist and QR sticker](docs/screenshots/app-starter-kit.png)
+
+[Download the sample PDF](docs/HALALNiaga-starter-kit-sample.pdf) — generated from
+the seeded vendor with the app navigation removed.
+
 More screens are in [`docs/screenshots/`](docs/screenshots/).
 
 ## What it demonstrates
@@ -76,7 +83,7 @@ More screens are in [`docs/screenshots/`](docs/screenshots/).
 | **04 · Self-assessment** | Complete an eight-question weighted assessment with live scoring, corrective actions and a 90-day validity cycle |
 | **05 · QR verification** | Preview, copy and download the customer QR record and a printable stall sticker |
 | **06 · Monitoring & recognition** | See the three-tier ladder, inspection history, certificate watchlist and record a simulated programme inspection |
-| **Support** | Community feed, simulated ingredient barcode scanner, and a scripted halal mentor conversation |
+| **Support** | Community feed, simulated ingredient barcode scanner, a scripted halal mentor conversation, and a printable starter kit (labels, colour guide, checklist, QR sticker) |
 | **PWA** | Install from the browser, reopen `/app` offline, and keep the cached shell available at a market with a weak signal |
 
 The public record at `/vendor/dapur-kak-nur` is the customer-facing view: tier,
@@ -165,7 +172,7 @@ src/
     SignIn.tsx
     PublicVendor.tsx
     Credits.tsx
-    app/           # ten workspace modules
+    app/           # eleven workspace modules, including the printable starter kit
 public/
   images/          # Sabah market photography (WebP, credited)
   icons/           # PWA, maskable and Apple touch icons

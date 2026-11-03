@@ -11,6 +11,7 @@ import {
   LifeBuoy,
   Menu,
   MessagesSquare,
+  PackageOpen,
   QrCode,
   ReceiptText,
   RotateCcw,
@@ -56,6 +57,7 @@ const groups: Array<{ label: string; items: NavItem[] }> = [
     label: 'Support',
     items: [
       { to: '/app/community', label: 'Community', icon: MessagesSquare },
+      { to: '/app/starter-kit', label: 'Starter kit', icon: PackageOpen },
       { to: '/app/scanner', label: 'Ingredient scanner', icon: ScanBarcode },
       { to: '/app/mentor', label: 'Halal mentor', icon: LifeBuoy },
     ],
@@ -73,6 +75,7 @@ const titles: Record<string, string> = {
   '/app/community': 'Community',
   '/app/scanner': 'Ingredient scanner',
   '/app/mentor': 'Halal mentor',
+  '/app/starter-kit': 'Starter kit',
 };
 
 const NavList = ({ onNavigate }: { onNavigate?: () => void }) => (
@@ -178,9 +181,9 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
   }, [drawerOpen]);
 
   return (
-    <div className="min-h-screen bg-[#f7f4ec]">
+    <div className="min-h-screen bg-[#f7f4ec] print:bg-white">
       {/* Desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[272px] flex-col border-r border-line bg-ivory lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[272px] flex-col border-r border-line bg-ivory lg:flex print:hidden">
         <div className="flex h-[68px] items-center border-b border-line-soft px-5">
           <Link to="/" aria-label="HALALNiaga home">
             <Wordmark />
@@ -218,7 +221,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
 
       {/* Mobile drawer */}
       {drawerOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden print:hidden">
           <div
             className="absolute inset-0 animate-fade bg-forest-950/45 backdrop-blur-[2px]"
             onClick={() => setDrawerOpen(false)}
@@ -265,9 +268,9 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
         </div>
       )}
 
-      <div className="lg:pl-[272px]">
+      <div className="lg:pl-[272px] print:pl-0">
         {/* Top bar */}
-        <header className="sticky top-0 z-20 flex h-[68px] items-center justify-between gap-4 border-b border-line/80 bg-[#f7f4ec]/85 px-4 backdrop-blur-xl sm:px-6 lg:px-8">
+        <header className="sticky top-0 z-20 flex h-[68px] items-center justify-between gap-4 border-b border-line/80 bg-[#f7f4ec]/85 px-4 backdrop-blur-xl sm:px-6 lg:px-8 print:hidden">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
@@ -308,8 +311,8 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
           </div>
         </header>
 
-        <main className="px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-          <div className="mx-auto w-full max-w-[1180px]">{children}</div>
+        <main className="px-4 py-6 sm:px-6 lg:px-8 lg:py-8 print:p-0">
+          <div className="mx-auto w-full max-w-[1180px] print:max-w-none">{children}</div>
         </main>
       </div>
     </div>

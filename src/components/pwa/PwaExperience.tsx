@@ -142,7 +142,7 @@ export const PwaExperience = () => {
       {offline && (
         <div
           role="status"
-          className="fixed inset-x-0 top-0 z-[70] flex items-center justify-center gap-2 bg-ink px-4 py-2 text-[11px] font-medium text-ivory"
+          className="fixed inset-x-0 top-0 z-[70] flex items-center justify-center gap-2 bg-ink px-4 py-2 text-[11px] font-medium text-ivory print:hidden"
         >
           <WifiOff className="h-3.5 w-3.5 text-gold-300" />
           Offline mode — your records are saved on this device.
@@ -152,7 +152,7 @@ export const PwaExperience = () => {
       {offlineReady && !offline && (
         <div
           role="status"
-          className="fixed left-1/2 top-[80px] z-[70] flex -translate-x-1/2 items-center gap-2 rounded-full border border-forest-200 bg-paper px-3.5 py-2 text-[10.5px] font-medium text-ink shadow-soft"
+          className="fixed left-1/2 top-[80px] z-[70] flex -translate-x-1/2 items-center gap-2 rounded-full border border-forest-200 bg-paper px-3.5 py-2 text-[10.5px] font-medium text-ink shadow-soft print:hidden"
         >
           <CheckCircle2 className="h-3.5 w-3.5 text-forest-600" />
           Offline ready — the app is cached on this device.
@@ -160,7 +160,7 @@ export const PwaExperience = () => {
       )}
 
       {banner && onLanding && !isStandalone() && (
-        <div className="fixed inset-x-4 bottom-4 z-[65] animate-rise sm:inset-x-auto sm:right-6 sm:max-w-sm">
+        <div className="fixed inset-x-4 bottom-4 z-[65] animate-rise sm:inset-x-auto sm:right-6 sm:max-w-sm print:hidden">
           <div className="rounded-2xl border border-gold-300/25 bg-forest-950 p-4 text-ivory shadow-lift">
             <div className="flex items-start gap-3">
               <LogoMark className="h-9 w-9 shrink-0 text-gold-300" />

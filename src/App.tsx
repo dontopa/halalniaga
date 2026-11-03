@@ -50,6 +50,11 @@ const Purchases = lazy(() =>
 const Scanner = lazy(() =>
   import('@/pages/app/Scanner').then((module) => ({ default: module.Scanner })),
 );
+const StarterKit = lazy(() =>
+  import('@/pages/app/StarterKit').then((module) => ({
+    default: module.StarterKit,
+  })),
+);
 const Suppliers = lazy(() =>
   import('@/pages/app/Suppliers').then((module) => ({
     default: module.Suppliers,
@@ -121,6 +126,7 @@ const App = () => (
             <Route path="community" element={<Community />} />
             <Route path="scanner" element={<Scanner />} />
             <Route path="mentor" element={<Mentor />} />
+            <Route path="starter-kit" element={<StarterKit />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

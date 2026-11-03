@@ -106,6 +106,13 @@ Go to **Monitoring**.
 
 Go back to **Overview** and show the updated tier and score.
 
+**Optional (30 seconds):** Open **Starter kit** in the sidebar. Point to the
+printable storage labels, the equipment colour guide and the checklist. Say:
+
+> "This is the physical layer. The labels go on the chiller containers, the
+> colour guide goes on the wall, and the QR sticker goes on the counter. The
+> kit prints without the app navigation."
+
 ## 7. Customer verification (60 seconds)
 
 Go to **Verification & QR**. Click **Open record**.

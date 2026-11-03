@@ -1677,6 +1677,7 @@ export const Landing = () => (
               <li><Link to="/app" className="hover:text-forest-800">Open workspace</Link></li>
               <li><Link to="/app/assessment" className="hover:text-forest-800">Run an assessment</Link></li>
               <li><Link to="/app/mentor" className="hover:text-forest-800">Ask the mentor</Link></li>
+              <li><Link to="/app/starter-kit" className="hover:text-forest-800">Starter kit</Link></li>
             </ul>
           </div>
         </div>

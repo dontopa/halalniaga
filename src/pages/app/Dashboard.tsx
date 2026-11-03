@@ -9,6 +9,7 @@ import {
   Check,
   Copy,
   GraduationCap,
+  PackageOpen,
   PackagePlus,
   QrCode,
   ReceiptText,
@@ -642,6 +643,23 @@ export const Dashboard = () => {
                 </div>
               </div>
             </div>
+          </Card>
+
+          <Card className="p-5">
+            <div className="flex items-center gap-2">
+              <PackageOpen className="h-4 w-4 text-gold-600" />
+              <p className="text-[12px] font-semibold text-ink">Starter kit</p>
+            </div>
+            <p className="mt-1.5 text-[10.5px] leading-relaxed text-ink-3">
+              Print storage labels, the equipment colour guide, the hygiene
+              checklist and a QR sticker for the stall.
+            </p>
+            <Link
+              to="/app/starter-kit"
+              className="mt-3 inline-flex items-center gap-1 text-[10.5px] font-medium text-forest-700 hover:underline"
+            >
+              Open the starter kit <ArrowUpRight className="h-3 w-3" />
+            </Link>
           </Card>
 
           <div className="flex items-center gap-2 px-1 text-[10px] text-ink-3">
