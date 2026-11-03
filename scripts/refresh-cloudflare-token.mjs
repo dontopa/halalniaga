@@ -1,21 +1,16 @@
 import { appendFileSync } from 'node:fs';
 
-const clientId = '54d11594-84e4-41aa-b438-e81b8fa78ee7';
-const refreshToken = process.env.CLOUDFLARE_REFRESH_TOKEN;
+const workerUrl = 'https://halalniaga-admin.wm-mustaffa.workers.dev';
+const ciToken = process.env.ADMIN_CI_TOKEN;
 
-if (!refreshToken) {
-  console.error('CLOUDFLARE_REFRESH_TOKEN is missing.');
+if (!ciToken) {
+  console.error('ADMIN_CI_TOKEN is missing.');
   process.exit(1);
 }
 
-const response = await fetch('https://dash.cloudflare.com/oauth2/token', {
+const response = await fetch(`${workerUrl}/api/cloudflare-token`, {
   method: 'POST',
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  body: new URLSearchParams({
-    grant_type: 'refresh_token',
-    client_id: clientId,
-    refresh_token: refreshToken,
-  }),
+  headers: { 'X-CI-Token': ciToken },
 });
 
 const data = await response.json().catch(() => ({}));

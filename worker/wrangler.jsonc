@@ -5,5 +5,11 @@
   "compatibility_date": "2026-01-01",
   "observability": {
     "enabled": true
-  }
+  },
+  "kv_namespaces": [
+    {
+      "binding": "TOKENS",
+      "id": "bde4c04da21f4ffeb4af07c5f3c9ffdc"
+    }
+  ]
 }

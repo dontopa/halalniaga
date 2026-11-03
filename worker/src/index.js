@@ -1,6 +1,7 @@
 const REPO = 'dontopa/halalniaga';
 const BRANCH = 'main';
 const FILES = new Set(['site', 'vendor', 'suppliers', 'products']);
+const CLOUDFLARE_CLIENT_ID = '54d11594-84e4-41aa-b438-e81b8fa78ee7';
 const DEFAULT_ORIGINS = [
   'https://halalniaga.pages.dev',
   'http://localhost:5173',
@@ -122,6 +123,45 @@ export default {
         return json({ error: 'PIN tidak sah.' }, 401, cors);
       }
       return json({ ok: true }, 200, cors);
+    }
+
+    if (url.pathname === '/api/cloudflare-token' && request.method === 'POST') {
+      const ciToken = request.headers.get('X-CI-Token');
+      if (!safeEqual(ciToken, env.CI_TOKEN)) {
+        return json({ error: 'Unauthorized.' }, 401, cors);
+      }
+
+      const storedRefresh = await env.TOKENS.get('cloudflare_refresh');
+      const refreshToken = storedRefresh ?? env.CLOUDFLARE_REFRESH_TOKEN;
+      if (!refreshToken) {
+        return json({ error: 'Cloudflare refresh token is not configured.' }, 500, cors);
+      }
+
+      const response = await fetch('https://dash.cloudflare.com/oauth2/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'refresh_token',
+          client_id: CLOUDFLARE_CLIENT_ID,
+          refresh_token: refreshToken,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.access_token) {
+        console.error('Cloudflare refresh failed', response.status, data.error);
+        return json({ error: 'Cloudflare token refresh failed.' }, 502, cors);
+      }
+
+      if (data.refresh_token) {
+        await env.TOKENS.put('cloudflare_refresh', data.refresh_token);
+      }
+
+      return json(
+        { access_token: data.access_token, expires_in: data.expires_in },
+        200,
+        cors,
+      );
     }
 
     if (url.pathname === '/api/save' && request.method === 'POST') {

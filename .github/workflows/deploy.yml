@@ -33,7 +33,7 @@ jobs:
       - name: Check Cloudflare token
         id: token
         run: |
-          if [ -n "${{ secrets.CLOUDFLARE_REFRESH_TOKEN }}" ]; then
+          if [ -n "${{ secrets.ADMIN_CI_TOKEN }}" ]; then
             echo "available=true" >> "$GITHUB_OUTPUT"
           else
             echo "available=false" >> "$GITHUB_OUTPUT"
@@ -42,7 +42,7 @@ jobs:
       - name: Refresh Cloudflare token
         if: steps.token.outputs.available == 'true'
         env:
-          CLOUDFLARE_REFRESH_TOKEN: ${{ secrets.CLOUDFLARE_REFRESH_TOKEN }}
+          ADMIN_CI_TOKEN: ${{ secrets.ADMIN_CI_TOKEN }}
         run: node scripts/refresh-cloudflare-token.mjs
 
       - name: Build and deploy to Cloudflare Pages
@@ -52,5 +52,5 @@ jobs:
       - name: Deployment skipped
         if: steps.token.outputs.available != 'true'
         run: |
-          echo "CLOUDFLARE_REFRESH_TOKEN is not set."
+          echo "ADMIN_CI_TOKEN is not set."
           echo "Add it in GitHub → Settings → Secrets and variables → Actions."
