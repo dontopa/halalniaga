@@ -1,0 +1,379 @@
+# Pages CMS configuration for HALALNiaga.
+# Docs: https://pagescms.org/docs/configuration/
+# Edit content at https://app.pagescms.org/ (GitHub login).
+
+media:
+  input: public/images
+  output: /images
+
+content:
+  - name: site
+    label: Landing page
+    type: file
+    path: src/content/site.json
+    format: json
+    fields:
+      - name: hero
+        label: Hero
+        type: object
+        fields:
+          - name: eyebrow
+            label: Eyebrow
+            type: string
+          - name: titleLines
+            label: Headline lines
+            type: string
+            list: true
+          - name: titleEmphasis
+            label: Italic ending
+            type: string
+          - name: lead
+            label: Lead paragraph
+            type: text
+          - name: ctaPrimary
+            label: Primary button
+            type: string
+          - name: ctaSecondary
+            label: Secondary button
+            type: string
+          - name: disclaimer
+            label: Disclaimer
+            type: text
+          - name: chips
+            label: Feature chips
+            type: string
+            list: true
+          - name: stats
+            label: Hero stats
+            type: object
+            list: true
+            fields:
+              - name: value
+                label: Value
+                type: string
+              - name: label
+                label: Label
+                type: string
+      - name: problems
+        label: Problem cards
+        type: object
+        list: true
+        fields:
+          - name: number
+            label: Number
+            type: string
+          - name: title
+            label: Title
+            type: string
+          - name: body
+            label: Body
+            type: text
+      - name: wetCategories
+        label: Wet-ingredient cards
+        type: object
+        list: true
+        fields:
+          - name: category
+            label: Category
+            type: string
+          - name: examples
+            label: Examples
+            type: string
+          - name: count
+            label: Source count label
+            type: string
+          - name: note
+            label: Note
+            type: string
+          - name: image
+            label: Image
+            type: image
+      - name: modules
+        label: Module cards
+        type: object
+        list: true
+        hint: Keep the six module IDs unchanged; the app maps icons and layout by ID.
+        fields:
+          - name: id
+            label: ID
+            type: string
+            readonly: true
+          - name: title
+            label: Title
+            type: string
+          - name: description
+            label: Description
+            type: text
+          - name: detail
+            label: Detail tags
+            type: string
+            list: true
+      - name: steps
+        label: How it works
+        type: object
+        list: true
+        hint: Keep the five steps in order; icons are assigned by position.
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: body
+            label: Body
+            type: text
+      - name: tiers
+        label: Recognition tiers
+        type: object
+        list: true
+        hint: Keep the order Learner, Verified, Monitored.
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: criteria
+            label: Criteria
+            type: string
+            list: true
+          - name: recognition
+            label: Recognition
+            type: string
+      - name: pilotAreas
+        label: Pilot areas
+        type: object
+        list: true
+        fields:
+          - name: area
+            label: Area
+            type: string
+          - name: note
+            label: Note
+            type: string
+          - name: active
+            label: Active
+            type: boolean
+      - name: beneficiaries
+        label: Beneficiaries
+        type: object
+        list: true
+        hint: Keep the five items in order; icons are assigned by position.
+        fields:
+          - name: who
+            label: Who
+            type: string
+          - name: benefit
+            label: Benefit
+            type: text
+      - name: personas
+        label: Design personas
+        type: object
+        list: true
+        fields:
+          - name: quote
+            label: Quote
+            type: text
+          - name: name
+            label: Name
+            type: string
+          - name: role
+            label: Role
+            type: string
+          - name: initials
+            label: Initials
+            type: string
+
+  - name: vendor
+    label: Vendor profile
+    type: file
+    path: src/content/vendor.json
+    format: json
+    fields:
+      - name: id
+        label: Vendor ID
+        type: string
+        readonly: true
+      - name: name
+        label: Stall name
+        type: string
+      - name: owner
+        label: Owner name
+        type: string
+      - name: stall
+        label: Stall location
+        type: string
+      - name: area
+        label: Area
+        type: select
+        options:
+          values:
+            - Kota Kinabalu
+            - Sandakan
+            - Tawau
+            - Keningau
+            - Lahad Datu
+      - name: category
+        label: Food category
+        type: string
+      - name: tagline
+        label: Tagline
+        type: text
+      - name: coverImage
+        label: Public record cover image
+        type: image
+      - name: joinedDaysAgo
+        label: Joined (days ago)
+        type: number
+        hint: Used to keep the demo fresh. 243 ≈ March 2026.
+      - name: qrSlug
+        label: QR slug
+        type: string
+        hint: Changing this changes the public record URL and QR payload.
+      - name: phone
+        label: Phone
+        type: string
+
+  - name: suppliers
+    label: Suppliers
+    type: file
+    path: src/content/suppliers.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: ID
+        type: string
+        readonly: true
+        hint: Do not change; purchases reference this ID.
+      - name: name
+        label: Supplier name
+        type: string
+      - name: shortName
+        label: Short name
+        type: string
+      - name: area
+        label: Area
+        type: select
+        options:
+          values:
+            - Kota Kinabalu
+            - Sandakan
+            - Tawau
+            - Keningau
+            - Lahad Datu
+      - name: address
+        label: Address
+        type: text
+      - name: categories
+        label: Categories
+        type: select
+        options:
+          multiple: true
+          values:
+            - Poultry & meat
+            - Seafood
+            - Produce
+            - Dairy & eggs
+            - Dry goods
+            - Sauces & condiments
+      - name: distanceKm
+        label: Distance from stall (km)
+        type: number
+      - name: status
+        label: Halal status
+        type: select
+        options:
+          values:
+            - name: certified
+              label: Halal certified
+            - name: verified
+              label: Verified source
+            - name: pending
+              label: Pending verification
+            - name: expired
+              label: Certificate lapsed
+      - name: certificateNo
+        label: Certificate number
+        type: string
+      - name: issuedDaysAgo
+        label: Certificate issued (days ago)
+        type: number
+      - name: validInDays
+        label: Certificate valid for (days from today)
+        type: number
+        hint: Use a negative number for an already-lapsed certificate.
+      - name: rating
+        label: Rating
+        type: number
+      - name: reviewCount
+        label: Review count
+        type: number
+      - name: tags
+        label: Tags
+        type: string
+        list: true
+      - name: accent
+        label: Accent colour
+        type: string
+        hint: Hex colour, e.g. #0f6b52.
+      - name: image
+        label: Thumbnail
+        type: image
+
+  - name: products
+    label: Products
+    type: file
+    path: src/content/products.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: ID
+        type: string
+        readonly: true
+        hint: Do not change; purchases reference this ID.
+      - name: supplierId
+        label: Supplier ID
+        type: string
+        hint: Must match an existing supplier ID, e.g. sup-sri-tanjung.
+      - name: name
+        label: Product name
+        type: string
+      - name: category
+        label: Category
+        type: select
+        options:
+          values:
+            - Poultry & meat
+            - Seafood
+            - Produce
+            - Dairy & eggs
+            - Dry goods
+            - Sauces & condiments
+      - name: unit
+        label: Unit
+        type: string
+      - name: price
+        label: Price (MYR)
+        type: number
+      - name: halalStatus
+        label: Halal status
+        type: select
+        options:
+          values:
+            - name: certified
+              label: Halal certified
+            - name: verified
+              label: Verified source
+            - name: pending
+              label: Pending verification
+            - name: expired
+              label: Certificate lapsed
+      - name: barcode
+        label: Barcode
+        type: string
+      - name: certificateRef
+        label: Certificate reference
+        type: string
+
+actions:
+  - name: deploy
+    label: Deploy site
+    workflow: deploy.yml

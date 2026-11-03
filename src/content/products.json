@@ -1,0 +1,178 @@
+[
+  {
+    "id": "prd-chicken-whole",
+    "supplierId": "sup-sri-tanjung",
+    "name": "Fresh whole chicken",
+    "category": "Poultry & meat",
+    "unit": "kg",
+    "price": 11.8,
+    "halalStatus": "certified",
+    "barcode": "9551001000017",
+    "certificateRef": "JAKIM/MS1500/2024/1182"
+  },
+  {
+    "id": "prd-chicken-breast",
+    "supplierId": "sup-sri-tanjung",
+    "name": "Boneless chicken breast",
+    "category": "Poultry & meat",
+    "unit": "kg",
+    "price": 16.5,
+    "halalStatus": "certified",
+    "barcode": "9551001000024",
+    "certificateRef": "JAKIM/MS1500/2024/1182"
+  },
+  {
+    "id": "prd-beef-brisket",
+    "supplierId": "sup-borneo-meats",
+    "name": "Beef brisket",
+    "category": "Poultry & meat",
+    "unit": "kg",
+    "price": 32.4,
+    "halalStatus": "certified",
+    "barcode": "9551001000031",
+    "certificateRef": "JAKIM/MS1500/2023/0874"
+  },
+  {
+    "id": "prd-mutton",
+    "supplierId": "sup-borneo-meats",
+    "name": "Mutton curry cut",
+    "category": "Poultry & meat",
+    "unit": "kg",
+    "price": 38.9,
+    "halalStatus": "certified",
+    "barcode": "9551001000048",
+    "certificateRef": "JAKIM/MS1500/2023/0874"
+  },
+  {
+    "id": "prd-kangkung",
+    "supplierId": "sup-sabah-fresh",
+    "name": "Kangkung (water spinach)",
+    "category": "Produce",
+    "unit": "kg",
+    "price": 4.2,
+    "halalStatus": "verified",
+    "barcode": "9551002000018",
+    "certificateRef": "HN-SRC-2025-0149"
+  },
+  {
+    "id": "prd-tomato",
+    "supplierId": "sup-sabah-fresh",
+    "name": "Local tomatoes",
+    "category": "Produce",
+    "unit": "kg",
+    "price": 5.4,
+    "halalStatus": "verified",
+    "barcode": "9551002000025",
+    "certificateRef": "HN-SRC-2025-0149"
+  },
+  {
+    "id": "prd-shallot",
+    "supplierId": "sup-sabah-fresh",
+    "name": "Shallots",
+    "category": "Produce",
+    "unit": "kg",
+    "price": 6.1,
+    "halalStatus": "verified",
+    "barcode": "9551002000032",
+    "certificateRef": "HN-SRC-2025-0149"
+  },
+  {
+    "id": "prd-eggs",
+    "supplierId": "sup-kinabalu-dairy",
+    "name": "Grade A chicken eggs",
+    "category": "Dairy & eggs",
+    "unit": "tray (30)",
+    "price": 14.2,
+    "halalStatus": "certified",
+    "barcode": "9551003000015",
+    "certificateRef": "JAKIM/MS1500/2024/2031"
+  },
+  {
+    "id": "prd-milk",
+    "supplierId": "sup-kinabalu-dairy",
+    "name": "Fresh full-cream milk",
+    "category": "Dairy & eggs",
+    "unit": "litre",
+    "price": 7.8,
+    "halalStatus": "certified",
+    "barcode": "9551003000022",
+    "certificateRef": "JAKIM/MS1500/2024/2031"
+  },
+  {
+    "id": "prd-rice",
+    "supplierId": "sup-sazarah",
+    "name": "Premium fragrant rice",
+    "category": "Dry goods",
+    "unit": "10 kg",
+    "price": 42,
+    "halalStatus": "verified",
+    "barcode": "9551004000011",
+    "certificateRef": "HN-SRC-2025-0221"
+  },
+  {
+    "id": "prd-cooking-oil",
+    "supplierId": "sup-sazarah",
+    "name": "Refined palm cooking oil",
+    "category": "Dry goods",
+    "unit": "5 kg",
+    "price": 28.5,
+    "halalStatus": "verified",
+    "barcode": "9551004000028",
+    "certificateRef": "HN-SRC-2025-0221"
+  },
+  {
+    "id": "prd-curry-powder",
+    "supplierId": "sup-sazarah",
+    "name": "House curry powder",
+    "category": "Dry goods",
+    "unit": "500 g",
+    "price": 9.4,
+    "halalStatus": "verified",
+    "barcode": "9551004000035",
+    "certificateRef": "HN-SRC-2025-0221"
+  },
+  {
+    "id": "prd-chilli-sauce",
+    "supplierId": "sup-papar-valley",
+    "name": "Small-batch chilli sauce",
+    "category": "Sauces & condiments",
+    "unit": "bottle (340 ml)",
+    "price": 8.9,
+    "halalStatus": "certified",
+    "barcode": "9551005000012",
+    "certificateRef": "JAKIM/MS1500/2024/1550"
+  },
+  {
+    "id": "prd-soy-sauce",
+    "supplierId": "sup-papar-valley",
+    "name": "Naturally brewed soy sauce",
+    "category": "Sauces & condiments",
+    "unit": "bottle (600 ml)",
+    "price": 12.6,
+    "halalStatus": "certified",
+    "barcode": "9551005000029",
+    "certificateRef": "JAKIM/MS1500/2024/1550"
+  },
+  {
+    "id": "prd-frozen-prawn",
+    "supplierId": "sup-tawau-sea",
+    "name": "Frozen tiger prawns",
+    "category": "Seafood",
+    "unit": "kg",
+    "price": 41.5,
+    "halalStatus": "expired",
+    "barcode": "9551006000013",
+    "certificateRef": "JAKIM/MS1500/2022/0419"
+  },
+  {
+    "id": "prd-sandakan-pepper",
+    "supplierId": "sup-sandakan-spice",
+    "name": "White peppercorns",
+    "category": "Dry goods",
+    "unit": "500 g",
+    "price": 18,
+    "halalStatus": "pending",
+    "barcode": "9551007000010",
+    "certificateRef": null
+  }
+]

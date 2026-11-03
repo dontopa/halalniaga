@@ -42,6 +42,7 @@ export interface Supplier {
   reviewCount: number;
   tags: string[];
   accent: string;
+  image?: string;
 }
 
 export interface Product {
@@ -145,6 +146,7 @@ export interface VendorProfile {
   area: Area;
   category: string;
   tagline: string;
+  coverImage: string;
   joinedAt: string;
   qrSlug: string;
   phone: string;

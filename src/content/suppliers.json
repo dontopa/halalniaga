@@ -1,0 +1,185 @@
+[
+  {
+    "id": "sup-sri-tanjung",
+    "name": "Sri Tanjung Poultry Sdn Bhd",
+    "shortName": "Sri Tanjung",
+    "area": "Kota Kinabalu",
+    "address": "Lot 12, Inanam Industrial Estate, Kota Kinabalu",
+    "categories": [
+      "Poultry & meat"
+    ],
+    "distanceKm": 6.4,
+    "status": "certified",
+    "certificateNo": "JAKIM/MS1500/2024/1182",
+    "issuedDaysAgo": 509,
+    "validInDays": 25,
+    "rating": 4.8,
+    "reviewCount": 126,
+    "tags": [
+      "Fresh daily",
+      "Wet market",
+      "Halal slaughter evidence"
+    ],
+    "accent": "#0f6b52"
+  },
+  {
+    "id": "sup-borneo-meats",
+    "name": "Borneo Halal Meats",
+    "shortName": "Borneo Meats",
+    "area": "Kota Kinabalu",
+    "address": "Block C, Kolombong Commercial Centre, Kota Kinabalu",
+    "categories": [
+      "Poultry & meat"
+    ],
+    "distanceKm": 9.1,
+    "status": "certified",
+    "certificateNo": "JAKIM/MS1500/2023/0874",
+    "issuedDaysAgo": 379,
+    "validInDays": 206,
+    "rating": 4.6,
+    "reviewCount": 89,
+    "tags": [
+      "Beef & mutton",
+      "Wet market",
+      "Vacuum packed"
+    ],
+    "accent": "#7a3b2e"
+  },
+  {
+    "id": "sup-sabah-fresh",
+    "name": "Sabah Fresh Produce",
+    "shortName": "Sabah Fresh",
+    "area": "Kota Kinabalu",
+    "address": "Pasar Besar Kota Kinabalu, Stall 44",
+    "categories": [
+      "Produce"
+    ],
+    "distanceKm": 2.1,
+    "status": "verified",
+    "certificateNo": "HN-SRC-2025-0149",
+    "issuedDaysAgo": 189,
+    "validInDays": 96,
+    "rating": 4.7,
+    "reviewCount": 211,
+    "tags": [
+      "Market-direct",
+      "Wet market",
+      "Daily harvest"
+    ],
+    "accent": "#3f7d20"
+  },
+  {
+    "id": "sup-kinabalu-dairy",
+    "name": "Kinabalu Dairy & Eggs",
+    "shortName": "Kinabalu Dairy",
+    "area": "Kota Kinabalu",
+    "address": "Jalan Tuaran, Mile 5, Kota Kinabalu",
+    "categories": [
+      "Dairy & eggs"
+    ],
+    "distanceKm": 7.8,
+    "status": "certified",
+    "certificateNo": "JAKIM/MS1500/2024/2031",
+    "issuedDaysAgo": 239,
+    "validInDays": 321,
+    "rating": 4.5,
+    "reviewCount": 74,
+    "tags": [
+      "Grade A eggs",
+      "Wet market",
+      "Chilled delivery"
+    ],
+    "accent": "#b07d2b"
+  },
+  {
+    "id": "sup-sazarah",
+    "name": "Sazarah Dry Goods & Spices",
+    "shortName": "Sazarah Foods",
+    "area": "Kota Kinabalu",
+    "address": "Putatan Central Market, Kota Kinabalu",
+    "categories": [
+      "Dry goods",
+      "Sauces & condiments"
+    ],
+    "distanceKm": 11.2,
+    "status": "verified",
+    "certificateNo": "HN-SRC-2025-0221",
+    "issuedDaysAgo": 354,
+    "validInDays": 13,
+    "rating": 4.4,
+    "reviewCount": 58,
+    "tags": [
+      "Bulk spices",
+      "Local importer",
+      "Product-level records"
+    ],
+    "accent": "#8a5a12"
+  },
+  {
+    "id": "sup-papar-valley",
+    "name": "Papar Valley Sauces",
+    "shortName": "Papar Valley",
+    "area": "Kota Kinabalu",
+    "address": "Kampung Kawang, Papar",
+    "categories": [
+      "Sauces & condiments"
+    ],
+    "distanceKm": 24.6,
+    "status": "certified",
+    "certificateNo": "JAKIM/MS1500/2024/1550",
+    "issuedDaysAgo": 299,
+    "validInDays": 151,
+    "rating": 4.9,
+    "reviewCount": 44,
+    "tags": [
+      "Small-batch",
+      "No alcohol",
+      "Farm-to-bottle"
+    ],
+    "accent": "#a33b2a"
+  },
+  {
+    "id": "sup-tawau-sea",
+    "name": "Tawau Sea Harvest",
+    "shortName": "Tawau Sea Harvest",
+    "area": "Tawau",
+    "address": "Kawasan Perindustrian Tawau, Sabah",
+    "categories": [
+      "Seafood"
+    ],
+    "distanceKm": 482,
+    "status": "expired",
+    "certificateNo": "JAKIM/MS1500/2022/0419",
+    "issuedDaysAgo": 759,
+    "validInDays": -8,
+    "rating": 4.2,
+    "reviewCount": 31,
+    "tags": [
+      "Frozen seafood",
+      "Wet market",
+      "Bulk supply"
+    ],
+    "accent": "#1c5f7a"
+  },
+  {
+    "id": "sup-sandakan-spice",
+    "name": "Sandakan Spice House",
+    "shortName": "Sandakan Spice",
+    "area": "Sandakan",
+    "address": "Bandar Indah, Sandakan",
+    "categories": [
+      "Dry goods"
+    ],
+    "distanceKm": 316,
+    "status": "pending",
+    "certificateNo": null,
+    "issuedDaysAgo": null,
+    "validInDays": null,
+    "rating": 4,
+    "reviewCount": 12,
+    "tags": [
+      "Awaiting verification"
+    ],
+    "accent": "#6b5b3e"
+  }
+]

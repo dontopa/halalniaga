@@ -3,6 +3,8 @@ import { QRCodeSVG } from 'qrcode.react';
 import { Badge, Progress } from '@/components/ui';
 import { TierBadge } from '@/components/badges';
 import { cn } from '@/lib/cn';
+import vendorProfile from '@/content/vendor.json';
+import suppliersContent from '@/content/suppliers.json';
 
 const score = 68;
 const radius = 34;
@@ -16,10 +18,24 @@ const metrics = [
 ];
 
 export const HeroMockup = ({ className }: { className?: string }) => {
+  const primarySupplier = suppliersContent[0];
+  const supplierStatus =
+    primarySupplier?.status === 'certified'
+      ? 'Certified'
+      : primarySupplier?.status === 'verified'
+        ? 'Verified'
+        : primarySupplier?.status === 'pending'
+          ? 'Pending'
+          : 'Lapsed';
+  const vendorInitials = vendorProfile.owner
+    .split(' ')
+    .map((word) => word[0])
+    .slice(0, 2)
+    .join('');
   const profileUrl =
     typeof window !== 'undefined'
-      ? `${window.location.origin}/vendor/dapur-kak-nur`
-      : 'https://halalniaga.pages.dev/vendor/dapur-kak-nur';
+      ? `${window.location.origin}/vendor/${vendorProfile.qrSlug}`
+      : `https://halalniaga.pages.dev/vendor/${vendorProfile.qrSlug}`;
 
   return (
     <div className={cn('relative mx-auto w-full max-w-[540px]', className)}>
@@ -59,14 +75,14 @@ export const HeroMockup = ({ className }: { className?: string }) => {
           <div className="flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-2.5">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-forest-800 font-display text-xs text-gold-300">
-                NH
+                {vendorInitials}
               </div>
               <div className="min-w-0">
                 <p className="truncate text-[13px] font-semibold text-ink">
-                  Dapur Kak Nur
+                  {vendorProfile.name}
                 </p>
                 <p className="truncate text-[10.5px] text-ink-3">
-                  Tanjung Aru · Kota Kinabalu
+                  {vendorProfile.area}
                 </p>
               </div>
             </div>
@@ -139,10 +155,10 @@ export const HeroMockup = ({ className }: { className?: string }) => {
                   <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warn" />
                   <div>
                     <p className="text-[11.5px] font-semibold leading-snug text-ink">
-                      Certificate expires in 24 days
+                      Certificate expires in {primarySupplier?.validInDays ?? 0} days
                     </p>
                     <p className="mt-1 text-[10.5px] leading-relaxed text-ink-2">
-                      Sri Tanjung Poultry · request renewal before purchases
+                      {primarySupplier?.name ?? 'Verified supplier'} · request renewal before purchases
                       resume.
                     </p>
                   </div>
@@ -153,23 +169,23 @@ export const HeroMockup = ({ className }: { className?: string }) => {
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <p className="text-[11.5px] font-semibold text-ink">
-                      Sri Tanjung Poultry
+                      {primarySupplier?.name ?? 'Verified supplier'}
                     </p>
                     <p className="mt-0.5 flex items-center gap-1 text-[10px] text-ink-3">
-                      <MapPin className="h-3 w-3" /> 6.4 km · Inanam
+                      <MapPin className="h-3 w-3" /> {primarySupplier?.distanceKm ?? 0} km · {primarySupplier?.area ?? 'Kota Kinabalu'}
                     </p>
                   </div>
-                  <Badge tone="success" dot>
-                    Certified
+                  <Badge tone={primarySupplier?.status === 'certified' ? 'success' : 'forest'} dot>
+                    {supplierStatus}
                   </Badge>
                 </div>
                 <div className="mt-2.5 flex items-center justify-between border-t border-line-soft pt-2.5">
                   <span className="flex items-center gap-1 text-[10px] text-ink-2">
                     <Star className="h-3 w-3 fill-gold-400 text-gold-400" />
-                    4.8 · 126 reviews
+                    {primarySupplier?.rating ?? 0} · {primarySupplier?.reviewCount ?? 0} reviews
                   </span>
                   <span className="font-mono text-[9px] text-forest-700">
-                    Fresh daily
+                    {primarySupplier?.tags?.[0] ?? 'Verified source'}
                   </span>
                 </div>
               </div>

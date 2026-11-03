@@ -35,6 +35,11 @@ import { TierBadge } from '@/components/badges';
 import { Badge, Card, Progress, buttonClass } from '@/components/ui';
 import { HeroMockup } from '@/pages/landing/HeroMockup';
 import { images } from '@/lib/images';
+import siteContent from '@/content/site.json';
+import vendorProfile from '@/content/vendor.json';
+import suppliersContent from '@/content/suppliers.json';
+import productsContent from '@/content/products.json';
+import type { LucideIcon } from 'lucide-react';
 import { openInstallHelp } from '@/components/pwa/PwaExperience';
 import { cn } from '@/lib/cn';
 
@@ -135,274 +140,155 @@ const Stat = ({
   </div>
 );
 
-const modules = [
+const moduleMeta: Record<
+  string,
   {
-    id: 'suppliers',
+    number: string;
+    icon: LucideIcon;
+    span: string;
+    featured?: boolean;
+    wide?: boolean;
+  }
+> = {
+  suppliers: {
     number: '01',
-    title: 'Halal supplier finder',
     icon: Store,
-    description:
-      'Search certified and verified suppliers of fresh poultry, meat, seafood, produce, dairy and eggs by area — with a nearest-first list and a wet-ingredients filter.',
-    detail: ['Wet-market focus', 'Nearest first', 'Product-level status'],
     span: 'lg:col-span-3',
     featured: true,
   },
-  {
-    id: 'education',
+  education: {
     number: '02',
-    title: 'Halal education & training',
     icon: GraduationCap,
-    description:
-      'Six short modules written for busy stalls — foundations, slaughter, ingredients, separation, storage and records.',
-    detail: ['Video-length lessons', 'Scenario quizzes', '80% pass mark'],
     span: 'lg:col-span-3',
   },
-  {
-    id: 'purchases',
+  purchases: {
     number: '03',
-    title: 'Purchase tracking',
     icon: PackageCheck,
-    description:
-      'Every receipt becomes evidence: supplier, product, quantity, date and source reference in one traceable log.',
-    detail: ['Receipt numbers', 'Source verification', '30-day view'],
     span: 'lg:col-span-2',
   },
-  {
-    id: 'assessment',
+  assessment: {
     number: '04',
-    title: 'Self-assessment',
     icon: ClipboardCheck,
-    description:
-      'A recurring eight-point check that surfaces the weakest control and tells the vendor what to fix next.',
-    detail: ['Weighted scoring', 'Corrective actions', '90-day renewal'],
     span: 'lg:col-span-2',
   },
-  {
-    id: 'qr',
+  qr: {
     number: '05',
-    title: 'QR verification',
     icon: QrCode,
-    description:
-      'A stall-side QR opens the vendor’s programme record — training, sourcing, assessment and last inspection.',
-    detail: ['Customer-facing profile', 'No app required', 'Clear programme disclaimer'],
     span: 'lg:col-span-2',
   },
-  {
-    id: 'monitoring',
+  monitoring: {
     number: '06',
-    title: 'Monitoring & recognition',
     icon: Activity,
-    description:
-      'Inspections and re-assessment move vendors through three recognition tiers, with validity periods that expire.',
-    detail: ['Programme inspections', 'Rolling re-assessment', 'Expiring recognition'],
     span: 'lg:col-span-6',
     wide: true,
   },
-];
+};
 
-const tiers = [
-  {
-    tier: 'learner' as const,
-    level: 'Tier 1',
-    title: 'Learner',
-    criteria: [
-      'All six training modules completed',
-      'Quiz score of 80% or higher',
-      'Training record signed by the programme',
-    ],
-    recognition: 'Certificate of completion',
-  },
-  {
-    tier: 'verified' as const,
-    level: 'Tier 2',
-    title: 'Verified participant',
-    criteria: [
-      'Everything in Learner',
-      'At least 80% of recent purchases from verified suppliers',
-      'Self-assessment score of 80% or higher',
-    ],
-    recognition: 'Participation badge + stall QR code',
-  },
-  {
-    tier: 'monitored' as const,
-    level: 'Tier 3',
-    title: 'Monitored participant',
-    criteria: [
-      'Everything in Verified',
-      'Programme inspection passed within six months',
-      'Re-assessment within the current cycle',
-    ],
-    recognition: 'Monitored badge + published inspection date',
-  },
-];
+const modules = siteContent.modules.map((module) => ({
+  ...module,
+  ...moduleMeta[module.id]!,
+}));
 
-const steps = [
-  {
-    title: 'Register the stall',
-    body: 'Owner, location, menu and the ingredients that matter most.',
-    icon: Store,
-  },
-  {
-    title: 'Complete halal training',
-    body: 'Six practical modules, then a scored quiz for each one.',
-    icon: GraduationCap,
-  },
-  {
-    title: 'Source with evidence',
-    body: 'Find verified suppliers and attach every purchase to a source.',
-    icon: Truck,
-  },
-  {
-    title: 'Assess and correct',
-    body: 'Run the self-assessment, see the weakest control, close the gap.',
-    icon: ClipboardCheck,
-  },
-  {
-    title: 'Earn recognition',
-    body: 'Publish a QR record, then maintain it through inspections.',
-    icon: QrCode,
-  },
-];
+const tierKeys = ['learner', 'verified', 'monitored'] as const;
 
-const problems = [
-  {
-    number: '01',
-    title: 'Suppliers are hard to verify',
-    body: 'Certificates sit in drawers or inboxes, rarely at the 6am wet-market decision about which chicken, fish or vegetable crate to buy.',
-  },
-  {
-    number: '02',
-    title: 'Halal knowledge is uneven',
-    body: 'Many vendors still reduce halal to “no pork, no alcohol”, missing slaughter, storage and separation.',
-  },
-  {
-    number: '03',
-    title: 'Certification feels out of reach',
-    body: 'A small stall assumes the official process is too complex or expensive to even explore.',
-  },
-  {
-    number: '04',
-    title: 'Purchase records do not exist',
-    body: 'Without receipts or supplier references, nobody can prove where the chicken, fish or produce came from.',
-  },
-  {
-    number: '05',
-    title: 'Cross-contamination is invisible',
-    body: 'Shared boards, knives and oil are common — and almost never documented or corrected.',
-  },
-  {
-    number: '06',
-    title: 'Wet ingredients move faster than paperwork',
-    body: 'Chicken, fish, vegetables, eggs and milk are bought several times a week, often from different stalls. A record built for monthly invoices cannot keep up with a wet market.',
-  },
-];
+const tiers = siteContent.tiers.map((tier, index) => ({
+  ...tier,
+  tier: tierKeys[index] ?? 'learner',
+  level: `Tier ${index + 1}`,
+}));
 
-const wetCategories = [
-  {
-    category: 'Poultry & meat',
+const stepIcons = [Store, GraduationCap, Truck, ClipboardCheck, QrCode];
+
+const steps = siteContent.steps.map((step, index) => ({
+  ...step,
+  icon: stepIcons[index] ?? Store,
+}));
+
+const problems = siteContent.problems;
+
+const wetMeta: Record<
+  string,
+  { icon: LucideIcon; image: string; alt: string; position: string }
+> = {
+  'Poultry & meat': {
     icon: Drumstick,
     image: images.poultry,
     alt: 'Live chickens at a market',
-    examples: 'Chicken, beef, mutton',
-    count: '2 sources',
-    note: 'Slaughter source recorded',
     position: 'object-[50%_45%]',
   },
-  {
-    category: 'Seafood',
+  Seafood: {
     icon: Fish,
     image: images.seafood,
     alt: 'Fish crates at the Sandakan fish market',
-    examples: 'Prawns, fish, shellfish',
-    count: '1 source',
-    note: 'Certificate renewal due',
     position: 'object-[50%_82%]',
   },
-  {
-    category: 'Produce',
+  Produce: {
     icon: Leaf,
     image: images.produce,
     alt: 'Leafy greens and eggs at a Sabah market',
-    examples: 'Kangkung, tomato, shallots',
-    count: '1 source',
-    note: 'Market-direct sourcing',
     position: 'object-[50%_55%]',
   },
-  {
-    category: 'Dairy & eggs',
+  'Dairy & eggs': {
     icon: Egg,
     image: images.wetMarket,
     alt: 'Egg trays and fresh produce at a Kota Kinabalu market',
-    examples: 'Grade A eggs, fresh milk',
-    count: '1 source',
-    note: 'Chilled delivery',
     position: 'object-[78%_55%]',
   },
+};
+
+const wetCategories = siteContent.wetCategories.map((item) => ({
+  ...item,
+  ...wetMeta[item.category]!,
+  image: item.image ?? wetMeta[item.category]!.image,
+}));
+
+const beneficiaryIcons = [
+  Store,
+  Handshake,
+  ScanLine,
+  Truck,
+  ShieldCheck,
 ];
 
-const beneficiaries = [
-  {
-    who: 'Small food vendors',
-    benefit: 'A practical route to maintain halal practice, with the evidence built into daily work.',
-    icon: Store,
-  },
-  {
-    who: 'Non-Muslim vendors',
-    benefit: 'Clear guidance and a fair, compliance-based route to serve Muslim customers.',
-    icon: Handshake,
-  },
-  {
-    who: 'Muslim consumers',
-    benefit: 'A QR check at the stall instead of relying on a logo or a rumour.',
-    icon: ScanLine,
-  },
-  {
-    who: 'Verified suppliers',
-    benefit: 'A new, reachable market of small vendors looking for trustworthy sources.',
-    icon: Truck,
-  },
-  {
-    who: 'Authorities & programme officers',
-    benefit: 'Better records, targeted education and a visible correction trail.',
-    icon: ShieldCheck,
-  },
-];
+const beneficiaries = siteContent.beneficiaries.map((item, index) => ({
+  ...item,
+  icon: beneficiaryIcons[index] ?? Store,
+}));
 
-const pilotAreas = [
-  { area: 'Kota Kinabalu', note: 'Pilot core · 24 stalls', active: true },
-  { area: 'Sandakan', note: 'Phase 2 · supplier onboarding' },
-  { area: 'Tawau', note: 'Phase 2 · cold-chain partners' },
-  { area: 'Keningau', note: 'Phase 3 · market vendors' },
-  { area: 'Lahad Datu', note: 'Phase 3 · food trucks' },
-];
+const pilotAreas = siteContent.pilotAreas;
 
-const personas = [
-  {
-    quote:
-      'I already keep receipts. I just never had a reason to file them properly.',
-    name: 'Kak Nur',
-    role: 'Nasi campur stall · Tanjung Aru',
-    initials: 'KN',
-  },
-  {
-    quote:
-      'I want to do this properly, but it has to fit a two-person kitchen and a 6am prep window.',
-    name: 'Daniel',
-    role: 'Kopitiam owner · Gaya Street',
-    initials: 'DT',
-  },
-  {
-    quote:
-      'I don’t need a certificate on the wall. I need to know where the chicken came from.',
-    name: 'Farah',
-    role: 'Regular customer · Kota Kinabalu',
-    initials: 'FA',
-  },
-];
+const personas = siteContent.personas;
 
 /* -------------------------------------------------------------------------- */
 /* Navigation                                                                  */
 /* -------------------------------------------------------------------------- */
+
+const wetCategoryNames = [
+  'Poultry & meat',
+  'Seafood',
+  'Produce',
+  'Dairy & eggs',
+];
+
+const wetSupplierCount = (
+  suppliersContent as unknown as Array<{ categories: string[] }>
+).filter((supplier) =>
+  supplier.categories.some((category) => wetCategoryNames.includes(category)),
+).length;
+
+const heroStats = siteContent.hero.stats.map((stat) =>
+  stat.label === 'Wet-ingredient sources'
+    ? { ...stat, value: String(wetSupplierCount).padStart(2, '0') }
+    : stat,
+);
+
+const heroChipIcons = [Droplets, Smartphone, WifiOff];
+
+const vendorInitials = vendorProfile.name
+  .split(' ')
+  .map((word) => word[0])
+  .slice(0, 2)
+  .join('');
 
 const navLinks = [
   { href: '#problem', label: 'The problem' },
@@ -523,65 +409,61 @@ export const Landing = () => (
           <div className="inline-flex items-center gap-2 rounded-full border border-line bg-paper/80 px-3 py-1.5">
             <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-forest-500" />
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-2">
-              Sabah pilot · UMS student innovation
+              {siteContent.hero.eyebrow}
             </span>
           </div>
 
           <h1 className="mt-6 font-display text-[clamp(2.7rem,6.2vw,4.9rem)] leading-[0.98] tracking-[-0.045em] text-ink">
-            Source with
-            <br />
-            confidence.
-            <br />
-            Serve with{' '}
-            <span className="italic text-forest-700">certainty.</span>
+            {siteContent.hero.titleLines.map((line, index) => (
+              <span key={`${line}-${index}`}>
+                {line}
+                <br />
+              </span>
+            ))}
+            <span className="italic text-forest-700">
+              {siteContent.hero.titleEmphasis}
+            </span>
           </h1>
 
           <p className="mt-6 max-w-xl text-[15.5px] leading-relaxed text-ink-2 sm:text-[17px]">
-            HALALNiaga is a digital halal ecosystem for small food vendors —
-            connecting nearby verified suppliers of fresh wet ingredients,
-            practical training and a traceable record customers can scan at the
-            stall.
+            {siteContent.hero.lead}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link to="/app" className={buttonClass('primary', 'lg')}>
-              Explore the live demo
+              {siteContent.hero.ctaPrimary}
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <a href="#how" className={buttonClass('secondary', 'lg')}>
-              See how it works
+              {siteContent.hero.ctaSecondary}
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
 
           <p className="mt-4 flex max-w-xl items-start gap-2 text-[12px] leading-relaxed text-ink-3">
             <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-600" />
-            Programme recognition only. HALALNiaga does not issue halal
-            certification — that remains with JAKIM and the state Islamic
-            authorities.
+            {siteContent.hero.disclaimer}
           </p>
 
           <div className="mt-4 flex flex-wrap gap-2">
-            {[
-              { icon: Droplets, label: 'Wet-market first' },
-              { icon: Smartphone, label: 'Installable PWA' },
-              { icon: WifiOff, label: 'Works offline' },
-            ].map((chip) => (
-              <span
-                key={chip.label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-forest-200 bg-forest-50 px-2.5 py-1 text-[10.5px] font-medium text-forest-800"
-              >
-                <chip.icon className="h-3 w-3" />
-                {chip.label}
-              </span>
-            ))}
+            {siteContent.hero.chips.map((label, index) => {
+              const Icon = heroChipIcons[index] ?? Droplets;
+              return (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-forest-200 bg-forest-50 px-2.5 py-1 text-[10.5px] font-medium text-forest-800"
+                >
+                  <Icon className="h-3 w-3" />
+                  {label}
+                </span>
+              );
+            })}
           </div>
 
           <div className="mt-8 grid max-w-lg grid-cols-2 gap-x-6 gap-y-6 border-t border-line pt-7 sm:grid-cols-4">
-            <Stat value="06" label="Integrated modules" />
-            <Stat value="03" label="Recognition tiers" />
-            <Stat value="05" label="Wet-ingredient sources" />
-            <Stat value="01" label="Shared record" />
+            {heroStats.map((stat) => (
+              <Stat key={stat.label} value={stat.value} label={stat.label} />
+            ))}
           </div>
         </div>
 
@@ -738,7 +620,9 @@ export const Landing = () => (
                 <Droplets className="h-4 w-4" />
               </div>
               <div>
-                <p className="font-display text-2xl leading-none text-ink">05</p>
+                <p className="font-display text-2xl leading-none text-ink">
+                {String(wetSupplierCount).padStart(2, '0')}
+              </p>
                 <p className="mt-0.5 text-[10px] text-ink-3">
                   wet-ingredient suppliers
                 </p>
@@ -926,26 +810,34 @@ export const Landing = () => (
                       </span>
                     </div>
                     <div className="mt-2.5 space-y-2">
-                      {[
-                        ['Sri Tanjung Poultry', '6.4 km · Inanam', 'Certified'],
-                        ['Sabah Fresh Produce', '2.1 km · Market', 'Verified'],
-                        ['Kinabalu Dairy & Eggs', '7.8 km · Tuaran', 'Certified'],
-                      ].map(([name, detail, status]) => (
-                        <div
-                          key={name}
-                          className="flex items-center justify-between gap-3 border-t border-ivory/10 pt-2 first:border-0 first:pt-0"
-                        >
-                          <div className="min-w-0">
-                            <p className="truncate text-[11px] font-medium text-ivory/90">
-                              {name}
-                            </p>
-                            <p className="text-[9px] text-ivory/45">{detail}</p>
+                      {suppliersContent.slice(0, 3).map((supplier) => {
+                        const status =
+                          supplier.status === 'certified'
+                            ? 'Certified'
+                            : supplier.status === 'verified'
+                              ? 'Verified'
+                              : supplier.status === 'pending'
+                                ? 'Pending'
+                                : 'Lapsed';
+                        return (
+                          <div
+                            key={supplier.id}
+                            className="flex items-center justify-between gap-3 border-t border-ivory/10 pt-2 first:border-0 first:pt-0"
+                          >
+                            <div className="min-w-0">
+                              <p className="truncate text-[11px] font-medium text-ivory/90">
+                                {supplier.name}
+                              </p>
+                              <p className="text-[9px] text-ivory/45">
+                                {supplier.distanceKm} km · {supplier.area}
+                              </p>
+                            </div>
+                            <span className="shrink-0 rounded-full border border-ivory/15 px-2 py-0.5 text-[8.5px] text-gold-300">
+                              {status}
+                            </span>
                           </div>
-                          <span className="shrink-0 rounded-full border border-ivory/15 px-2 py-0.5 text-[8.5px] text-gold-300">
-                            {status}
-                          </span>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -1278,7 +1170,7 @@ export const Landing = () => (
             ))}
           </ul>
           <Link
-            to="/vendor/dapur-kak-nur"
+            to={`/vendor/${vendorProfile.qrSlug}`}
             className={buttonClass('gold', 'md', 'mt-8')}
           >
             Open a live vendor profile
@@ -1296,12 +1188,12 @@ export const Landing = () => (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-forest-800 font-display text-sm text-gold-300">
-                    KN
+                    {vendorInitials}
                   </div>
                   <div>
-                    <p className="text-[14px] font-semibold">Dapur Kak Nur</p>
+                    <p className="text-[14px] font-semibold">{vendorProfile.name}</p>
                     <p className="text-[10.5px] text-ink-3">
-                      Nasi campur · Tanjung Aru
+                      {vendorProfile.category}
                     </p>
                   </div>
                 </div>
@@ -1343,19 +1235,24 @@ export const Landing = () => (
                   Most recent source records
                 </p>
                 <div className="mt-2 space-y-1.5">
-                  {[
-                    ['Sri Tanjung Poultry', 'Whole chicken · 3 days ago'],
-                    ['Sabah Fresh Produce', 'Kangkung · 4 days ago'],
-                    ['Kinabalu Dairy & Eggs', 'Grade A eggs · 8 days ago'],
-                  ].map(([supplier, detail]) => (
-                    <div
-                      key={supplier}
-                      className="flex items-center justify-between gap-2 text-[10.5px]"
-                    >
-                      <span className="truncate font-medium text-ink">{supplier}</span>
-                      <span className="shrink-0 text-ink-3">{detail}</span>
-                    </div>
-                  ))}
+                  {suppliersContent.slice(0, 3).map((supplier) => {
+                    const product = productsContent.find(
+                      (item) => item.supplierId === supplier.id,
+                    );
+                    return (
+                      <div
+                        key={supplier.id}
+                        className="flex items-center justify-between gap-2 text-[10.5px]"
+                      >
+                        <span className="truncate font-medium text-ink">
+                          {supplier.name}
+                        </span>
+                        <span className="shrink-0 text-ink-3">
+                          {product?.name ?? 'Source record'}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -1680,6 +1577,7 @@ export const Landing = () => (
               <li><Link to="/app/starter-kit" className="hover:text-forest-800">Starter kit</Link></li>
               <li><a href="/HALALNiaga-system-brief-en.pdf" target="_blank" rel="noreferrer" className="hover:text-forest-800">Client brief (EN)</a></li>
               <li><a href="/HALALNiaga-system-brief.pdf" target="_blank" rel="noreferrer" className="hover:text-forest-800">Client brief (BM)</a></li>
+              <li><Link to="/admin" className="hover:text-forest-800">Content editor</Link></li>
             </ul>
           </div>
         </div>

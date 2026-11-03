@@ -27,7 +27,6 @@ import {
 } from '@/domain/compliance';
 import { ASSESSMENT_QUESTIONS, TRAINING_MODULES } from '@/domain/seed';
 import { useApp } from '@/domain/store';
-import { images } from '@/lib/images';
 
 const bandFor = (score: number) => {
   if (score >= 90) return { label: 'Strong', tone: 'success' as const };
@@ -127,7 +126,7 @@ export const PublicVendor = () => {
 
         <div className="relative mt-5 h-[190px] overflow-hidden rounded-2xl border border-line sm:h-[230px]">
           <img
-            src={images.produce}
+            src={state.vendor.coverImage}
             alt="Fresh vegetables and eggs at a Sabah market"
             className="h-full w-full object-cover object-[30%_55%]"
           />

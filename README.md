@@ -87,6 +87,27 @@ the seeded vendor with the app navigation removed.
 
 More screens are in [`docs/screenshots/`](docs/screenshots/).
 
+## Editing content
+
+The client can edit the vendor, suppliers, products and key landing copy through
+a form-based CMS without touching code.
+
+- **Client editor:** https://halalniaga.pages.dev/admin (Pages CMS).
+- **Content files:** `src/content/site.json`, `vendor.json`, `suppliers.json`,
+  `products.json`.
+- **Publish flow:** Pages CMS commits to GitHub → the
+  [deploy workflow](.github/workflows/deploy.yml) builds and deploys to
+  Cloudflare Pages.
+- **One-time setup:** add the client as a GitHub collaborator, create a
+  Cloudflare API token with **Cloudflare Pages: Edit**, add it as the
+  `CLOUDFLARE_API_TOKEN` GitHub Actions secret, then authorise Pages CMS.
+  The full checklist is in [`docs/CONTENT-GUIDE.md`](docs/CONTENT-GUIDE.md).
+
+If the token secret is missing, the workflow still commits content but skips
+deployment and prints a notice. The CMS form is configured in `.pages.yml`.
+
+![Content editor handover page](docs/screenshots/cms-admin.png)
+
 ## What it demonstrates
 
 | Module | What a visitor can do |
@@ -172,10 +193,11 @@ horizontal page scroll. Wide tables scroll inside their cards instead.
 
 ```
 src/
+  content/         # CMS-editable JSON (site, vendor, suppliers, products)
   domain/          # framework-free business logic + seed + store
     types.ts       # ubiquitous language (see CONTEXT.md)
     compliance.ts  # scoring, tiers, alerts, date rules
-    seed.ts        # realistic Sabah pilot data
+    seed.ts        # merges content JSON with generated demo records
     store.tsx      # localStorage-backed React context
     compliance.test.ts
   components/
@@ -189,6 +211,7 @@ src/
     SignIn.tsx
     PublicVendor.tsx
     Credits.tsx
+    Admin.tsx      # handover page for the client content editor
     app/           # eleven workspace modules, including the printable starter kit
 public/
   images/          # Sabah market photography (WebP, credited)
@@ -249,6 +272,9 @@ npm run deploy
 `npm run deploy` builds the app, writes the Pages SPA fallback to
 `dist/_redirects`, and uploads `dist/` to the `halalniaga` Pages project. Deep
 links such as `/app/suppliers` and `/vendor/dapur-kak-nur` resolve correctly.
+
+Pushes to `main` also trigger `.github/workflows/deploy.yml`; the workflow skips
+deployment until the `CLOUDFLARE_API_TOKEN` secret is set.
 
 The Pages project is already created. To create it from scratch, run
 `npx wrangler pages project create halalniaga --production-branch main` first.

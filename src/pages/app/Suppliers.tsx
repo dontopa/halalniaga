@@ -289,7 +289,7 @@ export const Suppliers = () => {
                 <div className="flex items-start gap-3">
                   <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-line">
                     <img
-                      src={supplierImage(supplier.categories)}
+                      src={supplier.image ?? supplierImage(supplier.categories)}
                       alt=""
                       loading="lazy"
                       className="h-full w-full object-cover"
