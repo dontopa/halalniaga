@@ -46,7 +46,7 @@ content:
           - name: stats
             label: Hero stats
             type: object
-            list: true
+            list: { min: 4, max: 4 }
             fields:
               - name: value
                 label: Value
@@ -57,7 +57,7 @@ content:
       - name: problems
         label: Problem cards
         type: object
-        list: true
+        list: { min: 6, max: 6 }
         fields:
           - name: number
             label: Number
@@ -71,7 +71,7 @@ content:
       - name: wetCategories
         label: Wet-ingredient cards
         type: object
-        list: true
+        list: { min: 4, max: 4 }
         fields:
           - name: category
             label: Category
@@ -91,7 +91,7 @@ content:
       - name: modules
         label: Module cards
         type: object
-        list: true
+        list: { min: 6, max: 6 }
         hint: Keep the six module IDs unchanged; the app maps icons and layout by ID.
         fields:
           - name: id
@@ -111,7 +111,7 @@ content:
       - name: steps
         label: How it works
         type: object
-        list: true
+        list: { min: 5, max: 5 }
         hint: Keep the five steps in order; icons are assigned by position.
         fields:
           - name: title
@@ -123,7 +123,7 @@ content:
       - name: tiers
         label: Recognition tiers
         type: object
-        list: true
+        list: { min: 3, max: 3 }
         hint: Keep the order Learner, Verified, Monitored.
         fields:
           - name: title
@@ -139,7 +139,7 @@ content:
       - name: pilotAreas
         label: Pilot areas
         type: object
-        list: true
+        list: { min: 5, max: 5 }
         fields:
           - name: area
             label: Area
@@ -153,7 +153,7 @@ content:
       - name: beneficiaries
         label: Beneficiaries
         type: object
-        list: true
+        list: { min: 5, max: 5 }
         hint: Keep the five items in order; icons are assigned by position.
         fields:
           - name: who
@@ -165,7 +165,7 @@ content:
       - name: personas
         label: Design personas
         type: object
-        list: true
+        list: { min: 3, max: 3 }
         fields:
           - name: quote
             label: Quote
