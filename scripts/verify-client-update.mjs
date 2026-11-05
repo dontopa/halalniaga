@@ -3,8 +3,10 @@ import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const base = 'http://localhost:4173';
-const out = path.resolve('docs/screenshots/client-update');
+const base = process.env.BASE_URL || 'http://localhost:4173';
+const out = path.resolve(
+  process.env.OUT_DIR || 'docs/screenshots/client-update',
+);
 fs.mkdirSync(out, { recursive: true });
 
 const invoiceSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200">
