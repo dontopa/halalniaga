@@ -111,13 +111,16 @@ await page.screenshot({ path: path.join(out, '02-landing-full.png'), fullPage: t
 
 // Suppliers map
 await page.goto(`${base}/app/suppliers`, { waitUntil: 'networkidle' });
-await page.waitForTimeout(800);
-const pinCount = await page.locator('button[aria-label^="Penanda peta"]').count();
+await page.waitForTimeout(1800);
+const pinCount = await page.locator('.leaflet-marker-icon').count();
 check('map pins', pinCount >= 8, `${pinCount} pins`);
-await page.locator('button[aria-label^="Penanda peta"]').first().click();
-await page.waitForTimeout(400);
+const tiles = await page.locator('.leaflet-tile-loaded').count();
+check('openstreetmap tiles load', tiles > 0, `${tiles} tiles`);
+await page.locator('.leaflet-marker-icon').first().click({ force: true });
+await page.waitForTimeout(600);
 const mapsHref = await page
   .locator('a:has-text("Buka dalam Google Maps")')
+  .first()
   .getAttribute('href')
   .catch(() => null);
 check('google maps link', Boolean(mapsHref && mapsHref.includes('google.com/maps')), mapsHref ?? 'none');
