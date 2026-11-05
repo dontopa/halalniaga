@@ -43,6 +43,10 @@ export interface Supplier {
   tags: string[];
   accent: string;
   image?: string;
+  lat?: number;
+  lng?: number;
+  manual?: boolean;
+  sourceNote?: string;
 }
 
 export interface Product {
@@ -67,6 +71,9 @@ export interface Purchase {
   purchasedAt: string;
   receiptNo: string;
   verifiedSource: boolean;
+  evidencePhoto?: string;
+  halalStampSeen?: boolean;
+  sourceNote?: string;
 }
 
 export interface QuizQuestion {
@@ -205,20 +212,20 @@ export const TIER_META: Record<
   { label: string; short: string; blurb: string; accent: string }
 > = {
   learner: {
-    label: 'HALALNiaga Learner',
-    short: 'Learner',
+    label: 'HALALNiaga Participant',
+    short: 'Participant',
     blurb: 'Core halal training completed and assessed.',
     accent: 'sky',
   },
   verified: {
-    label: 'HALALNiaga Verified Participant',
-    short: 'Verified',
+    label: 'HALALNiaga Verification',
+    short: 'Verification',
     blurb: 'Training, verified sourcing and self-assessment in place.',
     accent: 'emerald',
   },
   monitored: {
-    label: 'HALALNiaga Monitored Participant',
-    short: 'Monitored',
+    label: 'HALALNiaga Monitoring',
+    short: 'Monitoring',
     blurb: 'Independently inspected and re-assessed on a rolling cycle.',
     accent: 'amber',
   },

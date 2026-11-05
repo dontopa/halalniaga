@@ -5,6 +5,7 @@ const dictionary: Record<string, string> = {
   'Modules': 'Modul',
   'Trust model': 'Model kepercayaan',
   'Sabah pilot': 'Perintis Sabah',
+  'Packages': 'Pakej',
   'Vendor sign in': 'Log masuk peniaga',
   'Open the demo': 'Buka demo',
   'Close menu': 'Tutup menu',
@@ -22,10 +23,10 @@ const dictionary: Record<string, string> = {
   'intention. It’s': 'niat. Ia soal',
   'evidence.': 'bukti.',
   'The design stance': 'Pendirian reka bentuk',
-  'Do not ask a vendor to become an administrator. Build the record from the work they already do — buying, cooking, cleaning, serving.':
-    'Jangan minta peniaga menjadi pentadbir. Bina rekod daripada kerja yang sudah mereka lakukan: membeli, memasak, membersih dan menghidang.',
-  'Most small vendors want to do the right thing. What they lack is a practical way to prove what they already do — and a clear next step when something is missing.':
-    'Kebanyakan peniaga kecil memang mahu berbuat betul. Yang mereka kurang ialah cara praktikal untuk membuktikan apa yang sudah mereka lakukan, dan langkah seterusnya yang jelas apabila ada yang tidak kena.',
+  'Vendors should not be burdened with administration. Build the record from the work they already do: buying, cooking, cleaning and serving.':
+    'Peniaga tidak seharusnya dibebani tugas pentadbiran. Kita sewajarnya membina sistem rekod yang bermula daripada kerja sebenar mereka: membeli, memasak, membersih dan menghidang.',
+  'Most small vendors mean well. What they lack is a practical way to prove the work they have already done, and a clear next step when something goes wrong.':
+    'Kebanyakan peniaga kecil sebenarnya berniat baik. Namun, mereka kekurangan cara praktikal untuk membuktikan usaha yang telah dilakukan, serta panduan langkah seterusnya yang jelas andai berlaku sebarang kesilapan.',
   'Not another directory': 'Bukan sekadar direktori',
   'An ecosystem that connects the three parties the supply chain depends on.':
     'Ekosistem yang menghubungkan tiga pihak tunjang rantaian bekalan.',
@@ -35,9 +36,9 @@ const dictionary: Record<string, string> = {
   'Verified suppliers': 'Pembekal disahkan',
   'Publish product-level halal status and reach small stalls.':
     'Terbitkan status halal pada peringkat produk dan capai gerai kecil.',
-  'Guidance & monitoring': 'Bimbingan & pemantauan',
-  'Train, advise, inspect and recognise along a clear ladder.':
-    'Latih, nasihat, periksa dan iktiraf mengikut tahap yang jelas.',
+  'Guidance & monitoring': 'Perunding halal',
+  'Brief, train, advise, inspect and recognise along a clear ladder.':
+    'Bimbing peniaga dari briefing hingga pengiktirafan, dengan pemeriksaan yang jelas.',
   'Wet market first': 'Pasar basah dahulu',
   'The morning run,': 'Rutin pagi,',
   'made': 'kini',
@@ -76,8 +77,8 @@ const dictionary: Record<string, string> = {
   'Live vendor record': 'Rekod peniaga masa nyata',
   '4 controls · 1 scan': '4 kawalan · 1 imbasan',
   'How it works': 'Cara ia berfungsi',
-  'Five steps, built into the working day.':
-    'Lima langkah, sebati dalam hari bekerja.',
+  'Six steps, built into the working day.':
+    'Enam langkah, sebati dalam hari bekerja.',
   'No new paperwork ritual. Each step adds a small amount of evidence to a record that compounds over time.':
     'Tiada kertas kerja baharu untuk diisi. Setiap langkah menambah sedikit bukti pada rekod yang terkumpul dari semasa ke semasa.',
   'Prototype · installable PWA': 'Prototaip · PWA boleh dipasang',
@@ -173,6 +174,15 @@ const dictionary: Record<string, string> = {
     'Model pematuhan yang inklusif sejak awal.',
   'Halal certification in Malaysia is open to Muslim and non-Muslim operators who meet the requirements. HALALNiaga is built on compliance, not identity.':
     'Pensijilan halal di Malaysia terbuka kepada pengusaha Muslim dan bukan Muslim yang memenuhi syarat. HALALNiaga dibina atas pematuhan, bukan identiti.',
+  'The packages': 'Pakej',
+  'Package': 'Pakej',
+  'Start with what fits the stall.':
+    'Mula dengan apa yang sesuai untuk gerai.',
+  'Every package begins with an online briefing and a step-by-step walkthrough by screen share. These are suggested pilot prices — small vendors stay the focus.':
+    'Setiap pakej bermula dengan briefing dalam talian dan tunjuk ajar langkah demi langkah melalui perkongsian skrin. Harga ini cadangan untuk perintis — peniaga kecil kekal menjadi fokus.',
+  'Recommended': 'Disyorkan',
+  'Package details are explained in the briefing session.':
+    'Keterangan pakej dijelaskan dalam sesi briefing.',
   'Voices from the pilot design': 'Suara daripada reka bentuk perintis',
   'What the model has to earn.': 'Apa yang perlu dibuktikan oleh model ini.',
   'These are design personas used to test the service, not customer testimonials.':

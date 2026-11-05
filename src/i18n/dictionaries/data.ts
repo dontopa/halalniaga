@@ -25,8 +25,8 @@ const dictionary: Record<string, string> = {
 
   // Problems
   'Suppliers are hard to verify': 'Pembekal sukar disahkan',
-  'Certificates sit in drawers or inboxes, rarely at the 6am wet-market decision about which chicken, fish or vegetable crate to buy.':
-    'Sijil tersimpan dalam laci atau peti masuk dan jarang ada ketika peniaga membuat keputusan awal pagi di pasar basah: ayam, ikan atau sayur mana yang hendak dibeli.',
+  'JAKIM halal certificates and the status of wet ingredients are hard to pin down because suppliers keep changing hands. Vendors end up overlooking whether raw ingredients are halal during the early-morning buy at the wet market.':
+    'Sijil halal JAKIM dan status bahan basah sukar dikenal pasti kerana pembekal sering bertukar-tukar ganti, menyebabkan peniaga terlepas pandang untuk menyemak keabsahan halal bahan mentah semasa membuat pembelian awal pagi di pasar basah.',
   'Halal knowledge is uneven': 'Pengetahuan halal tidak sekata',
   'Many vendors still reduce halal to “no pork, no alcohol”, missing slaughter, storage and separation.':
     'Ramai peniaga masih menyempitkan halal kepada “tiada babi, tiada alkohol”, lalu terlepas pandang soal penyembelihan, penyimpanan dan pengasingan.',
@@ -37,8 +37,8 @@ const dictionary: Record<string, string> = {
   'Without receipts or supplier references, nobody can prove where the chicken, fish or produce came from.':
     'Tanpa resit atau rujukan pembekal, tiada siapa dapat membuktikan dari mana ayam, ikan atau sayur itu datang.',
   'Cross-contamination is invisible': 'Pencemaran silang tidak kelihatan',
-  'Shared boards, knives and oil are common — and almost never documented or corrected.':
-    'Papan, pisau dan minyak dikongsi setiap hari, tetapi hampir tidak pernah didokumen atau diperbetulkan.',
+  'Cutting boards, knives and oil are shared every day with no documentation or proper control. The problem is plain when a knife used for raw chicken goes straight to the vegetables without being cleaned.':
+    'Papan pemotong, pisau dan minyak dikongsi setiap hari tanpa ada sebarang dokumentasi atau kawalan yang betul. Isu ini jelas kelihatan apabila pisau yang digunakan untuk memotong ayam mentah terus dipakai untuk memotong sayur tanpa dibersihkan terlebih dahulu.',
   'Wet ingredients move faster than paperwork':
     'Bahan basah bergerak lebih pantas daripada dokumen',
   'Chicken, fish, vegetables, eggs and milk are bought several times a week, often from different stalls. A record built for monthly invoices cannot keep up with a wet market.':
@@ -98,9 +98,12 @@ const dictionary: Record<string, string> = {
   'Expiring recognition': 'Pengiktirafan bertempoh',
 
   // Steps
-  'Register the stall': 'Daftarkan gerai',
-  'Owner, location, menu and the ingredients that matter most.':
-    'Pemilik, lokasi, menu dan bahan yang paling penting.',
+  'Briefing': 'Briefing',
+  'A short online briefing by screen share before anything is registered.':
+    'Sesi briefing ringkas dalam talian melalui perkongsian skrin sebelum apa-apa didaftarkan.',
+  'Register the stall + SSM licence': 'Daftarkan gerai + lesen SSM',
+  'Owner, location, menu, SSM business licence and the ingredients that matter most.':
+    'Pemilik, lokasi, menu, lesen perniagaan SSM dan bahan yang paling penting.',
   'Complete halal training': 'Selesaikan latihan halal',
   'Six practical modules, then a scored quiz for each one.':
     'Enam modul praktikal, kemudian satu kuiz bermarkah bagi setiap modul.',
@@ -115,25 +118,77 @@ const dictionary: Record<string, string> = {
     'Terbitkan rekod QR, kemudian kekalkan melalui pemeriksaan.',
 
   // Tiers
-  'Verified participant': 'Peserta Disahkan',
+  'Participant': 'Peserta',
+  'Verification': 'Pengesahan',
+  'Monitoring': 'Pemantauan',
   'All six training modules completed': 'Semua enam modul latihan selesai',
   'Quiz score of 80% or higher': 'Skor kuiz 80% ke atas',
   'Training record signed by the programme':
     'Rekod latihan ditandatangani oleh program',
   'Certificate of completion': 'Sijil penyempurnaan',
-  'Everything in Learner': 'Semua keperluan Pelajar',
+  'Everything in Participant': 'Semua keperluan Peserta',
   'At least 80% of recent purchases from verified suppliers':
     'Sekurang-kurangnya 80% pembelian terkini daripada pembekal yang disahkan',
   'Self-assessment score of 80% or higher':
     'Skor penilaian kendiri 80% ke atas',
   'Participation badge + stall QR code': 'Lencana penyertaan + kod QR gerai',
-  'Monitored participant': 'Peserta Dipantau',
-  'Everything in Verified': 'Semua keperluan Disahkan',
+  'Everything in Verification': 'Semua keperluan Pengesahan',
   'Programme inspection passed within six months':
     'Lulus pemeriksaan program dalam tempoh enam bulan',
   'Re-assessment within the current cycle': 'Penilaian semula dalam kitaran semasa',
   'Monitored badge + published inspection date':
-    'Lencana Dipantau + tarikh pemeriksaan diterbitkan',
+    'Lencana Pemantauan + tarikh pemeriksaan diterbitkan',
+
+  // Packages
+  'Basic': 'Basic',
+  'Premium': 'Premium',
+  'Pro / Biz': 'Pro / Biz',
+  'Free': 'Percuma',
+  'RM30': 'RM30',
+  'RM60–80': 'RM60–80',
+  'For every small vendor': 'Untuk setiap peniaga kecil',
+  'Once-off · starter kit': 'Sekali bayar · kit permulaan',
+  'Per month · suggested': 'Sebulan · cadangan',
+  'For small vendors who want basic protection and access.':
+    'Untuk peniaga kecil yang ingin perlindungan dan akses asas.',
+  'For vendors ready to manage their operation more carefully.':
+    'Untuk peniaga yang mahu mengurus operasi dengan lebih tersusun.',
+  'For vendors who want fuller guidance and monitoring.':
+    'Untuk peniaga yang mahu bimbingan dan pemantauan lebih menyeluruh.',
+  'Directory of nearby halal suppliers': 'Direktori pembekal halal berdekatan',
+  'Weekly food-safety and halal reminders':
+    'Peringatan keselamatan makanan dan halal setiap minggu',
+  'Basic halal food-handling guide': 'Panduan asas pengendalian makanan halal',
+  'Tips to prevent cross-contamination': 'Tip mencegah pencemaran silang',
+  'Basic consultation through the app or Q&A':
+    'Konsultasi asas melalui aplikasi atau ruang soal jawab',
+  'Halal news and notifications': 'Berita dan notifikasi berkaitan halal',
+  'Everything in Basic': 'Semua kemudahan dalam Basic',
+  'Halal Starter Kit': 'Kit permulaan halal',
+  'Colour-coded cutting boards by raw-material category':
+    'Papan pemotong berwarna mengikut kategori bahan mentah',
+  'Storage and packaging labels': 'Pelekat label untuk penyimpanan dan pembungkusan',
+  'Premises hygiene monitoring checklist': 'Senarai semak pemantauan kebersihan premis',
+  'Purchase record book and supplier details':
+    'Buku rekod pembelian dan maklumat pembekal',
+  'Mentoring session with a halal consultant':
+    'Sesi bimbingan bersama perunding halal',
+  'Self-assessment of food-handling practice':
+    'Penilaian kendiri amalan pengendalian makanan',
+  'Everything in Premium': 'Semua kemudahan dalam Premium',
+  'Scheduled premises monitoring visits': 'Lawatan pemantauan premis mengikut jadual',
+  'Halal and hygiene self-audit': 'Audit kendiri halal dan kebersihan',
+  'Help organising documentation and raw-material records':
+    'Bantuan menyusun dokumentasi dan rekod bahan mentah',
+  'Guidance on applying for halal certification':
+    'Bimbingan permohonan pensijilan halal',
+  'Priority access to the supplier directory':
+    'Akses keutamaan kepada direktori pembekal',
+  'Periodic growth assessment and improvement recommendations':
+    'Penilaian perkembangan dan cadangan penambahbaikan berkala',
+  'Start free': 'Mula percuma',
+  'Choose Premium': 'Pilih Premium',
+  'Talk to a consultant': 'Hubungi perunding',
 
   // Pilot areas
   'Pilot core · 24 stalls': 'Teras perintis · 24 gerai',

@@ -345,6 +345,34 @@ export const StarterKit = () => {
         </div>
       </Card>
 
+      <Card className="mt-4 print:break-inside-avoid">
+        <CardHeader
+          title={t('Weekly routine')}
+          description={t(
+            'The kit only works if it is used every week. Keep it in the chiller and take it out at the next monitoring visit.',
+          )}
+          action={<Badge tone="gold">{t('Every week')}</Badge>}
+        />
+        <ol className="space-y-3 p-5">
+          {[
+            'Check labels, dates and the last seven days of purchase records.',
+            'Replace any label that has faded or fallen off.',
+            'Store the kit in the chiller, in a labelled folder or box.',
+            'At monitoring, the officer checks the last four weeks against this kit.',
+          ].map((item, index) => (
+            <li
+              key={item}
+              className="flex items-start gap-3 text-[11.5px] leading-relaxed text-ink-2"
+            >
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-gold-500/40 bg-gold-100/50 font-mono text-[9px] text-gold-700">
+                0{index + 1}
+              </span>
+              {t(item)}
+            </li>
+          ))}
+        </ol>
+      </Card>
+
       <p className="mt-4 flex items-start gap-2 rounded-xl border border-line bg-sand/40 p-3.5 text-[9.5px] leading-relaxed text-ink-3">
         <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-700" />
         {t('HALALNiaga starter kit · {vendor}. This is a programme tool for training and record-keeping. It is not a Malaysian halal certificate, and it does not replace an inspection by JAKIM or a recognised state Islamic authority.', {

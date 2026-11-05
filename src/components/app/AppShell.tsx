@@ -24,6 +24,7 @@ import { TierBadge } from '@/components/badges';
 import { Badge, Progress } from '@/components/ui';
 import { openInstallHelp } from '@/components/pwa/PwaExperience';
 import { ASSESSMENT_QUESTIONS } from '@/domain/seed';
+import { TIER_META } from '@/domain/types';
 import { deriveAlerts, getCompliance } from '@/domain/compliance';
 import { useApp } from '@/domain/store';
 import { LanguageToggle } from '@/i18n/LanguageToggle';
@@ -161,7 +162,7 @@ const VendorCard = () => {
         {snapshot.nextTier
           ? t('{progress}% toward {tier}', {
               progress: snapshot.tierProgress,
-              tier: t(snapshot.nextTier === 'monitored' ? 'Monitored' : 'Verified'),
+              tier: t(TIER_META[snapshot.nextTier].short),
             })
           : t('Fully monitored participant')}
       </p>

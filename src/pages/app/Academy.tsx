@@ -162,7 +162,7 @@ export const Academy = () => {
             </p>
           </div>
           <p className="mt-3 text-[13px] font-semibold leading-snug text-ink">
-            {t('Complete all six modules with 80%+ to qualify for the Learner tier.')}
+            {t('Complete all six modules with 80%+ to qualify for the Participant tier.')}
           </p>
           <p className="mt-2 text-[11px] leading-relaxed text-ink-3">
             {t('Your completion record is attached to the vendor QR profile and reviewed during inspection.')}

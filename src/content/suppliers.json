@@ -20,7 +20,9 @@
       "Wet market",
       "Halal slaughter evidence"
     ],
-    "accent": "#0f6b52"
+    "accent": "#0f6b52",
+    "lat": 5.9924,
+    "lng": 116.1245
   },
   {
     "id": "sup-borneo-meats",
@@ -43,7 +45,9 @@
       "Wet market",
       "Vacuum packed"
     ],
-    "accent": "#7a3b2e"
+    "accent": "#7a3b2e",
+    "lat": 5.9638,
+    "lng": 116.109
   },
   {
     "id": "sup-sabah-fresh",
@@ -66,7 +70,9 @@
       "Wet market",
       "Daily harvest"
     ],
-    "accent": "#3f7d20"
+    "accent": "#3f7d20",
+    "lat": 5.9815,
+    "lng": 116.0726
   },
   {
     "id": "sup-kinabalu-dairy",
@@ -89,7 +95,9 @@
       "Wet market",
       "Chilled delivery"
     ],
-    "accent": "#b07d2b"
+    "accent": "#b07d2b",
+    "lat": 6.001,
+    "lng": 116.109
   },
   {
     "id": "sup-sazarah",
@@ -113,7 +121,9 @@
       "Local importer",
       "Product-level records"
     ],
-    "accent": "#8a5a12"
+    "accent": "#8a5a12",
+    "lat": 5.911,
+    "lng": 116.06
   },
   {
     "id": "sup-papar-valley",
@@ -136,7 +146,9 @@
       "No alcohol",
       "Farm-to-bottle"
     ],
-    "accent": "#a33b2a"
+    "accent": "#a33b2a",
+    "lat": 5.75,
+    "lng": 115.98
   },
   {
     "id": "sup-tawau-sea",
@@ -159,7 +171,9 @@
       "Wet market",
       "Bulk supply"
     ],
-    "accent": "#1c5f7a"
+    "accent": "#1c5f7a",
+    "lat": 4.2448,
+    "lng": 117.8912
   },
   {
     "id": "sup-sandakan-spice",
@@ -180,6 +194,8 @@
     "tags": [
       "Awaiting verification"
     ],
-    "accent": "#6b5b3e"
+    "accent": "#6b5b3e",
+    "lat": 5.8394,
+    "lng": 118.1171
   }
 ]

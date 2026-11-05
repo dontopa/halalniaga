@@ -39,32 +39,32 @@
     {
       "number": "01",
       "title": "Suppliers are hard to verify",
-      "body": "Certificates sit in drawers or inboxes, rarely at the 6am wet-market decision about which chicken, fish or vegetable crate to buy."
+      "body": "JAKIM halal certificates and the status of wet ingredients are hard to pin down because suppliers keep changing hands. Vendors end up overlooking whether raw ingredients are halal during the early-morning buy at the wet market."
     },
     {
       "number": "02",
+      "title": "Wet ingredients move faster than paperwork",
+      "body": "Chicken, fish, vegetables, eggs and milk are bought several times a week, often from different stalls. A record built for monthly invoices cannot keep up with a wet market."
+    },
+    {
+      "number": "03",
       "title": "Halal knowledge is uneven",
       "body": "Many vendors still reduce halal to \u201cno pork, no alcohol\u201d, missing slaughter, storage and separation."
     },
     {
-      "number": "03",
+      "number": "04",
       "title": "Certification feels out of reach",
       "body": "A small stall assumes the official process is too complex or expensive to even explore."
     },
     {
-      "number": "04",
+      "number": "05",
       "title": "Purchase records do not exist",
       "body": "Without receipts or supplier references, nobody can prove where the chicken, fish or produce came from."
     },
     {
-      "number": "05",
-      "title": "Cross-contamination is invisible",
-      "body": "Shared boards, knives and oil are common \u2014 and almost never documented or corrected."
-    },
-    {
       "number": "06",
-      "title": "Wet ingredients move faster than paperwork",
-      "body": "Chicken, fish, vegetables, eggs and milk are bought several times a week, often from different stalls. A record built for monthly invoices cannot keep up with a wet market."
+      "title": "Cross-contamination is invisible",
+      "body": "Cutting boards, knives and oil are shared every day with no documentation or proper control. The problem is plain when a knife used for raw chicken goes straight to the vegetables without being cleaned."
     }
   ],
   "wetCategories": [
@@ -161,8 +161,12 @@
   ],
   "steps": [
     {
-      "title": "Register the stall",
-      "body": "Owner, location, menu and the ingredients that matter most."
+      "title": "Briefing",
+      "body": "A short online briefing by screen share before anything is registered."
+    },
+    {
+      "title": "Register the stall + SSM licence",
+      "body": "Owner, location, menu, SSM business licence and the ingredients that matter most."
     },
     {
       "title": "Complete halal training",
@@ -183,7 +187,7 @@
   ],
   "tiers": [
     {
-      "title": "Learner",
+      "title": "Participant",
       "criteria": [
         "All six training modules completed",
         "Quiz score of 80% or higher",
@@ -192,18 +196,18 @@
       "recognition": "Certificate of completion"
     },
     {
-      "title": "Verified participant",
+      "title": "Verification",
       "criteria": [
-        "Everything in Learner",
+        "Everything in Participant",
         "At least 80% of recent purchases from verified suppliers",
         "Self-assessment score of 80% or higher"
       ],
       "recognition": "Participation badge + stall QR code"
     },
     {
-      "title": "Monitored participant",
+      "title": "Monitoring",
       "criteria": [
-        "Everything in Verified",
+        "Everything in Verification",
         "Programme inspection passed within six months",
         "Re-assessment within the current cycle"
       ],
@@ -277,6 +281,59 @@
       "name": "Farah",
       "role": "Regular customer \u00b7 Kota Kinabalu",
       "initials": "FA"
+    }
+  ],
+  "packages": [
+    {
+      "name": "Basic",
+      "price": "Free",
+      "priceNote": "For every small vendor",
+      "description": "For small vendors who want basic protection and access.",
+      "features": [
+        "Directory of nearby halal suppliers",
+        "Weekly food-safety and halal reminders",
+        "Basic halal food-handling guide",
+        "Tips to prevent cross-contamination",
+        "Basic consultation through the app or Q&A",
+        "Halal news and notifications"
+      ],
+      "cta": "Start free",
+      "highlighted": false
+    },
+    {
+      "name": "Premium",
+      "price": "RM30",
+      "priceNote": "Once-off \u00b7 starter kit",
+      "description": "For vendors ready to manage their operation more carefully.",
+      "features": [
+        "Everything in Basic",
+        "Halal Starter Kit",
+        "Colour-coded cutting boards by raw-material category",
+        "Storage and packaging labels",
+        "Premises hygiene monitoring checklist",
+        "Purchase record book and supplier details",
+        "Mentoring session with a halal consultant",
+        "Self-assessment of food-handling practice"
+      ],
+      "cta": "Choose Premium",
+      "highlighted": true
+    },
+    {
+      "name": "Pro / Biz",
+      "price": "RM60\u201380",
+      "priceNote": "Per month \u00b7 suggested",
+      "description": "For vendors who want fuller guidance and monitoring.",
+      "features": [
+        "Everything in Premium",
+        "Scheduled premises monitoring visits",
+        "Halal and hygiene self-audit",
+        "Help organising documentation and raw-material records",
+        "Guidance on applying for halal certification",
+        "Priority access to the supplier directory",
+        "Periodic growth assessment and improvement recommendations"
+      ],
+      "cta": "Talk to a consultant",
+      "highlighted": false
     }
   ]
 }

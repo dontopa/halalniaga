@@ -122,6 +122,42 @@ const dictionary: Record<string, string> = {
   '{product} recorded — this supplier is not verified, so it will not earn sourcing credit.':
     '{product} direkodkan. Pembekal ini tidak disahkan, jadi pembelian tidak akan mendapat kredit perolehan.',
   'Purchase': 'Pembelian',
+  'From the directory': 'Daripada direktori',
+  'Key in a new supplier': 'Key in pembekal baharu',
+  'Use this when the shop is not in the directory. A photo of the invoice or the halal stamp helps the programme review it.':
+    'Guna pilihan ini apabila kedai tiada dalam direktori. Gambar invois atau cap halal membantu program menyemaknya.',
+  'Supplier name': 'Nama pembekal',
+  'e.g. Kedai Ayam Acen': 'cth. Kedai Ayam Acen',
+  'Area': 'Kawasan',
+  'Address (optional)': 'Alamat (pilihan)',
+  'Shop or market stall': 'Kedai atau gerai pasar',
+  'Product name': 'Nama produk',
+  'e.g. Fresh chicken': 'cth. Ayam segar',
+  'Category': 'Kategori',
+  'Unit': 'Unit',
+  'kg': 'kg',
+  'Price per unit (RM)': 'Harga seunit (RM)',
+  'Save supplier and purchase': 'Simpan pembekal dan pembelian',
+  'New supplier recorded — waiting for programme review.':
+    'Pembekal baharu direkodkan — menunggu semakan program.',
+  'Invoice or halal-stamp photo (optional)':
+    'Gambar invois atau cap halal (pilihan)',
+  'Stored on this device and visible on your public record for monitoring.':
+    'Disimpan pada peranti ini dan dipaparkan pada rekod awam untuk pemantauan.',
+  'Purchase evidence preview': 'Pratonton bukti pembelian',
+  'Remove photo': 'Buang gambar',
+  'Add photo': 'Tambah gambar',
+  'Compressing photo…': 'Memampatkan gambar…',
+  'Could not read that photo. Try a JPG or PNG.':
+    'Gambar itu tidak dapat dibaca. Cuba JPG atau PNG.',
+  'Halal stamp on the packaging': 'Cap halal pada bungkusan',
+  'Tick this if the packaging carries a halal stamp. The programme still reviews the supplier before it counts as verified.':
+    'Tandakan jika bungkusan ada cap halal. Program tetap menyemak pembekal sebelum ia dikira disahkan.',
+  'New supplier · pending review': 'Pembekal baharu · menunggu semakan',
+  'Evidence': 'Bukti',
+  'View evidence': 'Lihat bukti',
+  'Purchase evidence': 'Bukti pembelian',
+  'Added by vendor · pending review': 'Ditambah oleh peniaga · menunggu semakan',
 
   // Public vendor record
   'Record not found': 'Rekod tidak ditemui',

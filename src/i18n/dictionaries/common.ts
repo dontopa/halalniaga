@@ -39,9 +39,11 @@ const dictionary: Record<string, string> = {
   Learner: 'Pelajar',
   Verified: 'Disahkan',
   Monitored: 'Dipantau',
-  'HALALNiaga Learner': 'Pelajar HALALNiaga',
-  'HALALNiaga Verified Participant': 'Peserta Disahkan HALALNiaga',
-  'HALALNiaga Monitored Participant': 'Peserta Dipantau HALALNiaga',
+  Participant: 'Peserta',
+  Verification: 'Pengesahan',
+  'HALALNiaga Participant': 'Peserta HALALNiaga',
+  'HALALNiaga Verification': 'Pengesahan HALALNiaga',
+  'HALALNiaga Monitoring': 'Pemantauan HALALNiaga',
   'Core halal training completed and assessed.':
     'Latihan halal teras sudah selesai dan dinilai.',
   'Training, verified sourcing and self-assessment in place.':

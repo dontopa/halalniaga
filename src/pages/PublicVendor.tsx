@@ -26,6 +26,7 @@ import {
   latestAssessment,
 } from '@/domain/compliance';
 import { ASSESSMENT_QUESTIONS, TRAINING_MODULES } from '@/domain/seed';
+import { TIER_META } from '@/domain/types';
 import { useApp } from '@/domain/store';
 import { useT } from '@/i18n';
 import { LanguageToggle } from '@/i18n/LanguageToggle';
@@ -78,7 +79,16 @@ export const PublicVendor = () => {
       const last = [...purchases].sort(
         (a, b) => new Date(b.purchasedAt).getTime() - new Date(a.purchasedAt).getTime(),
       )[0];
-      return { supplier, lastPurchase: last?.purchasedAt ?? null, count: purchases.length };
+      return {
+        supplier,
+        lastPurchase: last?.purchasedAt ?? null,
+        count: purchases.length,
+        evidence: purchases
+          .map((purchase) => purchase.evidencePhoto)
+          .filter((photo): photo is string => Boolean(photo))
+          .slice(0, 3),
+        manual: Boolean(supplier?.manual),
+      };
     })
     .filter((entry) => Boolean(entry.supplier));
   const inspections = [...state.vendor.inspections].sort(
@@ -337,7 +347,7 @@ export const PublicVendor = () => {
                 <TrendingUp className="h-4 w-4 text-forest-700" />
               </div>
               <ul className="divide-y divide-line-soft">
-                {suppliersUsed.map(({ supplier, lastPurchase, count }) => (
+                {suppliersUsed.map(({ supplier, lastPurchase, count, evidence, manual }) => (
                   <li key={supplier!.id} className="px-5 py-3.5">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
@@ -355,6 +365,25 @@ export const PublicVendor = () => {
                         {supplier!.certificateNo ?? t('No certificate on file')}
                       </span>
                     </div>
+                    {manual && (
+                      <div className="mt-1.5 pl-5">
+                        <Badge tone="warning">
+                          {t('Added by vendor · pending review')}
+                        </Badge>
+                      </div>
+                    )}
+                    {evidence.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-2 pl-5">
+                        {evidence.map((photo, index) => (
+                          <img
+                            key={`${supplier!.id}-evidence-${index}`}
+                            src={photo}
+                            alt={t('Purchase evidence')}
+                            className="h-12 w-16 rounded-lg border border-line object-cover"
+                          />
+                        ))}
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -498,7 +527,7 @@ export const PublicVendor = () => {
               </div>
               <dl className="mt-3 space-y-2.5">
                 {[
-                  ['Recognition tier', snapshot.tier === 'monitored' ? t('Monitored participant') : snapshot.tier === 'verified' ? t('Verified participant') : t('Learner')],
+                  ['Recognition tier', t(TIER_META[snapshot.tier].short)],
                   ['Training', t('{completed}/{total} modules', { completed: snapshot.modulesCompleted, total: snapshot.modulesTotal })],
                   ['Verified sourcing', `${snapshot.sourcingPct}%`],
                   ['Self-assessment', assessment ? `${assessment.score}%` : t('Not completed')],

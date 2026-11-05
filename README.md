@@ -154,10 +154,10 @@ score = 0.25 × training% + 0.25 × sourcing%
 
 Recognition tiers are ordered and evidence-based:
 
-1. **Learner** — all six modules passed at 80% or higher.
-2. **Verified participant** — Learner + ≥80% traceable recent purchases + ≥80%
+1. **Participant** — all six modules passed at 80% or higher.
+2. **Verification** — Participant + ≥80% traceable recent purchases + ≥80%
    self-assessment within 90 days.
-3. **Monitored participant** — Verified + a passing programme inspection within
+3. **Monitoring** — Verification + a passing programme inspection within
    180 days.
 
 Tiers expire with their evidence. A vendor can be Verified and still score below

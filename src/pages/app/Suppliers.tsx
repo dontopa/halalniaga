@@ -27,6 +27,7 @@ import {
 } from '@/components/ui';
 import { StatusBadge } from '@/components/badges';
 import { PurchaseModal } from '@/components/app/PurchaseModal';
+import { SupplierMap } from '@/components/app/SupplierMap';
 import { PageHeader } from '@/components/app/shared';
 import { daysUntil, formatDate } from '@/domain/compliance';
 import { useApp } from '@/domain/store';
@@ -84,6 +85,7 @@ export const Suppliers = () => {
   const [wetOnly, setWetOnly] = useState(searchParams.get('wet') === '1');
   const [sortBy, setSortBy] = useState<'nearest' | 'rating' | 'name'>('nearest');
   const [selected, setSelected] = useState<Supplier | null>(null);
+  const [mapSelectedId, setMapSelectedId] = useState<string | undefined>();
   const [purchaseOpen, setPurchaseOpen] = useState(false);
   const [purchaseSupplier, setPurchaseSupplier] = useState<string | undefined>();
 
@@ -275,6 +277,15 @@ export const Suppliers = () => {
         </div>
       </Card>
 
+      <div className="mb-4">
+        <SupplierMap
+          suppliers={sorted}
+          selectedId={mapSelectedId}
+          onSelect={(supplier) => setMapSelectedId(supplier.id)}
+          onDetails={(supplier) => setSelected(supplier)}
+        />
+      </div>
+
       {sorted.length === 0 ? (
         <EmptyState
           icon={<Store className="h-5 w-5" />}
@@ -389,7 +400,14 @@ export const Suppliers = () => {
                     </span>
                   </div>
                   <div className="flex gap-1.5">
-                    <Button variant="secondary" size="sm" onClick={() => setSelected(supplier)}>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => {
+                        setSelected(supplier);
+                        setMapSelectedId(supplier.id);
+                      }}
+                    >
                       {t('Details')}
                     </Button>
                     <Button size="sm" onClick={() => openPurchase(supplier.id)}>

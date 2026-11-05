@@ -5,6 +5,17 @@ const dictionary: Record<string, string> = {
   'Search nearby suppliers of fresh wet ingredients — poultry, meat, seafood, produce, dairy and eggs — or broaden to dry goods. Certification status is shown at product level, because a company certificate does not automatically cover every item it sells.':
     'Cari pembekal berdekatan untuk bahan basah segar seperti ayam, daging, makanan laut, hasil segar, tenusu dan telur, atau luaskan carian kepada barang kering. Status pensijilan dipaparkan pada tahap produk kerana sijil syarikat tidak semestinya merangkumi setiap barang yang dijual.',
   'Record purchase': 'Rekod pembelian',
+  'Supplier map': 'Peta pembekal',
+  'Nearby shops for raw ingredients, pinned by area.':
+    'Kedai berdekatan untuk bahan mentah, ditanda mengikut kawasan.',
+  'Illustrative map': 'Peta ilustratif',
+  'Map pin for {name}': 'Penanda peta untuk {name}',
+  'Sabah · illustrative': 'Sabah · ilustratif',
+  'Open in Google Maps': 'Buka dalam Google Maps',
+  'View supplier details': 'Lihat butiran pembekal',
+  'Select a pin to see the shop and open directions.':
+    'Pilih penanda untuk melihat kedai dan membuka arah.',
+  '{distance} km from your stall': '{distance} km dari gerai anda',
   Certified: 'Diperakui',
   'Verified sources': 'Sumber disahkan',
   'Pending checks': 'Menunggu semakan',

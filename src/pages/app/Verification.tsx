@@ -117,10 +117,10 @@ export const Verification = () => {
     ctx.fillText(
       t(
         snapshot.tier === 'monitored'
-          ? 'MONITORED PARTICIPANT'
+          ? 'MONITORING'
           : snapshot.tier === 'verified'
-            ? 'VERIFIED PARTICIPANT'
-            : 'LEARNER PARTICIPANT',
+            ? 'VERIFICATION'
+            : 'PARTICIPANT',
       ),
       450,
       900,

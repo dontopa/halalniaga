@@ -58,6 +58,7 @@ content:
         label: Problem cards
         type: object
         list: { min: 6, max: 6 }
+        hint: Keep the client order — suppliers, wet ingredients, knowledge, certification, records, cross-contamination. Numbers run 01–06.
         fields:
           - name: number
             label: Number
@@ -111,8 +112,8 @@ content:
       - name: steps
         label: How it works
         type: object
-        list: { min: 5, max: 5 }
-        hint: Keep the five steps in order; icons are assigned by position.
+        list: { min: 6, max: 6 }
+        hint: Keep the six steps in order — briefing, registration, training, sourcing, assessment, recognition. Icons are assigned by position.
         fields:
           - name: title
             label: Title
@@ -124,7 +125,7 @@ content:
         label: Recognition tiers
         type: object
         list: { min: 3, max: 3 }
-        hint: Keep the order Learner, Verified, Monitored.
+        hint: Keep the order Participant, Verification, Monitoring.
         fields:
           - name: title
             label: Title
@@ -162,6 +163,34 @@ content:
           - name: benefit
             label: Benefit
             type: text
+      - name: packages
+        label: Packages (section 08)
+        type: object
+        list: { min: 3, max: 3 }
+        hint: Basic, Premium and Pro/Biz. Prices are suggested pilot prices.
+        fields:
+          - name: name
+            label: Name
+            type: string
+          - name: price
+            label: Price
+            type: string
+          - name: priceNote
+            label: Price note
+            type: string
+          - name: description
+            label: Description
+            type: text
+          - name: features
+            label: Features
+            type: string
+            list: true
+          - name: cta
+            label: Button label
+            type: string
+          - name: highlighted
+            label: Highlight this package
+            type: boolean
       - name: personas
         label: Design personas
         type: object

@@ -88,10 +88,10 @@ monitoring component of the score.
 
 A programme credential. Ordered, non-skippable:
 
-1. **Learner** — all six modules passed.
-2. **Verified participant** — Learner + ≥80% traceable recent purchases + ≥80%
+1. **Participant** — all six modules passed.
+2. **Verification** — Participant + ≥80% traceable recent purchases + ≥80%
    self-assessment within 90 days.
-3. **Monitored participant** — Verified + a passing inspection within 180 days.
+3. **Monitoring** — Verification + a passing inspection within 180 days.
 
 Tiers expire when their underlying evidence expires. A tier is never described
 as "halal certified".

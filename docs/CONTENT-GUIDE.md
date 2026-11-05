@@ -108,9 +108,10 @@ purchases. You can edit their names, prices and statuses safely.
 These lists map to icons or tiers by position:
 
 - Six module cards (keep the six module IDs unchanged).
-- Five “How it works” steps.
-- Three recognition tiers: Learner → Verified → Monitored.
+- Six “How it works” steps (briefing first).
+- Three recognition tiers: Participant → Verification → Monitoring.
 - Five beneficiary cards.
+- Three packages (Basic, Premium, Pro/Biz) shown as section 08.
 
 You can edit the text, but do not reorder or add items.
 

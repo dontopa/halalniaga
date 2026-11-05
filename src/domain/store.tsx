@@ -16,8 +16,12 @@ import {
 } from './seed';
 import type {
   AppState,
+  Area,
   AssessmentValue,
+  Product,
   Purchase,
+  Supplier,
+  SupplierCategory,
   TrainingProgress,
 } from './types';
 
@@ -56,6 +60,24 @@ interface AppContextValue {
     productId: string;
     quantity: number;
     receiptNo?: string;
+    purchasedAt?: string;
+    evidencePhoto?: string;
+    halalStampSeen?: boolean;
+    sourceNote?: string;
+  }) => void;
+  addManualPurchase: (input: {
+    supplierName: string;
+    area: Area;
+    address: string;
+    productName: string;
+    category: SupplierCategory;
+    unit: string;
+    price: number;
+    quantity: number;
+    receiptNo?: string;
+    evidencePhoto?: string;
+    halalStampSeen?: boolean;
+    sourceNote?: string;
   }) => void;
   submitAssessment: (answers: Record<string, AssessmentValue>) => number;
   dismissAlert: (alertId: string) => void;
@@ -114,6 +136,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       productId: string;
       quantity: number;
       receiptNo?: string;
+      purchasedAt?: string;
+      evidencePhoto?: string;
+      halalStampSeen?: boolean;
+      sourceNote?: string;
     }) => {
       setState((current) => {
         const supplier = current.suppliers.find(
@@ -131,7 +157,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
           quantity: input.quantity,
           unit: product.unit,
           amount: Math.round(product.price * input.quantity * 100) / 100,
-          purchasedAt: now.toISOString(),
+          purchasedAt: input.purchasedAt ?? now.toISOString(),
           receiptNo:
             input.receiptNo?.trim() ||
             `HN-${now.toISOString().slice(0, 10).replace(/-/g, '')}-${String(
@@ -139,9 +165,108 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             ).padStart(3, '0')}`,
           verifiedSource:
             supplier.status === 'certified' || supplier.status === 'verified',
+          evidencePhoto: input.evidencePhoto,
+          halalStampSeen: input.halalStampSeen,
+          sourceNote: input.sourceNote,
         };
         return {
           ...current,
+          purchases: [purchase, ...current.purchases],
+        };
+      });
+    },
+    [],
+  );
+
+  const addManualPurchase = useCallback(
+    (input: {
+      supplierName: string;
+      area: Area;
+      address: string;
+      productName: string;
+      category: SupplierCategory;
+      unit: string;
+      price: number;
+      quantity: number;
+      receiptNo?: string;
+      evidencePhoto?: string;
+      halalStampSeen?: boolean;
+      sourceNote?: string;
+    }) => {
+      setState((current) => {
+        const now = new Date();
+        const stamp = now.getTime();
+        const supplierName = input.supplierName.trim();
+        const productName = input.productName.trim();
+        if (!supplierName || !productName) return current;
+
+        const existingSupplier = current.suppliers.find(
+          (supplier) =>
+            supplier.manual &&
+            supplier.area === input.area &&
+            supplier.name.toLowerCase() === supplierName.toLowerCase(),
+        );
+        const supplier: Supplier = existingSupplier ?? {
+          id: `sup-manual-${stamp}`,
+          name: supplierName,
+          shortName: supplierName.slice(0, 22),
+          area: input.area,
+          address: input.address.trim() || input.area,
+          categories: [input.category],
+          distanceKm: 0,
+          status: 'pending',
+          certificateNo: null,
+          issuedOn: null,
+          validUntil: null,
+          rating: 0,
+          reviewCount: 0,
+          tags: ['Added by vendor'],
+          accent: '#8a6a3f',
+          manual: true,
+          sourceNote: input.sourceNote,
+        };
+        const existingProduct = current.products.find(
+          (item) =>
+            item.supplierId === supplier.id &&
+            item.name.toLowerCase() === productName.toLowerCase(),
+        );
+        const product: Product = existingProduct ?? {
+          id: `prd-manual-${stamp}`,
+          supplierId: supplier.id,
+          name: productName,
+          category: input.category,
+          unit: input.unit,
+          price: input.price,
+          halalStatus: 'pending',
+          barcode: '',
+          certificateRef: null,
+        };
+        const purchase: Purchase = {
+          id: `pur-${stamp}`,
+          supplierId: supplier.id,
+          productId: product.id,
+          quantity: input.quantity,
+          unit: input.unit,
+          amount: Math.round(input.price * input.quantity * 100) / 100,
+          purchasedAt: now.toISOString(),
+          receiptNo:
+            input.receiptNo?.trim() ||
+            `HN-${now.toISOString().slice(0, 10).replace(/-/g, '')}-${String(
+              current.purchases.length + 1,
+            ).padStart(3, '0')}`,
+          verifiedSource: false,
+          evidencePhoto: input.evidencePhoto,
+          halalStampSeen: input.halalStampSeen,
+          sourceNote: input.sourceNote,
+        };
+        return {
+          ...current,
+          suppliers: existingSupplier
+            ? current.suppliers
+            : [supplier, ...current.suppliers],
+          products: existingProduct
+            ? current.products
+            : [product, ...current.products],
           purchases: [purchase, ...current.purchases],
         };
       });
@@ -269,6 +394,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       state,
       completeQuiz,
       addPurchase,
+      addManualPurchase,
       submitAssessment,
       dismissAlert,
       toggleSavedSupplier,
@@ -281,6 +407,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       state,
       completeQuiz,
       addPurchase,
+      addManualPurchase,
       submitAssessment,
       dismissAlert,
       toggleSavedSupplier,

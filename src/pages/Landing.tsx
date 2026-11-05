@@ -16,6 +16,7 @@ import {
   Leaf,
   MapPin,
   Menu,
+  MessagesSquare,
   MessageSquareQuote,
   PackageCheck,
   QrCode,
@@ -207,7 +208,7 @@ const tiers = siteContent.tiers.map((tier, index) => ({
   level: `Tier ${index + 1}`,
 }));
 
-const stepIcons = [Store, GraduationCap, Truck, ClipboardCheck, QrCode];
+const stepIcons = [MessagesSquare, Store, GraduationCap, Truck, ClipboardCheck, QrCode];
 
 const steps = siteContent.steps.map((step, index) => ({
   ...step,
@@ -304,6 +305,7 @@ const navLinks = [
   { href: '#problem', label: 'The problem' },
   { href: '#modules', label: 'Modules' },
   { href: '#trust', label: 'Trust model' },
+  { href: '#packages', label: 'Packages' },
   { href: '#pilot', label: 'Sabah pilot' },
 ];
 
@@ -530,14 +532,14 @@ export const Landing = () => {
                   <span className="italic text-forest-700">{t('evidence.')}</span>
                 </>
               }
-              lead="Most small vendors want to do the right thing. What they lack is a practical way to prove what they already do — and a clear next step when something is missing."
+              lead="Most small vendors mean well. What they lack is a practical way to prove the work they have already done, and a clear next step when something goes wrong."
             />
             <div className="mt-8 rounded-2xl border border-gold-500/25 bg-gold-100/40 p-5">
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold-700">
                 {t('The design stance')}
               </p>
               <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
-                {t('Do not ask a vendor to become an administrator. Build the record from the work they already do — buying, cooking, cleaning, serving.')}
+                {t('Vendors should not be burdened with administration. Build the record from the work they already do: buying, cooking, cleaning and serving.')}
               </p>
             </div>
           </Reveal>
@@ -593,8 +595,8 @@ export const Landing = () => {
                 },
                 {
                   icon: Users,
-                  title: 'Guidance & monitoring',
-                  body: 'Train, advise, inspect and recognise along a clear ladder.',
+                  title: 'Halal consultant',
+                  body: 'Brief, train, advise, inspect and recognise along a clear ladder.',
                 },
               ].map((party) => (
                 <div
@@ -900,11 +902,11 @@ export const Landing = () => {
           <SectionHead
             index="03"
             eyebrow="How it works"
-            title={t('Five steps, built into the working day.')}
+            title={t('Six steps, built into the working day.')}
             lead="No new paperwork ritual. Each step adds a small amount of evidence to a record that compounds over time."
           />
         </Reveal>
-        <div className="mt-12 grid gap-4 md:grid-cols-5">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           {steps.map((step, index) => (
             <Reveal key={step.title} delay={index * 70}>
               <div className="relative flex h-full flex-col rounded-2xl border border-line bg-ivory p-5">
@@ -1424,6 +1426,86 @@ export const Landing = () => {
       </div>
     </section>
 
+    {/* Packages ------------------------------------------------------------ */}
+    <section id="packages" className="scroll-mt-24 bg-ivory py-20 lg:py-28">
+      <div className="container-page">
+        <Reveal>
+          <SectionHead
+            index="08"
+            eyebrow="The packages"
+            title={t('Start with what fits the stall.')}
+            lead="Every package begins with an online briefing and a step-by-step walkthrough by screen share. These are suggested pilot prices — small vendors stay the focus."
+          />
+        </Reveal>
+        <div className="mt-12 grid gap-4 lg:grid-cols-3">
+          {siteContent.packages.map((pkg, index) => (
+            <Reveal key={pkg.name} delay={index * 80}>
+              <Card
+                className={cn(
+                  'relative flex h-full flex-col overflow-hidden p-0',
+                  pkg.highlighted && 'border-gold-500/40',
+                )}
+              >
+                <div
+                  className={cn(
+                    'px-6 py-5',
+                    pkg.highlighted ? 'bg-gold-100/60' : 'bg-forest-50/70',
+                  )}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-3">
+                        {t('Package')} 0{index + 1}
+                      </p>
+                      <h3 className="mt-2 font-display text-2xl tracking-[-0.03em] text-ink">
+                        {t(pkg.name)}
+                      </h3>
+                    </div>
+                    {pkg.highlighted && <Badge tone="gold">{t('Recommended')}</Badge>}
+                  </div>
+                  <p className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <span className="font-display text-3xl tracking-[-0.02em] text-ink">
+                      {t(pkg.price)}
+                    </span>
+                    <span className="text-[11px] text-ink-3">{t(pkg.priceNote)}</span>
+                  </p>
+                </div>
+
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="text-[12.5px] leading-relaxed text-ink-3">
+                    {t(pkg.description)}
+                  </p>
+                  <ul className="mt-5 flex-1 space-y-2.5">
+                    {pkg.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex items-start gap-2 text-[12px] leading-relaxed text-ink-2"
+                      >
+                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest-600" />
+                        {t(feature)}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    to="/app"
+                    className={cn(
+                      buttonClass(pkg.highlighted ? 'primary' : 'secondary', 'md'),
+                      'mt-6 w-full justify-center',
+                    )}
+                  >
+                    {t(pkg.cta)}
+                  </Link>
+                </div>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-[11px] text-ink-3">
+          {t('Package details are explained in the briefing session.')}
+        </p>
+      </div>
+    </section>
+
     {/* Personas ------------------------------------------------------------ */}
     <section className="bg-ivory py-20 lg:py-24">
       <div className="container-page">
@@ -1549,6 +1631,7 @@ export const Landing = () => {
               <li><a href="#modules" className="hover:text-forest-800">{t('Modules')}</a></li>
               <li><a href="#how" className="hover:text-forest-800">{t('How it works')}</a></li>
               <li><a href="#trust" className="hover:text-forest-800">{t('Trust model')}</a></li>
+              <li><a href="#packages" className="hover:text-forest-800">{t('Packages')}</a></li>
               <li><a href="#wet" className="hover:text-forest-800">{t('Wet-ingredient sourcing')}</a></li>
               <li><a href="#pwa" className="hover:text-forest-800">{t('PWA prototype')}</a></li>
             </ul>

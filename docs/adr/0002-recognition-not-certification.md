@@ -17,8 +17,8 @@ programme to legal and reputational risk.
 The programme issues **recognition**, never certification:
 
 - Training completion → certificate of completion (programme document).
-- Sourcing and assessment → Verified participant badge and QR record.
-- Inspection and re-assessment → Monitored participant badge.
+- Sourcing and assessment → Verification badge and QR record.
+- Inspection and re-assessment → Monitoring badge.
 
 Every tier, badge and public record states, in plain language, that it is not a
 Malaysian halal certificate and does not replace SPHM. The Malaysian halal logo

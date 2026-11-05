@@ -49,6 +49,7 @@ import {
   relativeDate,
 } from '@/domain/compliance';
 import { ASSESSMENT_QUESTIONS, TRAINING_MODULES } from '@/domain/seed';
+import { TIER_META } from '@/domain/types';
 import { useApp } from '@/domain/store';
 import { useT, useLang } from '@/i18n';
 import { dateLocale } from '@/i18n/lang';
@@ -259,21 +260,12 @@ export const Dashboard = () => {
         />
         <StatCard
           label={t('Recognition tier')}
-          value={
-            snapshot.tier === 'monitored'
-              ? t('Monitored')
-              : snapshot.tier === 'verified'
-                ? t('Verified')
-                : t('Learner')
-          }
+          value={t(TIER_META[snapshot.tier].short)}
           hint={
             snapshot.nextTier
               ? t('{percent}% toward {tier}', {
                   percent: snapshot.tierProgress,
-                  tier:
-                    snapshot.nextTier === 'monitored'
-                      ? t('Monitored')
-                      : t('Verified'),
+                  tier: t(TIER_META[snapshot.nextTier].short),
                 })
               : t('Highest programme tier achieved.')
           }

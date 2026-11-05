@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import {
   ArrowDownToLine,
+  Camera,
   CheckCircle2,
   CircleDashed,
   FileText,
@@ -18,6 +19,7 @@ import {
   CardHeader,
   EmptyState,
   Input,
+  Modal,
   Progress,
   Select,
 } from '@/components/ui';
@@ -35,6 +37,7 @@ export const Purchases = () => {
   const [query, setQuery] = useState('');
   const [supplierFilter, setSupplierFilter] = useState('all');
   const [modalOpen, setModalOpen] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const supplierName = (id: string) =>
     state.suppliers.find((supplier) => supplier.id === id)?.shortName ?? '—';
@@ -105,6 +108,7 @@ export const Purchases = () => {
       t('Quantity'),
       t('Unit'),
       t('Receipt'),
+      t('Evidence'),
       t('Verified source'),
       t('Amount (MYR)'),
     ];
@@ -121,6 +125,7 @@ export const Purchases = () => {
         purchase.quantity,
         t(purchase.unit),
         purchase.receiptNo,
+        purchase.evidencePhoto ? t('Yes') : t('No'),
         purchase.verifiedSource ? t('Yes') : t('No'),
         purchase.amount.toFixed(2),
       ]);
@@ -256,6 +261,7 @@ export const Purchases = () => {
                   <th className="px-5 py-3 font-medium">{t('Product')}</th>
                   <th className="px-3 py-3 font-medium">{t('Supplier')}</th>
                   <th className="px-3 py-3 font-medium">{t('Receipt')}</th>
+                  <th className="px-3 py-3 font-medium">{t('Evidence')}</th>
                   <th className="px-3 py-3 font-medium">{t('Source')}</th>
                   <th className="px-3 py-3 text-right font-medium">{t('Amount')}</th>
                   <th className="px-5 py-3 text-right font-medium">{t('Date')}</th>
@@ -280,6 +286,25 @@ export const Purchases = () => {
                     </td>
                     <td className="px-3 py-3.5 font-mono text-[10px] text-ink-3">
                       {purchase.receiptNo}
+                    </td>
+                    <td className="px-3 py-3.5">
+                      {purchase.evidencePhoto ? (
+                        <button
+                          type="button"
+                          onClick={() => setPhotoPreview(purchase.evidencePhoto!)}
+                          className="group relative inline-flex items-center gap-1.5 rounded-md border border-line bg-paper px-1.5 py-1 text-[9.5px] text-ink-3 hover:border-forest-300 hover:text-forest-800"
+                          title={t('View evidence')}
+                        >
+                          <img
+                            src={purchase.evidencePhoto}
+                            alt=""
+                            className="h-7 w-7 rounded object-cover"
+                          />
+                          <Camera className="h-3 w-3" />
+                        </button>
+                      ) : (
+                        <span className="text-[10px] text-ink-3">—</span>
+                      )}
                     </td>
                     <td className="px-3 py-3.5">
                       {purchase.verifiedSource ? (
@@ -405,6 +430,20 @@ export const Purchases = () => {
       </div>
 
       <PurchaseModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <Modal
+        open={Boolean(photoPreview)}
+        onClose={() => setPhotoPreview(null)}
+        title={t('Purchase evidence')}
+        size="lg"
+      >
+        {photoPreview && (
+          <img
+            src={photoPreview}
+            alt={t('Purchase evidence')}
+            className="w-full rounded-xl border border-line bg-paper object-contain"
+          />
+        )}
+      </Modal>
       <Toast toast={toast} onClose={clear} />
     </>
   );

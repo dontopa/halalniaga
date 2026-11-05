@@ -17,8 +17,8 @@ const dictionary: Record<string, string> = {
   'Designed in short blocks that fit between prep and service.':
     'Direka dalam blok pendek yang muat antara persediaan dan penghidangan.',
   Recognition: 'Pengiktirafan',
-  'Complete all six modules with 80%+ to qualify for the Learner tier.':
-    'Selesaikan keenam-enam modul dengan 80%+ untuk layak ke tahap Pelajar.',
+  'Complete all six modules with 80%+ to qualify for the Participant tier.':
+    'Selesaikan keenam-enam modul dengan 80%+ untuk layak ke tahap Peserta.',
   'Your completion record is attached to the vendor QR profile and reviewed during inspection.':
     'Rekod penyelesaian anda dilampirkan pada profil QR peniaga dan disemak semasa pemeriksaan.',
   'Course modules': 'Modul kursus',
@@ -132,9 +132,9 @@ const dictionary: Record<string, string> = {
   'HALALNIAGA · SABAH PILOT': 'HALALNIAGA · PERINTIS SABAH',
   'Scan to verify': 'Imbas untuk pengesahan',
   'the programme record behind the food': 'rekod program di sebalik makanan',
-  'MONITORED PARTICIPANT': 'PESERTA DIPANTAU',
-  'VERIFIED PARTICIPANT': 'PESERTA DISAHKAN',
-  'LEARNER PARTICIPANT': 'PELAJAR',
+  'MONITORING': 'PEMANTAUAN',
+  'VERIFICATION': 'PENGESAHAN',
+  'PARTICIPANT': 'PESERTA',
   'Programme recognition — not a JAKIM halal certificate.':
     'Pengiktirafan program — bukan sijil halal JAKIM.',
   'Official certification is issued by JAKIM or a recognised state authority.':
@@ -262,6 +262,18 @@ const dictionary: Record<string, string> = {
   'A quick daily and weekly check. Tick what is in place; note what needs fixing.':
     'Semakan pantas harian dan mingguan. Tandakan yang sudah dilaksanakan; catat yang perlu dibaiki.',
   'Print & reuse': 'Cetak & guna semula',
+  'Weekly routine': 'Rutin mingguan',
+  'The kit only works if it is used every week. Keep it in the chiller and take it out at the next monitoring visit.':
+    'Kit ini hanya berguna jika digunakan setiap minggu. Simpan di dalam peti sejuk dan keluarkan semasa lawatan pemantauan seterusnya.',
+  'Every week': 'Setiap minggu',
+  'Check labels, dates and the last seven days of purchase records.':
+    'Semak label, tarikh dan rekod pembelian tujuh hari terakhir.',
+  'Replace any label that has faded or fallen off.':
+    'Ganti mana-mana label yang pudar atau tercabut.',
+  'Store the kit in the chiller, in a labelled folder or box.':
+    'Simpan kit di dalam peti sejuk, dalam fail atau kotak berlabel.',
+  'At monitoring, the officer checks the last four weeks against this kit.':
+    'Semasa pemantauan, pegawai menyemak empat minggu terakhir berdasarkan kit ini.',
   'Hands washed and apron clean before prep.':
     'Tangan dibasuh dan apron bersih sebelum penyediaan.',
   'Raw and cooked food use separate boards and knives.':
