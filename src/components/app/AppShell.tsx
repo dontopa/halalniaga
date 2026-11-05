@@ -1,30 +1,33 @@
-import { useEffect, useState, type ReactNode } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Activity,
+  AlertTriangle,
+  ArrowRight,
   ArrowUpRight,
   Bell,
   ClipboardCheck,
   Download,
   GraduationCap,
+  Info,
   LayoutDashboard,
   LifeBuoy,
+  LogOut,
   Menu,
   MessagesSquare,
   PackageOpen,
   QrCode,
   ReceiptText,
-  RotateCcw,
   ScanBarcode,
   Store,
+  UserRound,
   X,
 } from 'lucide-react';
 import { Wordmark } from '@/components/Logo';
 import { TierBadge } from '@/components/badges';
-import { Badge, Progress } from '@/components/ui';
+import { Badge } from '@/components/ui';
 import { openInstallHelp } from '@/components/pwa/PwaExperience';
 import { ASSESSMENT_QUESTIONS } from '@/domain/seed';
-import { TIER_META } from '@/domain/types';
 import { deriveAlerts, getCompliance } from '@/domain/compliance';
 import { useApp } from '@/domain/store';
 import { LanguageToggle } from '@/i18n/LanguageToggle';
@@ -133,54 +136,79 @@ const VendorCard = () => {
   const t = useT();
   const snapshot = getCompliance(state, ASSESSMENT_QUESTIONS);
   return (
-    <div className="rounded-2xl border border-line bg-paper p-4">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-forest-800 font-display text-sm text-gold-300">
+    <div className="rounded-xl border border-line bg-paper p-3">
+      <div className="flex items-center gap-2.5">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-forest-800 font-display text-[11px] text-gold-300">
           {state.vendor.owner
             .split(' ')
             .slice(0, 2)
             .map((part) => part[0])
             .join('')}
         </div>
-        <div className="min-w-0">
-          <p className="truncate text-[13px] font-semibold text-ink">
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-[12.5px] font-semibold leading-tight text-ink">
             {state.vendor.name}
           </p>
-          <p className="truncate text-[11px] text-ink-3">{state.vendor.area}</p>
+          <p className="truncate text-[10px] text-ink-3">{state.vendor.area}</p>
         </div>
-      </div>
-      <div className="mt-3 flex items-center justify-between gap-2">
-        <TierBadge tier={snapshot.tier} />
-        <span className="font-mono text-[11px] text-ink-3">
+        <span className="shrink-0 font-mono text-[10px] text-ink-3">
           {snapshot.score}/100
         </span>
       </div>
-      <div className="mt-3">
-        <Progress value={snapshot.score} tone={snapshot.tier === 'monitored' ? 'gold' : 'forest'} label={t('Compliance score')} />
+      <div className="mt-2 flex items-center justify-between gap-2">
+        <TierBadge tier={snapshot.tier} />
+        <span className="text-[9.5px] text-ink-3">
+          {t('Compliance record')}
+        </span>
       </div>
-      <p className="mt-2 text-[10.5px] leading-relaxed text-ink-3">
-        {snapshot.nextTier
-          ? t('{progress}% toward {tier}', {
-              progress: snapshot.tierProgress,
-              tier: t(TIER_META[snapshot.nextTier].short),
-            })
-          : t('Fully monitored participant')}
-      </p>
     </div>
   );
 };
 
 export const AppShell = ({ children }: { children: ReactNode }) => {
-  const { state, resetDemo } = useApp();
+  const { state } = useApp();
   const t = useT();
   const location = useLocation();
+  const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [alertsOpen, setAlertsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const actionsRef = useRef<HTMLDivElement>(null);
   const alerts = deriveAlerts(state);
   const title = t(titles[location.pathname] ?? 'Workspace');
+  const ownerInitials = state.vendor.owner
+    .split(' ')
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('');
 
   useEffect(() => {
     setDrawerOpen(false);
+    setAlertsOpen(false);
+    setProfileOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (!alertsOpen && !profileOpen) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (!actionsRef.current?.contains(event.target as Node)) {
+        setAlertsOpen(false);
+        setProfileOpen(false);
+      }
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setAlertsOpen(false);
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [alertsOpen, profileOpen]);
 
   useEffect(() => {
     if (!drawerOpen) return;
@@ -219,13 +247,6 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
             >
               {t('Back to website')} <ArrowUpRight className="h-3 w-3" />
             </Link>
-            <button
-              type="button"
-              onClick={resetDemo}
-              className="inline-flex w-fit cursor-pointer items-center gap-1 text-[11.5px] text-ink-3 transition-colors hover:text-clay"
-            >
-              <RotateCcw className="h-3 w-3" /> {t('Reset demo')}
-            </button>
           </div>
         </div>
       </aside>
@@ -267,14 +288,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
               >
                 <Download className="h-3.5 w-3.5" /> {t('Install app')}
               </button>
-              <div className="flex items-center justify-between gap-2">
-                <button
-                  type="button"
-                  onClick={resetDemo}
-                  className="inline-flex cursor-pointer items-center gap-1 px-1 text-[11.5px] text-ink-3 hover:text-clay"
-                >
-                  <RotateCcw className="h-3 w-3" /> {t('Reset demo data')}
-                </button>
+              <div className="flex items-center justify-end gap-2">
                 <LanguageToggle />
               </div>
             </div>
@@ -303,25 +317,157 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
               </h1>
             </div>
           </div>
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div ref={actionsRef} className="flex items-center gap-2 sm:gap-3">
             <LanguageToggle showIcon={false} />
             <Badge tone="gold" className="hidden xl:inline-flex">
               {t('Programme recognition — not a JAKIM certificate')}
             </Badge>
-            <Link
-              to="/app#alerts"
-              className="relative hidden cursor-pointer rounded-full border border-line bg-paper p-2.5 text-ink-2 transition-colors hover:border-forest-200 hover:text-forest-800 sm:inline-flex"
-              aria-label={t('{count} open alerts', { count: alerts.length })}
-            >
-              <Bell className="h-4 w-4" />
-              {alerts.length > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-clay px-1 font-mono text-[9px] text-white">
-                  {alerts.length}
-                </span>
+
+            <div className="relative hidden sm:block">
+              <button
+                type="button"
+                onClick={() => {
+                  setAlertsOpen((open) => !open);
+                  setProfileOpen(false);
+                }}
+                aria-haspopup="menu"
+                aria-expanded={alertsOpen}
+                aria-label={t('{count} open alerts', { count: alerts.length })}
+                className="relative cursor-pointer rounded-full border border-line bg-paper p-2.5 text-ink-2 transition-colors hover:border-forest-200 hover:text-forest-800"
+              >
+                <Bell className="h-4 w-4" />
+                {alerts.length > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-clay px-1 font-mono text-[9px] text-white">
+                    {alerts.length}
+                  </span>
+                )}
+              </button>
+
+              {alertsOpen && (
+                <div
+                  role="menu"
+                  aria-label={t('Alerts')}
+                  className="absolute right-0 top-full z-50 mt-2 w-[330px] overflow-hidden rounded-2xl border border-line bg-ivory shadow-[0_18px_40px_rgba(11,79,60,0.18)]"
+                >
+                  <div className="flex items-center justify-between border-b border-line-soft px-4 py-3">
+                    <p className="text-[12px] font-semibold text-ink">
+                      {t('Alerts')}
+                    </p>
+                    <Badge tone={alerts.length ? 'warning' : 'success'}>
+                      {alerts.length}
+                    </Badge>
+                  </div>
+                  {alerts.length === 0 ? (
+                    <p className="px-4 py-5 text-[11.5px] leading-relaxed text-ink-3">
+                      {t('No open alerts. Your records are current.')}
+                    </p>
+                  ) : (
+                    <ul className="max-h-[320px] divide-y divide-line-soft overflow-y-auto">
+                      {alerts.slice(0, 6).map((alert) => {
+                        const Icon =
+                          alert.severity === 'info' ? Info : AlertTriangle;
+                        const href =
+                          alert.kind === 'assessment'
+                            ? '/app/assessment'
+                            : alert.kind === 'training'
+                              ? '/app/academy'
+                              : '/app/suppliers';
+                        return (
+                          <li key={alert.id}>
+                            <Link
+                              to={href}
+                              onClick={() => setAlertsOpen(false)}
+                              className="flex items-start gap-2.5 px-4 py-3 transition-colors hover:bg-sand/60"
+                            >
+                              <Icon
+                                className={cn(
+                                  'mt-0.5 h-3.5 w-3.5 shrink-0',
+                                  alert.severity === 'critical'
+                                    ? 'text-danger'
+                                    : alert.severity === 'warning'
+                                      ? 'text-warn'
+                                      : 'text-ink-3',
+                                )}
+                              />
+                              <span className="min-w-0">
+                                <span className="block text-[11.5px] font-medium leading-snug text-ink">
+                                  {alert.title}
+                                </span>
+                                <span className="mt-0.5 line-clamp-2 block text-[10px] leading-relaxed text-ink-3">
+                                  {alert.detail}
+                                </span>
+                              </span>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                  <Link
+                    to="/app#alerts"
+                    onClick={() => setAlertsOpen(false)}
+                    className="flex items-center justify-between border-t border-line-soft px-4 py-3 text-[11px] font-medium text-forest-800 transition-colors hover:bg-sand/60"
+                  >
+                    {t('View all alerts')}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
               )}
-            </Link>
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-forest-800 font-display text-[13px] text-gold-300">
-              NH
+            </div>
+
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => {
+                  setProfileOpen((open) => !open);
+                  setAlertsOpen(false);
+                }}
+                aria-haspopup="menu"
+                aria-expanded={profileOpen}
+                aria-label={t('Account menu')}
+                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-forest-800 font-display text-[13px] text-gold-300 ring-offset-2 transition-shadow hover:ring-2 hover:ring-forest-300"
+              >
+                {ownerInitials}
+              </button>
+
+              {profileOpen && (
+                <div
+                  role="menu"
+                  aria-label={t('Account menu')}
+                  className="absolute right-0 top-full z-50 mt-2 w-[264px] overflow-hidden rounded-2xl border border-line bg-ivory shadow-[0_18px_40px_rgba(11,79,60,0.18)]"
+                >
+                  <div className="border-b border-line-soft px-4 py-3">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-ink-3">
+                      {t('Signed in as')}
+                    </p>
+                    <p className="mt-1 text-[12.5px] font-semibold text-ink">
+                      {state.vendor.owner}
+                    </p>
+                    <p className="mt-0.5 text-[10.5px] text-ink-3">
+                      {state.vendor.name} · {state.vendor.area}
+                    </p>
+                  </div>
+                  <Link
+                    to={`/vendor/${state.vendor.qrSlug}`}
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-3 text-[11.5px] text-ink-2 transition-colors hover:bg-sand/60 hover:text-forest-800"
+                  >
+                    <UserRound className="h-3.5 w-3.5 text-ink-3" />
+                    {t('Vendor public profile')}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setProfileOpen(false);
+                      navigate('/signin');
+                    }}
+                    className="flex w-full cursor-pointer items-center gap-2.5 border-t border-line-soft px-4 py-3 text-left text-[11.5px] text-clay transition-colors hover:bg-clay/5"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                    {t('Log out')}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </header>

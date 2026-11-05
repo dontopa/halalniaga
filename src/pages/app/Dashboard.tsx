@@ -318,12 +318,20 @@ export const Dashboard = () => {
             </p>
           </div>
         </div>
-        <Link
-          to="/app/suppliers?wet=1"
-          className="inline-flex shrink-0 items-center gap-1 text-[11.5px] font-medium text-forest-800 hover:underline"
-        >
-          {t('Browse wet ingredients')} <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
+        <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-1">
+          <Link
+            to="/app/suppliers?wet=1"
+            className="inline-flex items-center gap-1 text-[11.5px] font-medium text-forest-800 hover:underline"
+          >
+            {t('Browse wet ingredients')} <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+          <Link
+            to="/app/suppliers#map"
+            className="inline-flex items-center gap-1 text-[11.5px] font-medium text-forest-800 hover:underline"
+          >
+            {t('Supplier map')} <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
       </div>
 
       <div className="mt-4 grid gap-4 xl:grid-cols-3">

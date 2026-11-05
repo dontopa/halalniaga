@@ -10,6 +10,12 @@ const dictionary: Record<string, string> = {
   'Programme recognition — not a JAKIM certificate':
     'Pengiktirafan program, bukan sijil JAKIM',
   '{count} open alerts': '{count} amaran terbuka',
+  'Alerts': 'Amaran',
+  'View all alerts': 'Lihat semua amaran',
+  'Account menu': 'Menu akaun',
+  'Signed in as': 'Log masuk sebagai',
+  'Vendor public profile': 'Profil awam peniaga',
+  'Log out': 'Log keluar',
   'Install app': 'Pasang aplikasi',
   'Back to website': 'Kembali ke laman web',
   'Reset demo': 'Set semula demo',

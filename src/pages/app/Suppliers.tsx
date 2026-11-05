@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -76,6 +76,7 @@ export const Suppliers = () => {
   const t = useT();
   const { state, toggleSavedSupplier } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const [query, setQuery] = useState('');
   const [area, setArea] = useState('All areas');
   const [category, setCategory] = useState<SupplierCategory | 'All categories'>(
@@ -88,6 +89,16 @@ export const Suppliers = () => {
   const [mapSelectedId, setMapSelectedId] = useState<string | undefined>();
   const [purchaseOpen, setPurchaseOpen] = useState(false);
   const [purchaseSupplier, setPurchaseSupplier] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (location.hash !== '#map') return;
+    const timer = window.setTimeout(() => {
+      document
+        .getElementById('map')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [location.hash]);
 
   const areas = useMemo(
     () => ['All areas', ...Array.from(new Set(state.suppliers.map((s) => s.area)))],

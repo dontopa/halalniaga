@@ -75,7 +75,7 @@ export const SupplierMap = ({
     selected && typeof selected.lat === 'number' && selected.lng !== undefined;
 
   return (
-    <Card className="overflow-hidden">
+    <Card id="map" className="scroll-mt-24 overflow-hidden">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line-soft px-5 py-3.5">
         <div>
           <h2 className="text-[13px] font-semibold text-ink">

@@ -167,6 +167,44 @@ const kitText = await page.locator('body').innerText();
 check('weekly routine card', kitText.includes('Rutin mingguan') && kitText.includes('peti sejuk'));
 await page.screenshot({ path: path.join(out, '07-starter-kit-weekly.png'), fullPage: true });
 
+// Dashboard header menus and sidebar
+await page.goto(`${base}/app`, { waitUntil: 'networkidle' });
+await page.waitForTimeout(700);
+const resetCount = await page.getByText('Set semula demo', { exact: false }).count();
+check('reset demo removed', resetCount === 0);
+await page.screenshot({ path: path.join(out, '09-dashboard-sidebar.png') });
+
+await page.locator('button[aria-haspopup="menu"]').first().click();
+await page.waitForTimeout(300);
+const alertsPanel = page.getByRole('menu', { name: 'Amaran' });
+check('alerts panel opens', await alertsPanel.isVisible());
+await page.screenshot({ path: path.join(out, '10-alerts-menu.png') });
+await page.keyboard.press('Escape');
+await page.waitForTimeout(200);
+
+await page.getByRole('link', { name: 'Peta pembekal' }).click();
+await page.waitForTimeout(900);
+const mapBox = await page.locator('#map').boundingBox();
+check(
+  'dashboard map shortcut',
+  page.url().includes('/app/suppliers#map') && Boolean(mapBox),
+  page.url(),
+);
+
+await page.goto(`${base}/app`, { waitUntil: 'networkidle' });
+await page.waitForTimeout(400);
+await page.getByRole('button', { name: 'Menu akaun' }).click();
+await page.waitForTimeout(300);
+const profileText = await page.getByRole('menu', { name: 'Menu akaun' }).innerText();
+check(
+  'profile menu has public profile and logout',
+  profileText.includes('Profil awam peniaga') && profileText.includes('Log keluar'),
+);
+await page.screenshot({ path: path.join(out, '11-profile-menu.png') });
+await page.getByText('Log keluar').click();
+await page.waitForTimeout(500);
+check('logout opens sign-in', page.url().includes('/signin'));
+
 // Mobile landing
 const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, locale: 'ms-MY' });
 const mobilePage = await mobile.newPage();
